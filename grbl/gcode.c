@@ -288,8 +288,16 @@ uint8_t gc_execute_line(char *line)
            legal g-code words and stores their value. Error-checking is performed later since some
            words (I,J,K,L,P,R) have multiple connotations and/or depend on the issued commands. */
         switch(letter){
-          // case 'A': // Not supported
-          // case 'B': // Not supported
+          // case 'A': // Not supported (supported in 4 or 5 axes mode)
+          // case 'B': // Not supported (supported in 4 or 5 axes mode)
+          #if N_AXIS > 3
+            #ifdef A_AXIS
+              case 'A': word_bit = WORD_A; gc_block.values.xyz[A_AXIS] = value; axis_words |= (1<<A_AXIS); break;
+            #endif
+            #ifdef B_AXIS
+              case 'B': word_bit = WORD_B; gc_block.values.xyz[B_AXIS] = value; axis_words |= (1<<B_AXIS); break;
+            #endif
+          #endif
           // case 'C': // Not supported
           // case 'D': // Not supported
           case 'F': word_bit = WORD_F; gc_block.values.f = value; break;
@@ -465,7 +473,11 @@ uint8_t gc_execute_line(char *line)
   // Pre-convert XYZ coordinate values to millimeters, if applicable.
   uint8_t idx;
   if (gc_block.modal.units == UNITS_MODE_INCHES) {
-    for (idx=0; idx<N_AXIS; idx++) { // Axes indices are consistent, so loop may be used.
+	  #if N_AXIS > 3
+      for (idx=0; idx<N_AXIS_LINEAR; idx++) { // Axes indices are consistent, so loop may be used. 
+    #else
+      for (idx=0; idx<N_AXIS; idx++) { // Axes indices are consistent, so loop may be used. 
+    #endif
       if (bit_istrue(axis_words,bit(idx)) ) {
         gc_block.values.xyz[idx] *= MM_PER_INCH;
       }
@@ -777,7 +789,11 @@ uint8_t gc_execute_line(char *line)
 
             // Convert IJK values to proper units.
             if (gc_block.modal.units == UNITS_MODE_INCHES) {
-              for (idx=0; idx<N_AXIS; idx++) { // Axes indices are consistent, so loop may be used to save flash space.
+              #if N_AXIS > 3
+                for (idx=0; idx<N_AXIS_LINEAR; idx++) { // Axes indices are consistent, so loop may be used to save flash space.
+              # else
+                for (idx=0; idx<N_AXIS; idx++) { // Axes indices are consistent, so loop may be used to save flash space.
+              #endif
                 if (ijk_words & bit(idx)) { gc_block.values.ijk[idx] *= MM_PER_INCH; }
               }
             }
@@ -824,7 +840,11 @@ uint8_t gc_execute_line(char *line)
   } else {
     bit_false(value_words,(bit(WORD_N)|bit(WORD_F)|bit(WORD_S)|bit(WORD_T))); // Remove single-meaning value words.
   }
+#if N_AXIS > 3
+  if (axis_command) { bit_false(value_words,(bit(WORD_X)|bit(WORD_Y)|bit(WORD_Z)|bit(WORD_A)|bit(WORD_B))); } // Remove axis words.
+#else
   if (axis_command) { bit_false(value_words,(bit(WORD_X)|bit(WORD_Y)|bit(WORD_Z))); } // Remove axis words.
+#endif
   if (value_words) { FAIL(STATUS_GCODE_UNUSED_WORDS); } // [Unused words]
 
   /* -------------------------------------------------------------------------------------
@@ -1125,7 +1145,7 @@ uint8_t gc_execute_line(char *line)
 
   - Canned cycles
   - Tool radius compensation
-  - A,B,C-axes
+  - A,B,C-axes // A & B Supported in Ramps 1.4 grbl-Mega-5X version if N_AXIS > 3
   - Evaluation of expressions
   - Variables
   - Override control (TBD)

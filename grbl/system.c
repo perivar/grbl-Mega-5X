@@ -176,6 +176,12 @@ uint8_t system_execute_line(char *line)
                 case 'X': mc_homing_cycle(HOMING_CYCLE_X); break;
                 case 'Y': mc_homing_cycle(HOMING_CYCLE_Y); break;
                 case 'Z': mc_homing_cycle(HOMING_CYCLE_Z); break;
+              #if N_AXIS > 3
+                case 'A': mc_homing_cycle(HOMING_CYCLE_A); break;
+              #endif
+              #if N_AXIS > 4
+                case 'B': mc_homing_cycle(HOMING_CYCLE_B); break;
+              #endif
                 default: return(STATUS_INVALID_STATEMENT);
               }
           #endif

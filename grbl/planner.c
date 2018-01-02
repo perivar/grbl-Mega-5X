@@ -332,6 +332,12 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
       position_steps[X_AXIS] = system_convert_corexy_to_x_axis_steps(sys_position);
       position_steps[Y_AXIS] = system_convert_corexy_to_y_axis_steps(sys_position);
       position_steps[Z_AXIS] = sys_position[Z_AXIS];
+      #if N_AXIS > 3
+        position_steps[A_AXIS] = sys_position[A_AXIS];
+      #endif
+      #if N_AXIS > 4
+        position_steps[B_AXIS] = sys_position[B_AXIS];
+      #endif
     #else
       memcpy(position_steps, sys_position, sizeof(sys_position)); 
     #endif

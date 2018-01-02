@@ -459,12 +459,24 @@
   #define DEFAULT_X_MAX_RATE 18000.0 // mm/min
   #define DEFAULT_Y_MAX_RATE 18000.0 // mm/min
   #define DEFAULT_Z_MAX_RATE 300.0 // mm/min
-  #define DEFAULT_X_ACCELERATION 3000 
-  #define DEFAULT_Y_ACCELERATION 3000
-  #define DEFAULT_Z_ACCELERATION 100
+  #define DEFAULT_X_ACCELERATION (300.0*60*60) // 300*60*60 mm/min^2 = 300 mm/sec^2 
+  #define DEFAULT_Y_ACCELERATION (300.0*60*60) // 300*60*60 mm/min^2 = 300 mm/sec^2
+  #define DEFAULT_Z_ACCELERATION (100.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
   #define DEFAULT_X_MAX_TRAVEL 200.0 // mm
   #define DEFAULT_Y_MAX_TRAVEL 200.0 // mm
   #define DEFAULT_Z_MAX_TRAVEL 200.0 // mm
+  #if N_AXIS > 3
+    #define DEFAULT_A_STEPS_PER_DEGRE 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
+    #define DEFAULT_A_MAX_RATE 1440 // °/mn
+    #define DEFAULT_A_ACCELERATION (100.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
+    #define DEFAULT_A_MAX_TRAVEL 360.0 // ° 
+  #endif
+  #if N_AXIS > 4
+    #define DEFAULT_B_STEPS_PER_DEGRE 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
+    #define DEFAULT_B_MAX_RATE 1440 // °/mn
+    #define DEFAULT_B_ACCELERATION (100.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
+    #define DEFAULT_B_MAX_TRAVEL 180.0 // °
+  #endif
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10

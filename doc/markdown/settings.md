@@ -54,15 +54,23 @@ $32=0
 $100=250.000
 $101=250.000
 $102=250.000
+$103=8.888889
+$104=8.888889
 $110=500.000
 $111=500.000
 $112=500.000
+$113=1440.000
+$114=1440.000
 $120=10.000
 $121=10.000
 $122=10.000
+$123=1000.000
+$124=1000.000
 $130=200.000
 $131=200.000
 $132=200.000
+$133=180.000
+$134=360.000
 ```
 
 #### $x=val - Save Grbl setting
@@ -98,16 +106,42 @@ This setting inverts the step pulse signal. By default, a step signal starts at 
 
 This invert mask setting is a value which stores the axes to invert as bit flags. You really don't need to completely understand how it works. You simply need to enter the settings value for the axes you want to invert. For example, if you want to invert the X and Z axes, you'd send `$2=5` to Grbl and the setting should now read `$2=5 (step port invert mask:00000101)`.
 
-| Setting Value | Mask |Invert X | Invert Y | Invert Z |
-|:-------------:|:----:|:-------:|:--------:|:--------:|
-| 0 | 00000000 |N | N | N |
-| 1 | 00000001 |Y | N | N |
-| 2 | 00000010 |N | Y | N |
-| 3 | 00000011 |Y | Y | N |
-| 4 | 00000100 |N | N | Y |
-| 5 | 00000101 |Y | N | Y |
-| 6 | 00000110 |N | Y | Y |
-| 7 | 00000111 |Y | Y | Y |
+|:-------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+| Setting Value |   Mask   | Invert X | Invert Y | Invert Z | Invert A | Invert B |
+|:-------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+|             0 | 00000000 |     N    |     N    |     N    |     N    |     N    |
+|             1 | 00000001 |     Y    |     N    |     N    |     N    |     N    |
+|             2 | 00000010 |     N    |     Y    |     N    |     N    |     N    |
+|             3 | 00000011 |     Y    |     Y    |     N    |     N    |     N    |
+|             4 | 00000100 |     N    |     N    |     Y    |     N    |     N    |
+|             5 | 00000101 |     Y    |     N    |     Y    |     N    |     N    |
+|             6 | 00000110 |     N    |     Y    |     Y    |     N    |     N    |
+|             7 | 00000111 |     Y    |     Y    |     Y    |     N    |     N    |
+|             8 | 00001000 |     N    |     N    |     N    |     Y    |     N    |
+|             9 | 00001001 |     Y    |     N    |     N    |     Y    |     N    |
+|            10 | 00001010 |     N    |     Y    |     N    |     Y    |     N    |
+|            11 | 00001011 |     Y    |     Y    |     N    |     Y    |     N    |
+|            12 | 00001100 |     N    |     N    |     Y    |     Y    |     N    |
+|            13 | 00001101 |     Y    |     N    |     Y    |     Y    |     N    |
+|            14 | 00001110 |     N    |     Y    |     Y    |     Y    |     N    |
+|            15 | 00001111 |     Y    |     Y    |     Y    |     Y    |     N    |
+|            16 | 00010000 |     N    |     N    |     N    |     N    |     Y    |
+|            17 | 00010001 |     Y    |     N    |     N    |     N    |     Y    |
+|            18 | 00010010 |     N    |     Y    |     N    |     N    |     Y    |
+|            19 | 00010011 |     Y    |     Y    |     N    |     N    |     Y    |
+|            20 | 00010100 |     N    |     N    |     Y    |     N    |     Y    |
+|            21 | 00010101 |     Y    |     N    |     Y    |     N    |     Y    |
+|            22 | 00010110 |     N    |     Y    |     Y    |     N    |     Y    |
+|            23 | 00010111 |     Y    |     Y    |     Y    |     N    |     Y    |
+|            24 | 00011000 |     N    |     N    |     N    |     Y    |     Y    |
+|            25 | 00011001 |     Y    |     N    |     N    |     Y    |     Y    |
+|            26 | 00011010 |     N    |     Y    |     N    |     Y    |     Y    |
+|            27 | 00011011 |     Y    |     Y    |     N    |     Y    |     Y    |
+|            28 | 00011100 |     N    |     N    |     Y    |     Y    |     Y    |
+|            29 | 00011101 |     Y    |     N    |     Y    |     Y    |     Y    |
+|            30 | 00011110 |     N    |     Y    |     Y    |     Y    |     Y    |
+|            31 | 00011111 |     Y    |     Y    |     Y    |     Y    |     Y    |
+|:-------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
 
 #### $3 – Direction port invert, mask
 
@@ -145,10 +179,12 @@ To keep things simple and consistent, Grbl v1.1 has only two reporting options. 
 
 Use the table below enables and disable reporting options. Simply add the values listed of what you'd like to enable, then save it by sending Grbl your setting value. For example, the default report with machine position and no buffer data reports setting is `$10=1`. If work position and buffer data are desired, the setting will be `$10=2`.
 
-| Report Type | Value | Description |
-|:-------------:|:----:|:----:|
-| Position Type | 1 | Enabled `MPos:`. Disabled `WPos:`. |
-| Buffer Data | 2 | Enabled `Buf:` field appears with planner and serial RX available buffer.
+|:-------------:|:-----:|:-------------------------------------------------------------------------:|
+|  Report Type  | Value | Description                                                               |
+|:-------------:|:-----:|:-------------------------------------------------------------------------:|
+| Position Type |   1   | Enabled `MPos:`. Disabled `WPos:`.                                        |
+| Buffer Data   |   2   | Enabled `Buf:` field appears with planner and serial RX available buffer. |
+|:-------------:|:-----:|:-------------------------------------------------------------------------:|
 
 #### $11 - Junction deviation, mm
 
@@ -237,6 +273,9 @@ Grbl needs to know how far each step will take the tool in reality. To calculate
 
 The steps/mm can then be calculated like this: ```steps_per_mm = (steps_per_revolution*microsteps)/mm_per_rev```
 
+#### $103 AND $104 - [A,B] steps/degre
+Idem than step/mm, but for rotational axis 4 and 5
+
 Compute this value for every axis and write these settings to Grbl.
 
 #### $110, $111 and $112 – [X,Y,Z] Max rate, mm/min
@@ -247,13 +286,22 @@ The simplest way to determine these values is to test each axis one at a time by
 
 NOTE: This max rate setting also sets the G0 seek rates.
 
+#### $113 and $114 - [A,B] Max rate, degre/min
+
+Maximum rate for rotational axis
+
+
 #### $120, $121, $122 – [X,Y,Z] Acceleration, mm/sec^2
 
 This sets the axes acceleration parameters in mm/second/second. Simplistically, a lower value makes Grbl ease slower into motion, while a higher value yields tighter moves and reaches the desired feed rates much quicker. Much like the max rate setting, each axis has its own acceleration value and are independent of each other. This means that a multi-axis motion will only accelerate as quickly as the lowest contributing axis can.
 
 Again, like the max rate setting, the simplest way to determine the values for this setting is to individually test each axis with slowly increasing values until the motor stalls. Then finalize your acceleration setting with a value 10-20% below this absolute max value. This should account for wear, friction, and mass inertia. We highly recommend that you dry test some G-code programs with your new settings before committing to them. Sometimes the loading on your machine is different when moving in all axes together.
 
+#### $123 and $124 - [A,B] Acceleration, degre/sec^2
+
 
 #### $130, $131, $132 – [X,Y,Z] Max travel, mm
 
 This sets the maximum travel from end to end for each axis in mm. This is only useful if you have soft limits (and homing) enabled, as this is only used by Grbl's soft limit feature to check if you have exceeded your machine limits with a motion command.
+
+#### $133, $134 - [A,B] Max travel, degres

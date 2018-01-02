@@ -149,7 +149,10 @@
 #define WORD_X  10
 #define WORD_Y  11
 #define WORD_Z  12
-
+#if N_AXIS > 3
+  #define WORD_A 13
+  #define WORD_B 14
+#endif
 // Define g-code parser position updating flags
 #define GC_UPDATE_POS_TARGET   0 // Must be zero
 #define GC_UPDATE_POS_SYSTEM   1
@@ -198,7 +201,11 @@ typedef struct {
 
 typedef struct {
   float f;         // Feed
+#if N_AXIS > 3
+  float ijk[N_AXIS];    // axes offsets for XYZ & AB(C)
+#else
   float ijk[3];    // I,J,K Axis arc offsets
+#endif
   uint8_t l;       // G10 or canned cycles parameters
   int32_t n;       // Line number
   float p;         // G10 or dwell parameters
@@ -206,7 +213,11 @@ typedef struct {
   float r;         // Arc radius
   float s;         // Spindle speed
   uint8_t t;       // Tool selection
+#if N_AXIS > 3
+  float xyz[N_AXIS];    // X,Y,Z Translational axes & A,B,(C)
+#else
   float xyz[3];    // X,Y,Z Translational axes
+#endif
 } gc_values_t;
 
 

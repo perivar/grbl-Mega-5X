@@ -361,6 +361,11 @@ void report_build_info(char *line)
   printPgmString(PSTR("[VER:" GRBL_VERSION "." GRBL_VERSION_BUILD ":"));
   printString(line);
   report_util_feedback_line_feed();
+  #if N_AXIS > 3
+    printPgmString(PSTR("[N_AXIS="));
+    print_uint8_base10(N_AXIS);
+    report_util_feedback_line_feed();
+  #endif
   printPgmString(PSTR("[OPT:")); // Generate compile-time build option list
   serial_write('V');
   serial_write('N');
@@ -546,6 +551,12 @@ void report_realtime_status()
         if (bit_istrue(lim_pin_state,bit(X_AXIS))) { serial_write('X'); }
         if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
         if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
+        #if N_AXIS > 3
+          if (bit_istrue(lim_pin_state,bit(A_AXIS))) { serial_write('A'); }
+        #endif
+        #if N_AXIS > 4
+          if (bit_istrue(lim_pin_state,bit(A_AXIS))) { serial_write('B'); }
+        #endif
       }
       if (ctrl_pin_state) {
         #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN

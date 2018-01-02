@@ -266,15 +266,23 @@ $32=0
 $100=250.000
 $101=250.000
 $102=250.000
+$103=8.888889
+$104=8.888889
 $110=500.000
 $111=500.000
 $112=500.000
+$113=1440.000
+$114=1440.000
 $120=10.000
 $121=10.000
 $122=10.000
+$123=1000.000
+$124=1000.000
 $130=200.000
 $131=200.000
 $132=200.000
+$133=180.000
+$134=360.000
 ok
 ```
 
@@ -305,16 +313,23 @@ ok
 | **`100`** | X-axis steps per millimeter |
 | **`101`** | Y-axis steps per millimeter |
 | **`102`** | Z-axis steps per millimeter |
+| **`103`** | A-axis steps per degre |
+| **`104`** | B-axis steps per degre |
 | **`110`** | X-axis maximum rate, mm/min |
 | **`111`** | Y-axis maximum rate, mm/min |
 | **`112`** | Z-axis maximum rate, mm/min |
+| **`113`** | A-axis maximum rate, degres/min |
+| **`114`** | B-axis maximum rate, degres/min |
 | **`120`** | X-axis acceleration, mm/sec^2 |
 | **`121`** | Y-axis acceleration, mm/sec^2 |
 | **`122`** | Z-axis acceleration, mm/sec^2 |
+| **`123`** | A-axis acceleration, degres/sec^2 |
+| **`124`** | B-axis acceleration, degres/sec^2 |
 | **`130`** | X-axis maximum travel, millimeters |
 | **`131`** | Y-axis maximum travel, millimeters |
 | **`132`** | Z-axis maximum travel, millimeters |
-
+| **`133`** | A-axis maximum travel, degres |
+| **`134`** | B-axis maximum travel, degres |
 
 - The other `$Nx=line` message is the print-out of a user-defined startup line, where `x` denotes the startup line order and ranges from `0` to `1` by default. The `line` denotes the startup line to be executed by Grbl upon reset or power-up, except during an ALARM.
 
