@@ -2,6 +2,7 @@
   serial.c - Low level functions for sending and recieving bytes via the serial port
   Part of Grbl
 
+  Copyright (c) 2017-2018 Gauthier Briere
   Copyright (c) 2011-2016 Sungeun K. Jeon for Gnea Research LLC
   Copyright (c) 2009-2011 Simen Svale Skogsrud
 
@@ -156,11 +157,30 @@ ISR(SERIAL_RX)
       if (data > 0x7F) { // Real-time control characters are extended ACSII only.
         switch(data) {
           case CMD_SAFETY_DOOR:   system_set_exec_state_flag(EXEC_SAFETY_DOOR); break; // Set as true
-          case CMD_JOG_CANCEL:   
+          case CMD_JOG_CANCEL:
             if (sys.state & STATE_JOG) { // Block all other states from invoking motion cancel.
-              system_set_exec_state_flag(EXEC_MOTION_CANCEL); 
+              system_set_exec_state_flag(EXEC_MOTION_CANCEL);
+              /* Pour debug
+              serial_write('*');
+              serial_write('J');
+              serial_write('o');
+              serial_write('g');
+              serial_write(' ');
+              serial_write('C');
+              serial_write('a');
+              serial_write('n');
+              serial_write('c');
+              serial_write('e');
+              serial_write('l');
+              serial_write('\r');
+              serial_write('\n');
+              */
+              serial_reset_read_buffer(); // Vide un reste éventuel de données dans le buffer
+              /* Pour debug
+              serial_putstring("Buffer remis a zero\r\n");
+              */
             }
-            break; 
+            break;
           #ifdef DEBUG
             case CMD_DEBUG_REPORT: {uint8_t sreg = SREG; cli(); bit_true(sys_rt_exec_debug,EXEC_DEBUG_REPORT); SREG = sreg;} break;
           #endif
@@ -199,4 +219,15 @@ ISR(SERIAL_RX)
 void serial_reset_read_buffer()
 {
   serial_rx_buffer_tail = serial_rx_buffer_head;
+}
+
+
+void serial_putstring(char* StringPtr)
+{
+  int i;
+  int len = strlen(StringPtr);
+  for(i=0; i<len; i++)
+  {
+    serial_write(StringPtr[i]);
+  }
 }
