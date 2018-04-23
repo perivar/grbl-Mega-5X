@@ -32,8 +32,9 @@
 #ifdef DEFAULTS_RAMPS_BOARD
   // 5 axis support only for RAMPS 1.4 (for the moment :-)...)
   // TODO: 5 (or 6) axis support for other hardwares.
-  #define N_AXIS 5 // Number of axes
-  #define N_AXIS_LINEAR 3 // Number of linears axis
+  #define N_AXIS 5           // Number of axes
+  #define AXIS_NAMES "XYZAB" // Letters (names) of axis
+  #define N_AXIS_LINEAR 3    // Number of linears axis
 #else
   #define N_AXIS 3 // Number of axes
 #endif
@@ -41,10 +42,12 @@
 #define Y_AXIS 1
 #define Z_AXIS 2
 #if N_AXIS > 3
-  #define A_AXIS 3
+  #define AXIS_4 3
+  #define AXIS_4_NAME 'A' // Letter of axis number 4
 #endif
 #if N_AXIS > 4
-  #define B_AXIS 4
+  #define AXIS_5 4
+  #define AXIS_5_NAME 'B' // Letter of axis number 5
 #endif
 #if N_AXIS > 5
   #error "N_AXIS must be <= 5. N_AXIS > 5 is not implemented."

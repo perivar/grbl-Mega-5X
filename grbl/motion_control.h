@@ -5,7 +5,7 @@
   Copyright (c) 2017-2018 Gauthier Briere
   Copyright (c) 2011-2016 Sungeun K. Jeon for Gnea Research LLC
   Copyright (c) 2009-2011 Simen Svale Skogsrud
-  
+
   Grbl is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -33,10 +33,10 @@
 #define HOMING_CYCLE_Y    bit(Y_AXIS)
 #define HOMING_CYCLE_Z    bit(Z_AXIS)
 #if N_AXIS > 3
-  #define HOMING_CYCLE_A    bit(A_AXIS)
+  #define HOMING_CYCLE_4    bit(AXIS_4)
 #endif
 #if N_AXIS > 4
-  #define HOMING_CYCLE_B    bit(B_AXIS)
+  #define HOMING_CYCLE_5    bit(AXIS_5)
 #endif
 
 // Execute linear motion in absolute millimeter coordinates. Feed rate given in millimeters/second

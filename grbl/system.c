@@ -68,10 +68,10 @@ ISR(CONTROL_INT_vect)
     } else if (bit_istrue(pin,CONTROL_PIN_INDEX_CYCLE_START)) {
       bit_true(sys_rt_exec_state, EXEC_CYCLE_START);
     } else if (bit_istrue(pin,CONTROL_PIN_INDEX_FEED_HOLD)) {
-      bit_true(sys_rt_exec_state, EXEC_FEED_HOLD); 
+      bit_true(sys_rt_exec_state, EXEC_FEED_HOLD);
     } else if (bit_istrue(pin,CONTROL_PIN_INDEX_SAFETY_DOOR)) {
       bit_true(sys_rt_exec_state, EXEC_SAFETY_DOOR);
-    } 
+    }
   }
 }
 
@@ -178,10 +178,10 @@ uint8_t system_execute_line(char *line)
                 case 'Y': mc_homing_cycle(HOMING_CYCLE_Y); break;
                 case 'Z': mc_homing_cycle(HOMING_CYCLE_Z); break;
               #if N_AXIS > 3
-                case 'A': mc_homing_cycle(HOMING_CYCLE_A); break;
+                case AXIS_4_NAME: mc_homing_cycle(HOMING_CYCLE_4); break;
               #endif
               #if N_AXIS > 4
-                case 'B': mc_homing_cycle(HOMING_CYCLE_B); break;
+                case AXIS_5_NAME: mc_homing_cycle(HOMING_CYCLE_5); break;
               #endif
                 default: return(STATUS_INVALID_STATEMENT);
               }

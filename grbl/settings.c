@@ -1,5 +1,5 @@
 /*
-  settings.c - eeprom configuration handling 
+  settings.c - eeprom configuration handling
   Part of Grbl
 
   Copyright (c) 2017-2018 Gauthier Briere
@@ -29,7 +29,7 @@ settings_t settings;
 void settings_store_startup_line(uint8_t n, char *line)
 {
   #ifdef FORCE_BUFFER_SYNC_DURING_EEPROM_WRITE
-    protocol_buffer_synchronize(); // A startup line may contain a motion and be executing. 
+    protocol_buffer_synchronize(); // A startup line may contain a motion and be executing.
   #endif
   uint32_t addr = n*(LINE_BUFFER_SIZE+1)+EEPROM_ADDR_STARTUP_BLOCK;
   memcpy_to_eeprom_with_checksum(addr,(char*)line, LINE_BUFFER_SIZE);
@@ -95,9 +95,9 @@ void settings_restore(uint8_t restore_flag) {
     if (DEFAULT_INVERT_LIMIT_PINS) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
     if (DEFAULT_INVERT_PROBE_PIN) { settings.flags |= BITFLAG_INVERT_PROBE_PIN; }
 
-    settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_MM;
-    settings.steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_MM;
-    settings.steps_per_mm[Z_AXIS] = DEFAULT_Z_STEPS_PER_MM;
+    settings.steps_per_mm[X_AXIS] = DEFAULT_X_STEPS_PER_UNIT;
+    settings.steps_per_mm[Y_AXIS] = DEFAULT_Y_STEPS_PER_UNIT;
+    settings.steps_per_mm[Z_AXIS] = DEFAULT_Z_STEPS_PER_UNIT;
     settings.max_rate[X_AXIS] = DEFAULT_X_MAX_RATE;
     settings.max_rate[Y_AXIS] = DEFAULT_Y_MAX_RATE;
     settings.max_rate[Z_AXIS] = DEFAULT_Z_MAX_RATE;
@@ -108,16 +108,16 @@ void settings_restore(uint8_t restore_flag) {
     settings.max_travel[Y_AXIS] = (-DEFAULT_Y_MAX_TRAVEL);
     settings.max_travel[Z_AXIS] = (-DEFAULT_Z_MAX_TRAVEL);
     #if N_AXIS > 3
-      settings.steps_per_mm[A_AXIS] = DEFAULT_A_STEPS_PER_DEGRE;
-      settings.max_rate[A_AXIS] = DEFAULT_A_MAX_RATE;
-      settings.acceleration[A_AXIS] = DEFAULT_A_ACCELERATION;
-      settings.max_travel[A_AXIS] = (-DEFAULT_A_MAX_TRAVEL);
+      settings.steps_per_mm[AXIS_4] = DEFAULT_A_STEPS_PER_UNIT;
+      settings.max_rate[AXIS_4] = DEFAULT_A_MAX_RATE;
+      settings.acceleration[AXIS_4] = DEFAULT_A_ACCELERATION;
+      settings.max_travel[AXIS_4] = (-DEFAULT_A_MAX_TRAVEL);
     #endif
     #if N_AXIS > 4
-      settings.steps_per_mm[B_AXIS] = DEFAULT_B_STEPS_PER_DEGRE;
-      settings.max_rate[B_AXIS] = DEFAULT_B_MAX_RATE;
-      settings.acceleration[B_AXIS] = DEFAULT_B_ACCELERATION;
-      settings.max_travel[B_AXIS] = (-DEFAULT_B_MAX_TRAVEL);
+      settings.steps_per_mm[AXIS_5] = DEFAULT_B_STEPS_PER_UNIT;
+      settings.max_rate[AXIS_5] = DEFAULT_B_MAX_RATE;
+      settings.acceleration[AXIS_5] = DEFAULT_B_ACCELERATION;
+      settings.max_travel[AXIS_5] = (-DEFAULT_B_MAX_TRAVEL);
     #endif
 
     write_global_settings();
@@ -332,10 +332,10 @@ uint8_t get_step_pin_mask(uint8_t axis_idx)
     if ( axis_idx == X_AXIS ) { return((1<<STEP_BIT(X_AXIS))); }
     if ( axis_idx == Y_AXIS ) { return((1<<STEP_BIT(Y_AXIS))); }
     #if N_AXIS > 3
-      if ( axis_idx == A_AXIS ) { return((1<<STEP_BIT(A_AXIS))); }
+      if ( axis_idx == AXIS_4 ) { return((1<<STEP_BIT(AXIS_4))); }
     #endif
     #if N_AXIS > 4
-      if ( axis_idx == B_AXIS ) { return((1<<STEP_BIT(B_AXIS))); }
+      if ( axis_idx == AXIS_5 ) { return((1<<STEP_BIT(AXIS_5))); }
     #endif
     return((1<<STEP_BIT(Z_AXIS)));
   #else
@@ -353,10 +353,10 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
     if ( axis_idx == X_AXIS ) { return((1<<DIRECTION_BIT(X_AXIS))); }
     if ( axis_idx == Y_AXIS ) { return((1<<DIRECTION_BIT(Y_AXIS))); }
     #if N_AXIS > 3
-      if ( axis_idx == A_AXIS ) { return((1<<DIRECTION_BIT(A_AXIS))); }
+      if ( axis_idx == AXIS_4 ) { return((1<<DIRECTION_BIT(AXIS_4))); }
     #endif
     #if N_AXIS > 4
-      if ( axis_idx == B_AXIS ) { return((1<<DIRECTION_BIT(B_AXIS))); }
+      if ( axis_idx == AXIS_5 ) { return((1<<DIRECTION_BIT(AXIS_5))); }
     #endif
     return((1<<DIRECTION_BIT(Z_AXIS)));
   #else
@@ -375,10 +375,10 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
     if ( axis_idx == X_AXIS ) { return((1<<MIN_LIMIT_BIT(X_AXIS))); }
     if ( axis_idx == Y_AXIS ) { return((1<<MIN_LIMIT_BIT(Y_AXIS))); }
     #if N_AXIS > 3
-      if ( axis_idx == A_AXIS ) { return((1<<MIN_LIMIT_BIT(A_AXIS))); }
+      if ( axis_idx == AXIS_4 ) { return((1<<MIN_LIMIT_BIT(AXIS_4))); }
     #endif
     #if N_AXIS > 4
-      if ( axis_idx == B_AXIS ) { return((1<<MIN_LIMIT_BIT(B_AXIS))); }
+      if ( axis_idx == AXIS_5 ) { return((1<<MIN_LIMIT_BIT(AXIS_5))); }
     #endif
     return((1<<MIN_LIMIT_BIT(Z_AXIS)));
   }
@@ -388,10 +388,10 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
      if ( axis_idx == X_AXIS ) { return((1<<MAX_LIMIT_BIT(X_AXIS))); }
      if ( axis_idx == Y_AXIS ) { return((1<<MAX_LIMIT_BIT(Y_AXIS))); }
     #if N_AXIS > 3
-      if ( axis_idx == A_AXIS ) { return((1<<MAX_LIMIT_BIT(A_AXIS))); }
+      if ( axis_idx == AXIS_4 ) { return((1<<MAX_LIMIT_BIT(AXIS_4))); }
     #endif
     #if N_AXIS > 4
-      if ( axis_idx == B_AXIS ) { return((1<<MAX_LIMIT_BIT(B_AXIS))); }
+      if ( axis_idx == AXIS_5 ) { return((1<<MAX_LIMIT_BIT(AXIS_5))); }
     #endif
      return((1<<MAX_LIMIT_BIT(Z_AXIS)));
   }

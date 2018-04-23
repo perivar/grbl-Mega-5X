@@ -365,6 +365,8 @@ void report_build_info(char *line)
   #if N_AXIS > 3
     printPgmString(PSTR("[AXS:"));
     print_uint8_base10(N_AXIS);
+    printPgmString(PSTR(":"));
+    printPgmString(PSTR(AXIS_NAMES));
     report_util_feedback_line_feed();
   #endif
   printPgmString(PSTR("[OPT:")); // Generate compile-time build option list
@@ -553,10 +555,10 @@ void report_realtime_status()
         if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
         if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
         #if N_AXIS > 3
-          if (bit_istrue(lim_pin_state,bit(A_AXIS))) { serial_write('A'); }
+          if (bit_istrue(lim_pin_state,bit(AXIS_4))) { serial_write(AXIS_4_NAME); }
         #endif
         #if N_AXIS > 4
-          if (bit_istrue(lim_pin_state,bit(A_AXIS))) { serial_write('B'); }
+          if (bit_istrue(lim_pin_state,bit(AXIS_4))) { serial_write(AXIS_5_NAME); }
         #endif
       }
       if (ctrl_pin_state) {

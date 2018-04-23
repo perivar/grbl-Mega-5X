@@ -78,7 +78,7 @@
 // Global persistent settings (Stored from byte EEPROM_ADDR_GLOBAL onwards)
 typedef struct {
   // Axis settings
-  float steps_per_mm[N_AXIS]; // Steps per units => steps_per_degre for rotationals axis (A_AXIS and B_AXIS)
+  float steps_per_mm[N_AXIS]; // Steps per units => steps_per_degre for rotationals axis (AXIS_4 and AXIS_5)
   float max_rate[N_AXIS];
   float acceleration[N_AXIS];
   float max_travel[N_AXIS];
@@ -91,10 +91,10 @@ typedef struct {
   uint8_t status_report_mask; // Mask to indicate desired report data.
   float junction_deviation;
   float arc_tolerance;
-  
+
   float rpm_max;
   float rpm_min;
-  
+
   uint8_t flags;  // Contains default boolean settings
 
   uint8_t homing_dir_mask;

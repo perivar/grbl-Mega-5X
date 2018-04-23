@@ -160,25 +160,7 @@ ISR(SERIAL_RX)
           case CMD_JOG_CANCEL:
             if (sys.state & STATE_JOG) { // Block all other states from invoking motion cancel.
               system_set_exec_state_flag(EXEC_MOTION_CANCEL);
-              /* Pour debug
-              serial_write('*');
-              serial_write('J');
-              serial_write('o');
-              serial_write('g');
-              serial_write(' ');
-              serial_write('C');
-              serial_write('a');
-              serial_write('n');
-              serial_write('c');
-              serial_write('e');
-              serial_write('l');
-              serial_write('\r');
-              serial_write('\n');
-              */
               serial_reset_read_buffer(); // Vide un reste éventuel de données dans le buffer
-              /* Pour debug
-              serial_putstring("Buffer remis a zero\r\n");
-              */
             }
             break;
           #ifdef DEBUG
