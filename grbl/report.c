@@ -558,7 +558,7 @@ void report_realtime_status()
           if (bit_istrue(lim_pin_state,bit(AXIS_4))) { serial_write(AXIS_4_NAME); }
         #endif
         #if N_AXIS > 4
-          if (bit_istrue(lim_pin_state,bit(AXIS_4))) { serial_write(AXIS_5_NAME); }
+          if (bit_istrue(lim_pin_state,bit(AXIS_5))) { serial_write(AXIS_5_NAME); }
         #endif
       }
       if (ctrl_pin_state) {
