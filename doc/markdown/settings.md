@@ -106,42 +106,40 @@ This setting inverts the step pulse signal. By default, a step signal starts at 
 
 This invert mask setting is a value which stores the axes to invert as bit flags. You really don't need to completely understand how it works. You simply need to enter the settings value for the axes you want to invert. For example, if you want to invert the X and Z axes, you'd send `$2=5` to Grbl and the setting should now read `$2=5 (step port invert mask:00000101)`.
 
+| Setting Value | Mask | Invert X | Invert Y | Invert Z | Invert A | Invert B |
 |:-------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-| Setting Value |   Mask   | Invert X | Invert Y | Invert Z | Invert A | Invert B |
-|:-------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-|             0 | 00000000 |     N    |     N    |     N    |     N    |     N    |
-|             1 | 00000001 |     Y    |     N    |     N    |     N    |     N    |
-|             2 | 00000010 |     N    |     Y    |     N    |     N    |     N    |
-|             3 | 00000011 |     Y    |     Y    |     N    |     N    |     N    |
-|             4 | 00000100 |     N    |     N    |     Y    |     N    |     N    |
-|             5 | 00000101 |     Y    |     N    |     Y    |     N    |     N    |
-|             6 | 00000110 |     N    |     Y    |     Y    |     N    |     N    |
-|             7 | 00000111 |     Y    |     Y    |     Y    |     N    |     N    |
-|             8 | 00001000 |     N    |     N    |     N    |     Y    |     N    |
-|             9 | 00001001 |     Y    |     N    |     N    |     Y    |     N    |
-|            10 | 00001010 |     N    |     Y    |     N    |     Y    |     N    |
-|            11 | 00001011 |     Y    |     Y    |     N    |     Y    |     N    |
-|            12 | 00001100 |     N    |     N    |     Y    |     Y    |     N    |
-|            13 | 00001101 |     Y    |     N    |     Y    |     Y    |     N    |
-|            14 | 00001110 |     N    |     Y    |     Y    |     Y    |     N    |
-|            15 | 00001111 |     Y    |     Y    |     Y    |     Y    |     N    |
-|            16 | 00010000 |     N    |     N    |     N    |     N    |     Y    |
-|            17 | 00010001 |     Y    |     N    |     N    |     N    |     Y    |
-|            18 | 00010010 |     N    |     Y    |     N    |     N    |     Y    |
-|            19 | 00010011 |     Y    |     Y    |     N    |     N    |     Y    |
-|            20 | 00010100 |     N    |     N    |     Y    |     N    |     Y    |
-|            21 | 00010101 |     Y    |     N    |     Y    |     N    |     Y    |
-|            22 | 00010110 |     N    |     Y    |     Y    |     N    |     Y    |
-|            23 | 00010111 |     Y    |     Y    |     Y    |     N    |     Y    |
-|            24 | 00011000 |     N    |     N    |     N    |     Y    |     Y    |
-|            25 | 00011001 |     Y    |     N    |     N    |     Y    |     Y    |
-|            26 | 00011010 |     N    |     Y    |     N    |     Y    |     Y    |
-|            27 | 00011011 |     Y    |     Y    |     N    |     Y    |     Y    |
-|            28 | 00011100 |     N    |     N    |     Y    |     Y    |     Y    |
-|            29 | 00011101 |     Y    |     N    |     Y    |     Y    |     Y    |
-|            30 | 00011110 |     N    |     Y    |     Y    |     Y    |     Y    |
-|            31 | 00011111 |     Y    |     Y    |     Y    |     Y    |     Y    |
-|:-------------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
+| 0 | 00000000 | N | N | N | N | N |
+| 1 | 00000001 | Y | N | N | N | N |
+| 2 | 00000010 | N | Y | N | N | N |
+| 3 | 00000011 | Y | Y | N | N | N |
+| 4 | 00000100 | N | N | Y | N | N |
+| 5 | 00000101 | Y | N | Y | N | N |
+| 6 | 00000110 | N | Y | Y | N | N |
+| 7 | 00000111 | Y | Y | Y | N | N |
+| 8 | 00001000 | N | N | N | Y | N |
+| 9 | 00001001 | Y | N | N | Y | N |
+| 10 | 00001010 | N | Y | N | Y | N |
+| 11 | 00001011 | Y | Y | N | Y | N |
+| 12 | 00001100 | N | N | Y | Y | N |
+| 13 | 00001101 | Y | N | Y | Y | N |
+| 14 | 00001110 | N | Y | Y | Y | N |
+| 15 | 00001111 | Y | Y | Y | Y | N |
+| 16 | 00010000 | N | N | N | N | Y |
+| 17 | 00010001 | Y | N | N | N | Y |
+| 18 | 00010010 | N | Y | N | N | Y |
+| 19 | 00010011 | Y | Y | N | N | Y |
+| 20 | 00010100 | N | N | Y | N | Y |
+| 21 | 00010101 | Y | N | Y | N | Y |
+| 22 | 00010110 | N | Y | Y | N | Y |
+| 23 | 00010111 | Y | Y | Y | N | Y |
+| 24 | 00011000 | N | N | N | Y | Y |
+| 25 | 00011001 | Y | N | N | Y | Y |
+| 26 | 00011010 | N | Y | N | Y | Y |
+| 27 | 00011011 | Y | Y | N | Y | Y |
+| 28 | 00011100 | N | N | Y | Y | Y |
+| 29 | 00011101 | Y | N | Y | Y | Y |
+| 30 | 00011110 | N | Y | Y | Y | Y |
+| 31 | 00011111 | Y | Y | Y | Y | Y |
 
 #### $3 – Direction port invert, mask
 
@@ -179,12 +177,10 @@ To keep things simple and consistent, Grbl v1.1 has only two reporting options. 
 
 Use the table below enables and disable reporting options. Simply add the values listed of what you'd like to enable, then save it by sending Grbl your setting value. For example, the default report with machine position and no buffer data reports setting is `$10=1`. If work position and buffer data are desired, the setting will be `$10=2`.
 
+| Report Type | Value | Description |
 |:-------------:|:-----:|:-------------------------------------------------------------------------:|
-|  Report Type  | Value | Description                                                               |
-|:-------------:|:-----:|:-------------------------------------------------------------------------:|
-| Position Type |   1   | Enabled `MPos:`. Disabled `WPos:`.                                        |
-| Buffer Data   |   2   | Enabled `Buf:` field appears with planner and serial RX available buffer. |
-|:-------------:|:-----:|:-------------------------------------------------------------------------:|
+| Position Type | 1 | Enabled `MPos:`. Disabled `WPos:`. |
+| Buffer Data | 2 | Enabled `Buf:` field appears with planner and serial RX available buffer. |
 
 #### $11 - Junction deviation, mm
 

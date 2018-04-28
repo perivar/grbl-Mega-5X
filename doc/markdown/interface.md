@@ -136,7 +136,7 @@ Every G-code block sent to Grbl and Grbl `$` system command that is terminated w
 
 * **`error:X`**: Something went wrong! Grbl did not recognize the command and did not execute anything inside that message. The `X` is given as a numeric error code to tell you exactly what happened. The table below decribes every one of them.
 
-	| ID | Error Code Description |
+| ID | Error Code Description |
 |:-------------:|----|
 | **`1`** | G-code words consist of a letter and a value. Letter was not found. |
 | **`2`** | Numeric value format is not valid or missing an expected value. |
@@ -286,7 +286,7 @@ $134=360.000
 ok
 ```
 
-	| `$x` Code | Setting Description, Units |
+| `$x` Code | Setting Description, Units |
 |:-------------:|----|
 | **`0`** | Step pulse time, microseconds |
 | **`1`** | Step idle delay, milliseconds |
@@ -433,7 +433,7 @@ Feedback messages provide non-critical information on what Grbl is doing, what i
       - A string may appear after the second `:` colon. It is a stored EEPROM string a user via a `$I=line` command or OEM can place there for personal use or tracking purposes.
   		- The `[OPT:]` line follows immediately after and contains character codes for compile-time options that were either enabled or disabled and two values separated by commas, which indicates the total usable planner blocks and serial RX buffer bytes, respectively. The codes are defined below and a CSV file is also provided for quick parsing. This is generally only used for quickly diagnosing firmware bugs or compatibility issues. 
 
-			| `OPT` Code | Setting Description, Units |
+| `OPT` Code | Setting Description, Units |
 |:-------------:|----|
 | **`V`** | Variable spindle enabled |
 | **`N`** | Line numbers enabled |
