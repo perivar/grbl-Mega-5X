@@ -1,6 +1,5 @@
 ![GitHub Logo](https://github.com/gnea/gnea-Media/blob/master/Grbl%20Logo/Grbl%20Logo%20250px.png?raw=true)
-***
-_Click the `Release` tab to download pre-compiled `.hex` files or just [click here](https://github.com/gnea/grbl-Mega/releases)_
+
 ***
 
 Grbl is a no-compromise, high performance, low cost alternative to parallel-port-based motion control for CNC milling. This version of Grbl runs on an Arduino Mega2560 only.
@@ -11,19 +10,13 @@ It accepts standards-compliant g-code and has been tested with the output of sev
 
 Grbl includes full acceleration management with look ahead. That means the controller will look up to 24 motions into the future and plan its velocities ahead to deliver smooth acceleration and jerk-free cornering.
 
-* [Licensing](https://github.com/gnea/grbl/wiki/Licensing): Grbl is free software, released under the GPLv3 license.
+* [Licensing](https://github.com/fra589/grbl-Mega-5X/blob/edge/COPYING): Grbl is free software, released under the GPLv3 license.
 
 * For more information and help, check out our **[Wiki pages!](https://github.com/gnea/grbl/wiki)** If you find that the information is out-dated, please to help us keep it updated by editing it or notifying our community! Thanks!
 
-* Lead Developer: Sungeun "Sonny" Jeon, Ph.D. (USA) aka @chamnit
+* Lead Developer: Gauthier Brière (France) aka @fra589
 
-* Built on the wonderful Grbl v0.6 (2011) firmware written by Simen Svale Skogsrud (Norway).
-
-***
-
-### Official Supporters of the Grbl CNC Project
-![Official Supporters](https://github.com/gnea/gnea-Media/blob/master/Contributors.png?raw=true)
-
+* Built on the wonderful Grbl v1.1f (2017) firmware originally written by Simen Svale Skogsrud (Norway) and maintained by Sungeun "Sonny" Jeon, Ph.D. (USA) aka @chamnit
 
 ***
 
@@ -58,8 +51,6 @@ Grbl includes full acceleration management with look ahead. That means the contr
 - Lots of minor bug fixes and refactoring to make the code more efficient and flexible.
 
 
-
-
 ```
 List of Supported G-Codes in Grbl v1.1:
   - Non-Modal Commands: G4, G10L2, G10L20, G28, G30, G28.1, G30.1, G53, G92, G92.1
@@ -76,10 +67,11 @@ List of Supported G-Codes in Grbl v1.1:
   - Program Flow: M0, M1, M2, M30*
   - Coolant Control: M7*, M8, M9
   - Spindle Control: M3, M4, M5
-  - Valid Non-Command Words: F, I, J, K, L, N, P, R, S, T, X, Y, Z
+  - Valid Non-Command Words: F, I, J, K, L, N, P, R, S, T, X, Y, Z, A, B, C
 ```
 
 -------------
-Grbl is an open-source project and fueled by the free-time of our intrepid administrators and altruistic users. If you'd like to donate, all proceeds will be used to help fund supporting hardware and testing equipment. Thank you!
+Grbl-Mega-5X is an open-source project and fueled by the free-time of our intrepid administrators and altruistic users. If you'd like to donate, all proceeds will be used to help fund supporting hardware and testing equipment. Thank you!
 
-[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CUGXJHXA36BYW)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://paypal.me/pools/c/842hNSm2It)
+
