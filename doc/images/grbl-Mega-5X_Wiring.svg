@@ -29,7 +29,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.812"
      inkscape:cx="500"
-     inkscape:cy="499.99993"
+     inkscape:cy="500"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -2307,7 +2307,7 @@
          id="tspan2437-27-5"
          x="463.14359"
          y="998.19922"
-         style="font-size:14.66666698px">Axe 5 min end stop (D59)</tspan></text>
+         style="font-size:14.66666698px">Axe 5 min end stop (D44)</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:18.66666603px;line-height:25px;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
@@ -2554,14 +2554,14 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:18.66666603px;line-height:25px;font-family:sans-serif;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
-       x="465.75037"
+       x="470.27637"
        y="1038.1992"
        id="text2439-3-8-8-8-7"><tspan
          sodipodi:role="line"
          id="tspan2437-27-0-7-0-1"
-         x="465.75037"
+         x="470.27637"
          y="1038.1992"
-         style="font-size:14.66666698px">Control safety door (A12)</tspan></text>
+         style="font-size:14.66666698px">Safety door switch (A12)</tspan></text>
     <path
        style="fill:none;stroke:#de7f00;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 775.72686,483.74996 10,-15 v -155 h 40"
