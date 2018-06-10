@@ -339,6 +339,9 @@ uint8_t plan_buffer_line(float *target, plan_line_data_t *pl_data)
       #if N_AXIS > 4
         position_steps[AXIS_5] = sys_position[AXIS_5];
       #endif
+      #if N_AXIS > 5
+        position_steps[AXIS_6] = sys_position[AXIS_6];
+      #endif
     #else
       memcpy(position_steps, sys_position, sizeof(sys_position));
     #endif

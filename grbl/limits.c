@@ -44,6 +44,9 @@ void limits_init()
     #if N_AXIS > 4
     MIN_LIMIT_DDR(4) &= ~(1<<MIN_LIMIT_BIT(4));
     #endif
+    #if N_AXIS > 5
+    MIN_LIMIT_DDR(5) &= ~(1<<MIN_LIMIT_BIT(5));
+    #endif
     MAX_LIMIT_DDR(0) &= ~(1<<MAX_LIMIT_BIT(0));
     MAX_LIMIT_DDR(1) &= ~(1<<MAX_LIMIT_BIT(1));
     MAX_LIMIT_DDR(2) &= ~(1<<MAX_LIMIT_BIT(2));
@@ -52,6 +55,9 @@ void limits_init()
     #endif
     #if N_AXIS > 4
     MAX_LIMIT_DDR(4) &= ~(1<<MAX_LIMIT_BIT(4));
+    #endif
+    #if N_AXIS > 5
+    MAX_LIMIT_DDR(5) &= ~(1<<MAX_LIMIT_BIT(5));
     #endif
 
     #ifdef DISABLE_LIMIT_PIN_PULL_UP
@@ -64,6 +70,9 @@ void limits_init()
       #if N_AXIS > 4
         MIN_LIMIT_PORT(4) &= ~(1<<MIN_LIMIT_BIT(4)); // Normal low operation. Requires external pull-down.
       #endif
+      #if N_AXIS > 5
+        MIN_LIMIT_PORT(5) &= ~(1<<MIN_LIMIT_BIT(5)); // Normal low operation. Requires external pull-down.
+      #endif
       MAX_LIMIT_PORT(0) &= ~(1<<MAX_LIMIT_BIT(0)); // Normal low operation. Requires external pull-down.
       MAX_LIMIT_PORT(1) &= ~(1<<MAX_LIMIT_BIT(1)); // Normal low operation. Requires external pull-down.
       MAX_LIMIT_PORT(2) &= ~(1<<MAX_LIMIT_BIT(2)); // Normal low operation. Requires external pull-down.
@@ -72,6 +81,9 @@ void limits_init()
       #endif
       #if N_AXIS > 4
         MAX_LIMIT_PORT(4) &= ~(1<<MAX_LIMIT_BIT(4)); // Normal low operation. Requires external pull-down.
+      #endif
+      #if N_AXIS > 5
+        MAX_LIMIT_PORT(5) &= ~(1<<MAX_LIMIT_BIT(5)); // Normal low operation. Requires external pull-down.
       #endif
     #else
       MIN_LIMIT_PORT(0) |= (1<<MIN_LIMIT_BIT(0));  // Enable internal pull-up resistors. Normal high operation.
@@ -83,6 +95,9 @@ void limits_init()
       #if N_AXIS > 4
         MIN_LIMIT_PORT(4) |= (1<<MIN_LIMIT_BIT(4));  // Enable internal pull-up resistors. Normal high operation.
       #endif
+      #if N_AXIS > 5
+        MIN_LIMIT_PORT(5) |= (1<<MIN_LIMIT_BIT(5));  // Enable internal pull-up resistors. Normal high operation.
+      #endif
       MAX_LIMIT_PORT(0) |= (1<<MAX_LIMIT_BIT(0));  // Enable internal pull-up resistors. Normal high operation.
       MAX_LIMIT_PORT(1) |= (1<<MAX_LIMIT_BIT(1));  // Enable internal pull-up resistors. Normal high operation.
       MAX_LIMIT_PORT(2) |= (1<<MAX_LIMIT_BIT(2));  // Enable internal pull-up resistors. Normal high operation.
@@ -91,6 +106,9 @@ void limits_init()
       #endif
       #if N_AXIS > 4
         MAX_LIMIT_PORT(4) |= (1<<MAX_LIMIT_BIT(4));  // Enable internal pull-up resistors. Normal high operation.
+      #endif
+      #if N_AXIS > 5
+        MAX_LIMIT_PORT(5) |= (1<<MAX_LIMIT_BIT(5));  // Enable internal pull-up resistors. Normal high operation.
       #endif
     #endif
     #ifndef DISABLE_HW_LIMITS
@@ -155,6 +173,11 @@ void limits_disable()
     static volatile uint8_t * const min_limit_pins[N_AXIS] = {&MIN_LIMIT_PIN(0), &MIN_LIMIT_PIN(1), &MIN_LIMIT_PIN(2), &MIN_LIMIT_PIN(3), &MIN_LIMIT_PIN(4)};
     static const uint8_t max_limit_bits[N_AXIS] = {MAX_LIMIT_BIT(0), MAX_LIMIT_BIT(1), MAX_LIMIT_BIT(2), MAX_LIMIT_BIT(3), MAX_LIMIT_BIT(4)};
     static const uint8_t min_limit_bits[N_AXIS] = {MIN_LIMIT_BIT(0), MIN_LIMIT_BIT(1), MIN_LIMIT_BIT(2), MIN_LIMIT_BIT(3), MIN_LIMIT_BIT(4)};
+  #elif N_AXIS == 6
+    static volatile uint8_t * const max_limit_pins[N_AXIS] = {&MAX_LIMIT_PIN(0), &MAX_LIMIT_PIN(1), &MAX_LIMIT_PIN(2), &MAX_LIMIT_PIN(3), &MAX_LIMIT_PIN(4), &MAX_LIMIT_PIN(5)};
+    static volatile uint8_t * const min_limit_pins[N_AXIS] = {&MIN_LIMIT_PIN(0), &MIN_LIMIT_PIN(1), &MIN_LIMIT_PIN(2), &MIN_LIMIT_PIN(3), &MIN_LIMIT_PIN(4), &MIN_LIMIT_PIN(5)};
+    static const uint8_t max_limit_bits[N_AXIS] = {MAX_LIMIT_BIT(0), MAX_LIMIT_BIT(1), MAX_LIMIT_BIT(2), MAX_LIMIT_BIT(3), MAX_LIMIT_BIT(4), MAX_LIMIT_BIT(5)};
+    static const uint8_t min_limit_bits[N_AXIS] = {MIN_LIMIT_BIT(0), MIN_LIMIT_BIT(1), MIN_LIMIT_BIT(2), MIN_LIMIT_BIT(3), MIN_LIMIT_BIT(4), MIN_LIMIT_BIT(5)};
   #else
     static volatile uint8_t * const max_limit_pins[N_AXIS] = {&MAX_LIMIT_PIN(0), &MAX_LIMIT_PIN(1), &MAX_LIMIT_PIN(2)};
     static volatile uint8_t * const min_limit_pins[N_AXIS] = {&MIN_LIMIT_PIN(0), &MIN_LIMIT_PIN(1), &MIN_LIMIT_PIN(2)};
@@ -393,6 +416,9 @@ void limits_go_home(uint8_t cycle_mask)
                   #if N_AXIS > 4
                     else if (idx==AXIS_5) { axislock[idx] &= ~(step_pin[AXIS_5]); }
                   #endif
+                  #if N_AXIS > 5
+                    else if (idx==AXIS_6) { axislock[idx] &= ~(step_pin[AXIS_6]); }
+                  #endif
                   else { axislock[idx] &= ~(step_pin[A_MOTOR]|step_pin[B_MOTOR]); }
                 #else
                   axislock[idx] &= ~(step_pin[idx]);
@@ -512,6 +538,9 @@ void limits_go_home(uint8_t cycle_mask)
                   #endif
                   #if N_AXIS > 4
                     else if (idx==AXIS_5) { axislock &= ~(step_pin[AXIS_5]); }
+                  #endif
+                  #if N_AXIS > 5
+                    else if (idx==AXIS_6) { axislock &= ~(step_pin[AXIS_6]); }
                   #endif
                   else { axislock &= ~(step_pin[A_MOTOR]|step_pin[B_MOTOR]); }
                 #else

@@ -119,6 +119,13 @@
     #define HOMING_CYCLE_2 (1<<X_AXIS) // Home X axis
     #define HOMING_CYCLE_3 (1<<Y_AXIS) // Home Y axis
     #define HOMING_CYCLE_4 (1<<Z_AXIS) // OPTIONAL: Home Z axis
+  #elif N_AXIS == 6 // 6 axis : homing
+    #define HOMING_CYCLE_0 (1<<AXIS_4) // Home 4th axis (A)
+    #define HOMING_CYCLE_1 (1<<AXIS_5) // Home 5th axis (B)
+    #define HOMING_CYCLE_2 (1<<AXIS_6) // Home 6th axis (C)
+    #define HOMING_CYCLE_3 (1<<X_AXIS) // Home X axis
+    #define HOMING_CYCLE_4 (1<<Y_AXIS) // Home Y axis
+    #define HOMING_CYCLE_5 (1<<Z_AXIS) // OPTIONAL: Home Z axis
   #else // Classic 3 axis
     #define HOMING_CYCLE_0 (1<<X_AXIS) // Home X axis
     #define HOMING_CYCLE_1 (1<<Y_AXIS) // Home Y axis

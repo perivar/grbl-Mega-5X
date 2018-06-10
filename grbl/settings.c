@@ -119,6 +119,12 @@ void settings_restore(uint8_t restore_flag) {
       settings.acceleration[AXIS_5] = DEFAULT_B_ACCELERATION;
       settings.max_travel[AXIS_5] = (-DEFAULT_B_MAX_TRAVEL);
     #endif
+    #if N_AXIS > 5
+      settings.steps_per_mm[AXIS_6] = DEFAULT_C_STEPS_PER_UNIT;
+      settings.max_rate[AXIS_6] = DEFAULT_C_MAX_RATE;
+      settings.acceleration[AXIS_6] = DEFAULT_C_ACCELERATION;
+      settings.max_travel[AXIS_6] = (-DEFAULT_C_MAX_TRAVEL);
+    #endif
 
     write_global_settings();
   }
@@ -337,6 +343,9 @@ uint8_t get_step_pin_mask(uint8_t axis_idx)
     #if N_AXIS > 4
       if ( axis_idx == AXIS_5 ) { return((1<<STEP_BIT(AXIS_5))); }
     #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<STEP_BIT(AXIS_6))); }
+    #endif
     return((1<<STEP_BIT(Z_AXIS)));
   #else
     if ( axis_idx == X_AXIS ) { return((1<<X_STEP_BIT)); }
@@ -357,6 +366,9 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
     #endif
     #if N_AXIS > 4
       if ( axis_idx == AXIS_5 ) { return((1<<DIRECTION_BIT(AXIS_5))); }
+    #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<DIRECTION_BIT(AXIS_6))); }
     #endif
     return((1<<DIRECTION_BIT(Z_AXIS)));
   #else
@@ -380,6 +392,9 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
     #if N_AXIS > 4
       if ( axis_idx == AXIS_5 ) { return((1<<MIN_LIMIT_BIT(AXIS_5))); }
     #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<MIN_LIMIT_BIT(AXIS_6))); }
+    #endif
     return((1<<MIN_LIMIT_BIT(Z_AXIS)));
   }
 
@@ -392,6 +407,9 @@ uint8_t get_direction_pin_mask(uint8_t axis_idx)
     #endif
     #if N_AXIS > 4
       if ( axis_idx == AXIS_5 ) { return((1<<MAX_LIMIT_BIT(AXIS_5))); }
+    #endif
+    #if N_AXIS > 5
+      if ( axis_idx == AXIS_6 ) { return((1<<MAX_LIMIT_BIT(AXIS_6))); }
     #endif
      return((1<<MAX_LIMIT_BIT(Z_AXIS)));
   }

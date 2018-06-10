@@ -105,6 +105,11 @@ typedef struct {
            counter_z,
            counter_4,
            counter_5;
+  #elif N_AXIS == 6
+           counter_z,
+           counter_4,
+           counter_5,
+           counter_6;
   #else
            counter_z;
   #endif
@@ -255,6 +260,9 @@ void st_wake_up()
       #if N_AXIS > 4
         STEPPER_DISABLE_PORT(4) |= (1 << STEPPER_DISABLE_BIT(4));
       #endif
+      #if N_AXIS > 5
+        STEPPER_DISABLE_PORT(5) |= (1 << STEPPER_DISABLE_BIT(5));
+      #endif
     } else {
       STEPPER_DISABLE_PORT(0) &= ~(1 << STEPPER_DISABLE_BIT(0));
       STEPPER_DISABLE_PORT(1) &= ~(1 << STEPPER_DISABLE_BIT(1));
@@ -264,6 +272,9 @@ void st_wake_up()
       #endif
       #if N_AXIS > 4
         STEPPER_DISABLE_PORT(4) &= ~(1 << STEPPER_DISABLE_BIT(4));
+      #endif
+      #if N_AXIS > 5
+        STEPPER_DISABLE_PORT(5) &= ~(1 << STEPPER_DISABLE_BIT(5));
       #endif
     }
     // Initialize stepper output bits to ensure first ISR call does not step.
@@ -321,6 +332,9 @@ void st_go_idle()
       #if N_AXIS > 4
         STEPPER_DISABLE_PORT(4) |= (1 << STEPPER_DISABLE_BIT(4));
       #endif
+      #if N_AXIS > 5
+        STEPPER_DISABLE_PORT(5) |= (1 << STEPPER_DISABLE_BIT(5));
+      #endif
     } else {
       STEPPER_DISABLE_PORT(0) &= ~(1 << STEPPER_DISABLE_BIT(0));
       STEPPER_DISABLE_PORT(1) &= ~(1 << STEPPER_DISABLE_BIT(1));
@@ -330,6 +344,9 @@ void st_go_idle()
       #endif
       #if N_AXIS > 4
         STEPPER_DISABLE_PORT(4) &= ~(1 << STEPPER_DISABLE_BIT(4));
+      #endif
+      #if N_AXIS > 5
+        STEPPER_DISABLE_PORT(5) &= ~(1 << STEPPER_DISABLE_BIT(5));
       #endif
     }
   #else
@@ -406,6 +423,9 @@ ISR(TIMER1_COMPA_vect)
     #if N_AXIS > 4
     DIRECTION_PORT(4) = (DIRECTION_PORT(4) & ~(1 << DIRECTION_BIT(4))) | st.dir_outbits[4];
     #endif
+    #if N_AXIS > 5
+    DIRECTION_PORT(5) = (DIRECTION_PORT(5) & ~(1 << DIRECTION_BIT(5))) | st.dir_outbits[5];
+    #endif
   #else
     DIRECTION_PORT = (DIRECTION_PORT & ~DIRECTION_MASK) | (st.dir_outbits & DIRECTION_MASK);
   #endif // Ramps Boafd
@@ -422,6 +442,9 @@ ISR(TIMER1_COMPA_vect)
       #if N_AXIS > 4
         st.step_bits[4] = (STEP_PORT(4) & ~(1 << STEP_BIT(4))) | st.step_outbits[4]; // Store out_bits to prevent overwriting.
       #endif
+      #if N_AXIS > 5
+        st.step_bits[5] = (STEP_PORT(5) & ~(1 << STEP_BIT(5))) | st.step_outbits[5]; // Store out_bits to prevent overwriting.
+      #endif
     #else
       STEP_PORT(0) = (STEP_PORT(0) & ~(1 << STEP_BIT(0))) | st.step_outbits[0];
       STEP_PORT(1) = (STEP_PORT(1) & ~(1 << STEP_BIT(1))) | st.step_outbits[1];
@@ -431,6 +454,9 @@ ISR(TIMER1_COMPA_vect)
       #endif
       #if N_AXIS > 4
         STEP_PORT(4) = (STEP_PORT(4) & ~(1 << STEP_BIT(4))) | st.step_outbits[4];
+      #endif
+      #if N_AXIS > 5
+        STEP_PORT(5) = (STEP_PORT(5) & ~(1 << STEP_BIT(5))) | st.step_outbits[5];
       #endif
     #endif
   #else
@@ -476,6 +502,8 @@ ISR(TIMER1_COMPA_vect)
           st.counter_x = st.counter_y = st.counter_z = st.counter_4 = (st.exec_block->step_event_count >> 1);
         #elif N_AXIS == 5
           st.counter_x = st.counter_y = st.counter_z = st.counter_4 = st.counter_5 = (st.exec_block->step_event_count >> 1);
+        #elif N_AXIS == 6
+          st.counter_x = st.counter_y = st.counter_z = st.counter_4 = st.counter_5 = st.counter_6 = (st.exec_block->step_event_count >> 1);
         #else
           st.counter_x = st.counter_y = st.counter_z = (st.exec_block->step_event_count >> 1);
         #endif
@@ -497,6 +525,9 @@ ISR(TIMER1_COMPA_vect)
         #endif
         #if N_AXIS > 4
           st.steps[AXIS_5] = st.exec_block->steps[AXIS_5] >> st.exec_segment->amass_level;
+        #endif
+        #if N_AXIS > 5
+          st.steps[AXIS_6] = st.exec_block->steps[AXIS_6] >> st.exec_segment->amass_level;
         #endif
       #endif
 
@@ -617,6 +648,21 @@ ISR(TIMER1_COMPA_vect)
       }
     #endif // Ramps Board
   #endif // N_AXIS > 4
+  #if N_AXIS > 5
+    #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
+      st.counter_6 += st.steps[AXIS_6];
+    #else
+      st.counter_6 += st.exec_block->steps[AXIS_6];
+    #endif
+    #ifdef DEFAULTS_RAMPS_BOARD
+      if (st.counter_6 > st.exec_block->step_event_count) {
+        st.step_outbits[AXIS_6] |= (1<<STEP_BIT(AXIS_6));
+        st.counter_6 -= st.exec_block->step_event_count;
+        if (st.exec_block->direction_bits[AXIS_6] & (1<<DIRECTION_BIT(AXIS_6))) { sys_position[AXIS_6]--; }
+        else { sys_position[AXIS_6]++; }
+      }
+    #endif // Ramps Board
+  #endif // N_AXIS > 5
 
   // During a homing cycle, lock out and prevent desired axes from moving.
   #ifdef DEFAULTS_RAMPS_BOARD
@@ -665,6 +711,9 @@ ISR(TIMER0_OVF_vect)
     #if N_AXIS > 4
       STEP_PORT(4) = (STEP_PORT(4) & ~(1 << STEP_BIT(4))) | step_port_invert_mask[4];
     #endif
+    #if N_AXIS > 5
+      STEP_PORT(5) = (STEP_PORT(5) & ~(1 << STEP_BIT(5))) | step_port_invert_mask[5];
+    #endif
   #else
     STEP_PORT = (STEP_PORT & ~STEP_MASK) | (step_port_invert_mask & STEP_MASK);
   #endif // Ramps Board
@@ -687,6 +736,9 @@ ISR(TIMER0_OVF_vect)
       #endif
       #if N_AXIS > 4
         STEP_PORT(4) = st.step_bits[4]; // Begin step pulse.
+      #endif
+      #if N_AXIS > 5
+        STEP_PORT(5) = st.step_bits[5]; // Begin step pulse.
       #endif
     #else
       STEP_PORT = st.step_bits; // Begin step pulse.
@@ -757,6 +809,10 @@ void st_reset()
       STEP_PORT(4) = (STEP_PORT(4) & ~(1 << STEP_BIT(4))) | step_port_invert_mask[4];
       DIRECTION_PORT(4) = (DIRECTION_PORT(4) & ~(1 << DIRECTION_BIT(4))) | dir_port_invert_mask[4];
     #endif
+    #if N_AXIS > 5
+      STEP_PORT(5) = (STEP_PORT(5) & ~(1 << STEP_BIT(5))) | step_port_invert_mask[5];
+      DIRECTION_PORT(5) = (DIRECTION_PORT(5) & ~(1 << DIRECTION_BIT(5))) | dir_port_invert_mask[5];
+    #endif
   #else
     st.dir_outbits = dir_port_invert_mask; // Initialize direction bits to default.
 
@@ -781,6 +837,9 @@ void stepper_init()
     #if N_AXIS > 4
       STEP_DDR(4) |= 1<<STEP_BIT(4);
     #endif
+    #if N_AXIS > 5
+      STEP_DDR(5) |= 1<<STEP_BIT(5);
+    #endif
 
     STEPPER_DISABLE_DDR(0) |= 1<<STEPPER_DISABLE_BIT(0);
     STEPPER_DISABLE_DDR(1) |= 1<<STEPPER_DISABLE_BIT(1);
@@ -791,6 +850,9 @@ void stepper_init()
     #if N_AXIS > 4
       STEPPER_DISABLE_DDR(4) |= 1<<STEPPER_DISABLE_BIT(4);
     #endif
+    #if N_AXIS > 5
+      STEPPER_DISABLE_DDR(5) |= 1<<STEPPER_DISABLE_BIT(5);
+    #endif
 
     DIRECTION_DDR(0) |= 1<<DIRECTION_BIT(0);
     DIRECTION_DDR(1) |= 1<<DIRECTION_BIT(1);
@@ -800,6 +862,9 @@ void stepper_init()
     #endif
     #if N_AXIS > 4
       DIRECTION_DDR(4) |= 1<<DIRECTION_BIT(4);
+    #endif
+    #if N_AXIS > 5
+      DIRECTION_DDR(5) |= 1<<DIRECTION_BIT(5);
     #endif
   #else
     STEP_DDR |= STEP_MASK;

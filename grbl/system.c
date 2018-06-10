@@ -183,6 +183,9 @@ uint8_t system_execute_line(char *line)
               #if N_AXIS > 4
                 case AXIS_5_NAME: mc_homing_cycle(HOMING_CYCLE_5); break;
               #endif
+              #if N_AXIS > 5
+                case AXIS_6_NAME: mc_homing_cycle(HOMING_CYCLE_6); break;
+              #endif
                 default: return(STATUS_INVALID_STATEMENT);
               }
           #endif

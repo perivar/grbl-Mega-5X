@@ -478,6 +478,12 @@
     #define DEFAULT_B_ACCELERATION (100.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
     #define DEFAULT_B_MAX_TRAVEL 180.0 // °
   #endif
+  #if N_AXIS > 5
+    #define DEFAULT_C_STEPS_PER_UNIT 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
+    #define DEFAULT_C_MAX_RATE 1440 // °/mn
+    #define DEFAULT_C_ACCELERATION (100.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
+    #define DEFAULT_C_MAX_TRAVEL 180.0 // °
+  #endif
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10

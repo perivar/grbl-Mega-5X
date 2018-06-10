@@ -38,6 +38,9 @@
 #if N_AXIS > 4
   #define HOMING_CYCLE_5    bit(AXIS_5)
 #endif
+#if N_AXIS > 5
+  #define HOMING_CYCLE_6    bit(AXIS_6)
+#endif
 
 // Execute linear motion in absolute millimeter coordinates. Feed rate given in millimeters/second
 // unless invert_feed_rate is true. Then the feed_rate means that the motion should be completed in
