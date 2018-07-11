@@ -28,36 +28,6 @@
 
 #define SOME_LARGE_VALUE 1.0E+38
 
-// Axis array index values. Must start with 0 and be continuous.
-#ifdef DEFAULTS_RAMPS_BOARD
-  // 4, 5 & 6 axis support only for RAMPS 1.4 (for the moment :-)...)
-  #define N_AXIS 6            // Number of axes
-  #define AXIS_NAMES "XYZABC" // Letters (names) of axis
-  #define N_AXIS_LINEAR 3     // Number of linears axis
-#else
-  #define N_AXIS 3 // Number of axes
-#endif
-#define X_AXIS 0 // Axis indexing value.
-#define Y_AXIS 1
-#define Z_AXIS 2
-#if N_AXIS <3
-  #error "N_AXIS must be >= 3. N_AXIS < 3 is not implemented."
-#endif
-#if N_AXIS > 3
-  #define AXIS_4 3
-  #define AXIS_4_NAME 'A' // Letter of axis number 4
-#endif
-#if N_AXIS > 4
-  #define AXIS_5 4
-  #define AXIS_5_NAME 'B' // Letter of axis number 5
-#endif
-#if N_AXIS > 5
-  #define AXIS_6 5
-  #define AXIS_6_NAME 'C' // Letter of axis number 6
-#endif
-#if N_AXIS > 6
-  #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
-#endif
 // CoreXY motor assignments. DO NOT ALTER.
 // NOTE: If the A and B motor axis bindings are changed, this effects the CoreXY equations.
 #ifdef COREXY

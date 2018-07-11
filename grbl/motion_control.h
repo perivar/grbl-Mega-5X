@@ -33,13 +33,13 @@
 #define HOMING_CYCLE_Y    bit(Y_AXIS)
 #define HOMING_CYCLE_Z    bit(Z_AXIS)
 #if N_AXIS > 3
-  #define HOMING_CYCLE_4    bit(AXIS_4)
+  #define HOMING_CYCLE_A    bit(AXIS_4)
 #endif
 #if N_AXIS > 4
-  #define HOMING_CYCLE_5    bit(AXIS_5)
+  #define HOMING_CYCLE_B   bit(AXIS_5)
 #endif
 #if N_AXIS > 5
-  #define HOMING_CYCLE_6    bit(AXIS_6)
+  #define HOMING_CYCLE_C    bit(AXIS_6)
 #endif
 
 // Execute linear motion in absolute millimeter coordinates. Feed rate given in millimeters/second
