@@ -49,9 +49,9 @@
 
 // Define command actions for within execution-type modal groups (motion, stopping, non-modal). Used
 // internally by the parser to know which command to execute.
-// NOTE: Some macro values are assigned specific values to make g-code state reporting and parsing 
+// NOTE: Some macro values are assigned specific values to make g-code state reporting and parsing
 // compile a litte smaller. Necessary due to being completely out of flash on the 328p. Although not
-// ideal, just be careful with values that state 'do not alter' and check both report.c and gcode.c 
+// ideal, just be careful with values that state 'do not alter' and check both report.c and gcode.c
 // to see how they are used, if you need to alter them.
 
 // Modal Group G0: Non-modal actions
@@ -153,6 +153,7 @@
 #if N_AXIS > 3
   #define WORD_A 13
   #define WORD_B 14
+  #define WORD_C 15
 #endif
 // Define g-code parser position updating flags
 #define GC_UPDATE_POS_TARGET   0 // Must be zero
@@ -165,7 +166,7 @@
 #define GC_PROBE_FAIL_INIT  GC_UPDATE_POS_NONE
 #define GC_PROBE_FAIL_END   GC_UPDATE_POS_TARGET
 #ifdef SET_CHECK_MODE_PROBE_TO_START
-  #define GC_PROBE_CHECK_MODE   GC_UPDATE_POS_NONE  
+  #define GC_PROBE_CHECK_MODE   GC_UPDATE_POS_NONE
 #else
   #define GC_PROBE_CHECK_MODE   GC_UPDATE_POS_TARGET
 #endif

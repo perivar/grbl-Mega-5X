@@ -560,6 +560,9 @@ void report_realtime_status()
         #if N_AXIS > 4
           if (bit_istrue(lim_pin_state,bit(AXIS_5))) { serial_write(AXIS_5_NAME); }
         #endif
+        #if N_AXIS > 5
+          if (bit_istrue(lim_pin_state,bit(AXIS_6))) { serial_write(AXIS_6_NAME); }
+        #endif
       }
       if (ctrl_pin_state) {
         #ifdef ENABLE_SAFETY_DOOR_INPUT_PIN

@@ -289,13 +289,16 @@ uint8_t gc_execute_line(char *line)
            legal g-code words and stores their value. Error-checking is performed later since some
            words (I,J,K,L,P,R) have multiple connotations and/or depend on the issued commands. */
         switch(letter){
-          // case 'A', 'B' or 'C' depending of AXIS_4_NAME and AXIS_5_NAME supported in 4 or 5 axes mode
+          // case 'A', 'B' or 'C' depending of AXIS_4_NAME, AXIS_5_NAME and AXIS_6_NAME supported in 4, 5 or 6 axes mode
           #if N_AXIS > 3
             #ifdef AXIS_4
               case AXIS_4_NAME: word_bit = WORD_A; gc_block.values.xyz[AXIS_4] = value; axis_words |= (1<<AXIS_4); break;
             #endif
             #ifdef AXIS_5
               case AXIS_5_NAME: word_bit = WORD_B; gc_block.values.xyz[AXIS_5] = value; axis_words |= (1<<AXIS_5); break;
+            #endif
+            #ifdef AXIS_6
+              case AXIS_6_NAME: word_bit = WORD_C; gc_block.values.xyz[AXIS_6] = value; axis_words |= (1<<AXIS_6); break;
             #endif
           #endif
           // case 'D': // Not supported
@@ -840,7 +843,7 @@ uint8_t gc_execute_line(char *line)
     bit_false(value_words,(bit(WORD_N)|bit(WORD_F)|bit(WORD_S)|bit(WORD_T))); // Remove single-meaning value words.
   }
 #if N_AXIS > 3
-  if (axis_command) { bit_false(value_words,(bit(WORD_X)|bit(WORD_Y)|bit(WORD_Z)|bit(WORD_A)|bit(WORD_B))); } // Remove axis words.
+  if (axis_command) { bit_false(value_words,(bit(WORD_X)|bit(WORD_Y)|bit(WORD_Z)|bit(WORD_A)|bit(WORD_B)|bit(WORD_C))); } // Remove axis words.
 #else
   if (axis_command) { bit_false(value_words,(bit(WORD_X)|bit(WORD_Y)|bit(WORD_Z))); } // Remove axis words.
 #endif
@@ -1144,7 +1147,7 @@ uint8_t gc_execute_line(char *line)
 
   - Canned cycles
   - Tool radius compensation
-  - A,B,C-axes // A & B Supported in Ramps 1.4 grbl-Mega-5X version if N_AXIS > 3
+  - A,B,C-axes // A, B & C Supported in Ramps 1.4 grbl-Mega-5X version if N_AXIS > 3
   - Evaluation of expressions
   - Variables
   - Override control (TBD)

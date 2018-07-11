@@ -127,6 +127,9 @@ void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *of
     #if N_AXIS >4
       float axis_b_per_segment = (target[AXIS_5] - position[AXIS_5])/segments;
     #endif
+    #if N_AXIS >5
+      float axis_c_per_segment = (target[AXIS_6] - position[AXIS_6])/segments;
+    #endif
 
     /* Vector rotation by transformation matrix: r is the original vector, r_T is the rotated vector,
        and phi is the angle of rotation. Solution approach by Jens Geisler.
@@ -193,6 +196,9 @@ void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *of
       #if N_AXIS > 4
         position[AXIS_5] += axis_b_per_segment;
       #endif
+      #if N_AXIS > 5
+        position[AXIS_6] += axis_c_per_segment;
+      #endif
       mc_line(position, pl_data);
 
       // Bail mid-circle on system abort. Runtime command check already performed by mc_line.
@@ -249,10 +255,13 @@ void mc_homing_cycle(uint8_t cycle_mask)
     #endif
     #if N_AXIS > 3
       #ifdef HOMING_CYCLE_3
-        limits_go_home(HOMING_CYCLE_3);  // Homing cycle 2
+        limits_go_home(HOMING_CYCLE_3);  // Homing cycle 3
       #endif
       #ifdef HOMING_CYCLE_4
-        limits_go_home(HOMING_CYCLE_4);  // Homing cycle 2
+        limits_go_home(HOMING_CYCLE_4);  // Homing cycle 4
+      #endif
+      #ifdef HOMING_CYCLE_5
+        limits_go_home(HOMING_CYCLE_5);  // Homing cycle 5
       #endif
     #endif
   }

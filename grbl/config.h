@@ -42,6 +42,37 @@
 #define DEFAULTS_RAMPS_BOARD
 #define CPU_MAP_2560_RAMPS_BOARD
 
+// Axis array index values. Must start with 0 and be continuous.
+#ifdef DEFAULTS_RAMPS_BOARD
+  // 4, 5 & 6 axis support only for RAMPS 1.4 (for the moment :-)...)
+  #define N_AXIS 6            // Number of axes
+  #define AXIS_NAMES "XYZABC" // Letters (names) of axis
+  #define N_AXIS_LINEAR 3     // Number of linears axis
+#else
+  #define N_AXIS 3 // Number of axes
+#endif
+#define X_AXIS 0 // Axis indexing value.
+#define Y_AXIS 1
+#define Z_AXIS 2
+#if N_AXIS <3
+  #error "N_AXIS must be >= 3. N_AXIS < 3 is not implemented."
+#endif
+#if N_AXIS > 3
+  #define AXIS_4 3
+  #define AXIS_4_NAME 'A' // Letter of axis number 4
+#endif
+#if N_AXIS > 4
+  #define AXIS_5 4
+  #define AXIS_5_NAME 'B' // Letter of axis number 5
+#endif
+#if N_AXIS > 5
+  #define AXIS_6 5
+  #define AXIS_6_NAME 'C' // Letter of axis number 6
+#endif
+#if N_AXIS > 6
+  #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
+#endif
+
 // Serial baud rate
 // #define BAUD_RATE 230400
 #define BAUD_RATE 115200
@@ -119,6 +150,13 @@
     #define HOMING_CYCLE_2 (1<<X_AXIS) // Home X axis
     #define HOMING_CYCLE_3 (1<<Y_AXIS) // Home Y axis
     #define HOMING_CYCLE_4 (1<<Z_AXIS) // OPTIONAL: Home Z axis
+  #elif N_AXIS == 6 // 6 axis : homing
+    #define HOMING_CYCLE_0 (1<<AXIS_4) // Home 4th axis (A)
+    #define HOMING_CYCLE_1 (1<<AXIS_5) // Home 5th axis (B)
+    #define HOMING_CYCLE_2 (1<<AXIS_6) // Home 6th axis (C)
+    #define HOMING_CYCLE_3 (1<<X_AXIS) // Home X axis
+    #define HOMING_CYCLE_4 (1<<Y_AXIS) // Home Y axis
+    #define HOMING_CYCLE_5 (1<<Z_AXIS) // OPTIONAL: Home Z axis
   #else // Classic 3 axis
     #define HOMING_CYCLE_0 (1<<X_AXIS) // Home X axis
     #define HOMING_CYCLE_1 (1<<Y_AXIS) // Home Y axis
