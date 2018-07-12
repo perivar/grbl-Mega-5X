@@ -42,19 +42,19 @@
 #define DEFAULTS_RAMPS_BOARD
 #define CPU_MAP_2560_RAMPS_BOARD
 
+// Serial baud rate
+// #define BAUD_RATE 230400
+#define BAUD_RATE 115200
+
 // Axis array index values. Must start with 0 and be continuous.
 #ifdef DEFAULTS_RAMPS_BOARD
   // 4, 5 & 6 axis support only for RAMPS 1.4 (for the moment :-)...)
   #define N_AXIS 5            // Number of axes
   #define N_AXIS_LINEAR 4     // Number of linears axis
 #else
-  #define N_AXIS 3 // Number of axes
+  #define N_AXIS 3 // Number of axes = 3 if not DEFAULTS_RAMPS_BOARD
 #endif
-/*
-#define X_AXIS 0 // Axis indexing value.
-#define Y_AXIS 1
-#define Z_AXIS 2
-*/
+
 #define AXIS_1 0        // Axis indexing value. Must start with 0 and be continuous.
 #define AXIS_1_NAME 'X'
 #define AXIS_2 1
@@ -67,11 +67,11 @@
 #endif
 #if N_AXIS > 3
   #define AXIS_4 3
-  #define AXIS_4_NAME 'Y' // Letter of axis number 4
+  #define AXIS_4_NAME 'A' // Letter of axis number 4
 #endif
 #if N_AXIS > 4
   #define AXIS_5 4
-  #define AXIS_5_NAME 'A' // Letter of axis number 5
+  #define AXIS_5_NAME 'B' // Letter of axis number 5
 #endif
 #if N_AXIS > 5
   #define AXIS_6 5
@@ -80,12 +80,6 @@
 #if N_AXIS > 6
   #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
 #endif
-
-//#define AXIS_NAMES "XYZABC" // Letters (names) of axis
-
-// Serial baud rate
-// #define BAUD_RATE 230400
-#define BAUD_RATE 115200
 
 // Define realtime command special characters. These characters are 'picked-off' directly from the
 // serial read data stream and are not passed to the grbl line execution parser. Select characters

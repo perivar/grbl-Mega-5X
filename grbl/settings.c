@@ -95,35 +95,35 @@ void settings_restore(uint8_t restore_flag) {
     if (DEFAULT_INVERT_LIMIT_PINS) { settings.flags |= BITFLAG_INVERT_LIMIT_PINS; }
     if (DEFAULT_INVERT_PROBE_PIN) { settings.flags |= BITFLAG_INVERT_PROBE_PIN; }
 
-    settings.steps_per_mm[AXIS_1] = DEFAULT_X_STEPS_PER_UNIT;
-    settings.steps_per_mm[AXIS_2] = DEFAULT_Y_STEPS_PER_UNIT;
-    settings.steps_per_mm[AXIS_3] = DEFAULT_Z_STEPS_PER_UNIT;
-    settings.max_rate[AXIS_1] = DEFAULT_X_MAX_RATE;
-    settings.max_rate[AXIS_2] = DEFAULT_Y_MAX_RATE;
-    settings.max_rate[AXIS_3] = DEFAULT_Z_MAX_RATE;
-    settings.acceleration[AXIS_1] = DEFAULT_X_ACCELERATION;
-    settings.acceleration[AXIS_2] = DEFAULT_Y_ACCELERATION;
-    settings.acceleration[AXIS_3] = DEFAULT_Z_ACCELERATION;
-    settings.max_travel[AXIS_1] = (-DEFAULT_X_MAX_TRAVEL);
-    settings.max_travel[AXIS_2] = (-DEFAULT_Y_MAX_TRAVEL);
-    settings.max_travel[AXIS_3] = (-DEFAULT_Z_MAX_TRAVEL);
+    settings.steps_per_mm[AXIS_1] = DEFAULT_AXIS1_STEPS_PER_UNIT;
+    settings.steps_per_mm[AXIS_2] = DEFAULT_AXIS2_STEPS_PER_UNIT;
+    settings.steps_per_mm[AXIS_3] = DEFAULT_AXIS3_STEPS_PER_UNIT;
+    settings.max_rate[AXIS_1] = DEFAULT_AXIS1_MAX_RATE;
+    settings.max_rate[AXIS_2] = DEFAULT_AXIS2_MAX_RATE;
+    settings.max_rate[AXIS_3] = DEFAULT_AXIS3_MAX_RATE;
+    settings.acceleration[AXIS_1] = DEFAULT_AXIS1_ACCELERATION;
+    settings.acceleration[AXIS_2] = DEFAULT_AXIS2_ACCELERATION;
+    settings.acceleration[AXIS_3] = DEFAULT_AXIS3_ACCELERATION;
+    settings.max_travel[AXIS_1] = (-DEFAULT_AXIS1_MAX_TRAVEL);
+    settings.max_travel[AXIS_2] = (-DEFAULT_AXIS2_MAX_TRAVEL);
+    settings.max_travel[AXIS_3] = (-DEFAULT_AXIS3_MAX_TRAVEL);
     #if N_AXIS > 3
-      settings.steps_per_mm[AXIS_4] = DEFAULT_A_STEPS_PER_UNIT;
-      settings.max_rate[AXIS_4] = DEFAULT_A_MAX_RATE;
-      settings.acceleration[AXIS_4] = DEFAULT_A_ACCELERATION;
-      settings.max_travel[AXIS_4] = (-DEFAULT_A_MAX_TRAVEL);
+      settings.steps_per_mm[AXIS_4] = DEFAULT_AXIS4_STEPS_PER_UNIT;
+      settings.max_rate[AXIS_4] = DEFAULT_AXIS4_MAX_RATE;
+      settings.acceleration[AXIS_4] = DEFAULT_AXIS4_ACCELERATION;
+      settings.max_travel[AXIS_4] = (-DEFAULT_AXIS4_MAX_TRAVEL);
     #endif
     #if N_AXIS > 4
-      settings.steps_per_mm[AXIS_5] = DEFAULT_B_STEPS_PER_UNIT;
-      settings.max_rate[AXIS_5] = DEFAULT_B_MAX_RATE;
-      settings.acceleration[AXIS_5] = DEFAULT_B_ACCELERATION;
-      settings.max_travel[AXIS_5] = (-DEFAULT_B_MAX_TRAVEL);
+      settings.steps_per_mm[AXIS_5] = DEFAULT_AXIS5_STEPS_PER_UNIT;
+      settings.max_rate[AXIS_5] = DEFAULT_AXIS5_MAX_RATE;
+      settings.acceleration[AXIS_5] = DEFAULT_AXIS5_ACCELERATION;
+      settings.max_travel[AXIS_5] = (-DEFAULT_AXIS5_MAX_TRAVEL);
     #endif
     #if N_AXIS > 5
-      settings.steps_per_mm[AXIS_6] = DEFAULT_C_STEPS_PER_UNIT;
-      settings.max_rate[AXIS_6] = DEFAULT_C_MAX_RATE;
-      settings.acceleration[AXIS_6] = DEFAULT_C_ACCELERATION;
-      settings.max_travel[AXIS_6] = (-DEFAULT_C_MAX_TRAVEL);
+      settings.steps_per_mm[AXIS_6] = DEFAULT_AXIS6_STEPS_PER_UNIT;
+      settings.max_rate[AXIS_6] = DEFAULT_AXIS6_MAX_RATE;
+      settings.acceleration[AXIS_6] = DEFAULT_AXIS6_ACCELERATION;
+      settings.max_travel[AXIS_6] = (-DEFAULT_AXIS6_MAX_TRAVEL);
     #endif
 
     write_global_settings();
