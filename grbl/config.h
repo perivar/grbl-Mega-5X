@@ -51,7 +51,7 @@
 #ifdef DEFAULTS_RAMPS_BOARD
   // 4, 5 & 6 axis support only for RAMPS 1.4 (for the moment :-)...)
   #define N_AXIS 5            // Number of axes
-  #define N_AXIS_LINEAR 4     // Number of linears axis
+  #define N_AXIS_LINEAR 3     // Number of linears axis
 #else
   #define N_AXIS 3 // Number of axes = 3 if not DEFAULTS_RAMPS_BOARD
 #endif
