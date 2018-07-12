@@ -20,8 +20,9 @@
   along with Grbl.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-// This file contains compile-time configurations for Grbl's internal system. For the most part,
-// users will not need to directly modify these, but they are here for specific needs, i.e.
+// This file contains compile-time configurations for Grbl's internal system.
+// This file is used to define the number of axix and their names,
+// define homing sequences or specific needs, i.e.
 // performance tuning or adjusting to non-typical machines.
 
 // IMPORTANT: Any changes here requires a full re-compiling of the source code to propagate them.
