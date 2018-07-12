@@ -362,13 +362,22 @@ void report_build_info(char *line)
   printPgmString(PSTR("[VER:" GRBL_VERSION "." GRBL_VERSION_BUILD ":"));
   printString(line);
   report_util_feedback_line_feed();
+  printPgmString(PSTR("[AXS:"));
+  print_uint8_base10(N_AXIS);
+  printPgmString(PSTR(":"));
+  serial_write(AXIS_1_NAME);
+  serial_write(AXIS_2_NAME);
+  serial_write(AXIS_3_NAME);
   #if N_AXIS > 3
-    printPgmString(PSTR("[AXS:"));
-    print_uint8_base10(N_AXIS);
-    printPgmString(PSTR(":"));
-    printPgmString(PSTR(AXIS_NAMES));
-    report_util_feedback_line_feed();
+    serial_write(AXIS_4_NAME);
   #endif
+  #if N_AXIS > 4
+    serial_write(AXIS_5_NAME);
+  #endif
+  #if N_AXIS > 5
+    serial_write(AXIS_6_NAME);
+  #endif
+  report_util_feedback_line_feed();
   printPgmString(PSTR("[OPT:")); // Generate compile-time build option list
   serial_write('V');
   serial_write('N');
@@ -551,9 +560,9 @@ void report_realtime_status()
       printPgmString(PSTR("|Pn:"));
       if (prb_pin_state) { serial_write('P'); }
       if (lim_pin_state) {
-        if (bit_istrue(lim_pin_state,bit(X_AXIS))) { serial_write('X'); }
-        if (bit_istrue(lim_pin_state,bit(Y_AXIS))) { serial_write('Y'); }
-        if (bit_istrue(lim_pin_state,bit(Z_AXIS))) { serial_write('Z'); }
+        if (bit_istrue(lim_pin_state,bit(AXIS_1))) { serial_write(AXIS_1_NAME); }
+        if (bit_istrue(lim_pin_state,bit(AXIS_2))) { serial_write(AXIS_2_NAME); }
+        if (bit_istrue(lim_pin_state,bit(AXIS_3))) { serial_write(AXIS_3_NAME); }
         #if N_AXIS > 3
           if (bit_istrue(lim_pin_state,bit(AXIS_4))) { serial_write(AXIS_4_NAME); }
         #endif

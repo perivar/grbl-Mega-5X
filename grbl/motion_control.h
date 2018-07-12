@@ -29,9 +29,9 @@
 #define PARKING_MOTION_LINE_NUMBER 0
 
 #define HOMING_CYCLE_ALL  0  // Must be zero.
-#define HOMING_CYCLE_X    bit(X_AXIS)
-#define HOMING_CYCLE_Y    bit(Y_AXIS)
-#define HOMING_CYCLE_Z    bit(Z_AXIS)
+#define HOMING_CYCLE_X    bit(AXIS_1)
+#define HOMING_CYCLE_Y    bit(AXIS_2)
+#define HOMING_CYCLE_Z    bit(AXIS_3)
 #if N_AXIS > 3
   #define HOMING_CYCLE_A    bit(AXIS_4)
 #endif

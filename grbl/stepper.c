@@ -517,9 +517,9 @@ ISR(TIMER1_COMPA_vect)
 
       #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
         // With AMASS enabled, adjust Bresenham axis increment counters according to AMASS level.
-        st.steps[X_AXIS] = st.exec_block->steps[X_AXIS] >> st.exec_segment->amass_level;
-        st.steps[Y_AXIS] = st.exec_block->steps[Y_AXIS] >> st.exec_segment->amass_level;
-        st.steps[Z_AXIS] = st.exec_block->steps[Z_AXIS] >> st.exec_segment->amass_level;
+        st.steps[AXIS_1] = st.exec_block->steps[AXIS_1] >> st.exec_segment->amass_level;
+        st.steps[AXIS_2] = st.exec_block->steps[AXIS_2] >> st.exec_segment->amass_level;
+        st.steps[AXIS_3] = st.exec_block->steps[AXIS_3] >> st.exec_segment->amass_level;
         #if N_AXIS > 3
           st.steps[AXIS_4] = st.exec_block->steps[AXIS_4] >> st.exec_segment->amass_level;
         #endif
@@ -558,64 +558,64 @@ ISR(TIMER1_COMPA_vect)
 
   // Execute step displacement profile by Bresenham line algorithm
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
-    st.counter_x += st.steps[X_AXIS];
+    st.counter_x += st.steps[AXIS_1];
   #else
-    st.counter_x += st.exec_block->steps[X_AXIS];
+    st.counter_x += st.exec_block->steps[AXIS_1];
   #endif
   #ifdef DEFAULTS_RAMPS_BOARD
     if (st.counter_x > st.exec_block->step_event_count) {
-      st.step_outbits[X_AXIS] |= (1<<STEP_BIT(X_AXIS));
+      st.step_outbits[AXIS_1] |= (1<<STEP_BIT(AXIS_1));
       st.counter_x -= st.exec_block->step_event_count;
-      if (st.exec_block->direction_bits[X_AXIS] & (1<<DIRECTION_BIT(X_AXIS))) { sys_position[X_AXIS]--; }
-      else { sys_position[X_AXIS]++; }
+      if (st.exec_block->direction_bits[AXIS_1] & (1<<DIRECTION_BIT(AXIS_1))) { sys_position[AXIS_1]--; }
+      else { sys_position[AXIS_1]++; }
     }
   #else
     if (st.counter_x > st.exec_block->step_event_count) {
       st.step_outbits |= (1<<X_STEP_BIT);
       st.counter_x -= st.exec_block->step_event_count;
-      if (st.exec_block->direction_bits & (1<<X_DIRECTION_BIT)) { sys_position[X_AXIS]--; }
-      else { sys_position[X_AXIS]++; }
+      if (st.exec_block->direction_bits & (1<<X_DIRECTION_BIT)) { sys_position[AXIS_1]--; }
+      else { sys_position[AXIS_1]++; }
     }
   #endif // Ramps Board
 
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
-    st.counter_y += st.steps[Y_AXIS];
+    st.counter_y += st.steps[AXIS_2];
   #else
-    st.counter_y += st.exec_block->steps[Y_AXIS];
+    st.counter_y += st.exec_block->steps[AXIS_2];
   #endif
   #ifdef DEFAULTS_RAMPS_BOARD
     if (st.counter_y > st.exec_block->step_event_count) {
-      st.step_outbits[Y_AXIS] |= (1<<STEP_BIT(Y_AXIS));
+      st.step_outbits[AXIS_2] |= (1<<STEP_BIT(AXIS_2));
       st.counter_y -= st.exec_block->step_event_count;
-      if (st.exec_block->direction_bits[Y_AXIS] & (1<<DIRECTION_BIT(Y_AXIS))) { sys_position[Y_AXIS]--; }
-      else { sys_position[Y_AXIS]++; }
+      if (st.exec_block->direction_bits[AXIS_2] & (1<<DIRECTION_BIT(AXIS_2))) { sys_position[AXIS_2]--; }
+      else { sys_position[AXIS_2]++; }
     }
   #else
     if (st.counter_y > st.exec_block->step_event_count) {
       st.step_outbits |= (1<<Y_STEP_BIT);
       st.counter_y -= st.exec_block->step_event_count;
-      if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT)) { sys_position[Y_AXIS]--; }
-      else { sys_position[Y_AXIS]++; }
+      if (st.exec_block->direction_bits & (1<<Y_DIRECTION_BIT)) { sys_position[AXIS_2]--; }
+      else { sys_position[AXIS_2]++; }
     }
   #endif // Ramps Board
   #ifdef ADAPTIVE_MULTI_AXIS_STEP_SMOOTHING
-    st.counter_z += st.steps[Z_AXIS];
+    st.counter_z += st.steps[AXIS_3];
   #else
-    st.counter_z += st.exec_block->steps[Z_AXIS];
+    st.counter_z += st.exec_block->steps[AXIS_3];
   #endif
   #ifdef DEFAULTS_RAMPS_BOARD
     if (st.counter_z > st.exec_block->step_event_count) {
-      st.step_outbits[Z_AXIS] |= (1<<STEP_BIT(Z_AXIS));
+      st.step_outbits[AXIS_3] |= (1<<STEP_BIT(AXIS_3));
       st.counter_z -= st.exec_block->step_event_count;
-      if (st.exec_block->direction_bits[Z_AXIS] & (1<<DIRECTION_BIT(Z_AXIS))) { sys_position[Z_AXIS]--; }
-      else { sys_position[Z_AXIS]++; }
+      if (st.exec_block->direction_bits[AXIS_3] & (1<<DIRECTION_BIT(AXIS_3))) { sys_position[AXIS_3]--; }
+      else { sys_position[AXIS_3]++; }
     }
   #else
     if (st.counter_z > st.exec_block->step_event_count) {
       st.step_outbits |= (1<<Z_STEP_BIT);
       st.counter_z -= st.exec_block->step_event_count;
-      if (st.exec_block->direction_bits & (1<<Z_DIRECTION_BIT)) { sys_position[Z_AXIS]--; }
-      else { sys_position[Z_AXIS]++; }
+      if (st.exec_block->direction_bits & (1<<Z_DIRECTION_BIT)) { sys_position[AXIS_3]--; }
+      else { sys_position[AXIS_3]++; }
     }
   #endif // Ramps Board
   #if N_AXIS > 3

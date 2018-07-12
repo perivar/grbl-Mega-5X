@@ -45,25 +45,33 @@
 // Axis array index values. Must start with 0 and be continuous.
 #ifdef DEFAULTS_RAMPS_BOARD
   // 4, 5 & 6 axis support only for RAMPS 1.4 (for the moment :-)...)
-  #define N_AXIS 6            // Number of axes
-  #define AXIS_NAMES "XYZABC" // Letters (names) of axis
-  #define N_AXIS_LINEAR 3     // Number of linears axis
+  #define N_AXIS 5            // Number of axes
+  #define N_AXIS_LINEAR 4     // Number of linears axis
 #else
   #define N_AXIS 3 // Number of axes
 #endif
+/*
 #define X_AXIS 0 // Axis indexing value.
 #define Y_AXIS 1
 #define Z_AXIS 2
+*/
+#define AXIS_1 0        // Axis indexing value. Must start with 0 and be continuous.
+#define AXIS_1_NAME 'X'
+#define AXIS_2 1
+#define AXIS_2_NAME 'Y'
+#define AXIS_3 2
+#define AXIS_3_NAME 'Z'
+
 #if N_AXIS <3
   #error "N_AXIS must be >= 3. N_AXIS < 3 is not implemented."
 #endif
 #if N_AXIS > 3
   #define AXIS_4 3
-  #define AXIS_4_NAME 'A' // Letter of axis number 4
+  #define AXIS_4_NAME 'Y' // Letter of axis number 4
 #endif
 #if N_AXIS > 4
   #define AXIS_5 4
-  #define AXIS_5_NAME 'B' // Letter of axis number 5
+  #define AXIS_5_NAME 'A' // Letter of axis number 5
 #endif
 #if N_AXIS > 5
   #define AXIS_6 5
@@ -72,6 +80,8 @@
 #if N_AXIS > 6
   #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
 #endif
+
+//#define AXIS_NAMES "XYZABC" // Letters (names) of axis
 
 // Serial baud rate
 // #define BAUD_RATE 230400
@@ -141,38 +151,38 @@
 #ifdef DEFAULTS_RAMPS_BOARD
   #if N_AXIS == 4 // 4 axis : homing
     #define HOMING_CYCLE_0 (1<<AXIS_4) // Home 4th axis (A)
-    #define HOMING_CYCLE_1 (1<<X_AXIS) // Home X axis
-    #define HOMING_CYCLE_2 (1<<Y_AXIS) // Home Y axis
-    #define HOMING_CYCLE_3 (1<<Z_AXIS) // OPTIONAL: Home Z axis
+    #define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis
+    #define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis
+    #define HOMING_CYCLE_3 (1<<AXIS_3) // OPTIONAL: Home Z axis
   #elif N_AXIS == 5 // 5 axis : homing
     #define HOMING_CYCLE_0 (1<<AXIS_4) // Home 4th axis (A)
     #define HOMING_CYCLE_1 (1<<AXIS_5) // Home 5th axis (B)
-    #define HOMING_CYCLE_2 (1<<X_AXIS) // Home X axis
-    #define HOMING_CYCLE_3 (1<<Y_AXIS) // Home Y axis
-    #define HOMING_CYCLE_4 (1<<Z_AXIS) // OPTIONAL: Home Z axis
+    #define HOMING_CYCLE_2 (1<<AXIS_1) // Home X axis
+    #define HOMING_CYCLE_3 (1<<AXIS_2) // Home Y axis
+    #define HOMING_CYCLE_4 (1<<AXIS_3) // OPTIONAL: Home Z axis
   #elif N_AXIS == 6 // 6 axis : homing
     #define HOMING_CYCLE_0 (1<<AXIS_4) // Home 4th axis (A)
     #define HOMING_CYCLE_1 (1<<AXIS_5) // Home 5th axis (B)
     #define HOMING_CYCLE_2 (1<<AXIS_6) // Home 6th axis (C)
-    #define HOMING_CYCLE_3 (1<<X_AXIS) // Home X axis
-    #define HOMING_CYCLE_4 (1<<Y_AXIS) // Home Y axis
-    #define HOMING_CYCLE_5 (1<<Z_AXIS) // OPTIONAL: Home Z axis
+    #define HOMING_CYCLE_3 (1<<AXIS_1) // Home X axis
+    #define HOMING_CYCLE_4 (1<<AXIS_2) // Home Y axis
+    #define HOMING_CYCLE_5 (1<<AXIS_3) // OPTIONAL: Home Z axis
   #else // Classic 3 axis
-    #define HOMING_CYCLE_0 (1<<X_AXIS) // Home X axis
-    #define HOMING_CYCLE_1 (1<<Y_AXIS) // Home Y axis
-    #define HOMING_CYCLE_2 (1<<Z_AXIS) // OPTIONAL: Home Z axis
+    #define HOMING_CYCLE_0 (1<<AXIS_1) // Home X axis
+    #define HOMING_CYCLE_1 (1<<AXIS_2) // Home Y axis
+    #define HOMING_CYCLE_2 (1<<AXIS_3) // OPTIONAL: Home Z axis
   #endif
 #else
-  #define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-  #define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
+  #define HOMING_CYCLE_0 (1<<AXIS_3)                // REQUIRED: First move Z to clear workspace.
+  #define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))  // OPTIONAL: Then move X,Y at the same time.
   // #define HOMING_CYCLE_2                         // OPTIONAL: Uncomment and add axes mask to enable
 #endif // DEFAULTS_RAMPS_BOARD
 
 // NOTE: The following are two examples to setup homing for 2-axis machines.
-// #define HOMING_CYCLE_0 ((1<<X_AXIS)|(1<<Y_AXIS))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle.
+// #define HOMING_CYCLE_0 ((1<<AXIS_1)|(1<<AXIS_2))  // NOT COMPATIBLE WITH COREXY: Homes both X-Y in one cycle.
 
-// #define HOMING_CYCLE_0 (1<<X_AXIS)  // COREXY COMPATIBLE: First home X
-// #define HOMING_CYCLE_1 (1<<Y_AXIS)  // COREXY COMPATIBLE: Then home Y
+// #define HOMING_CYCLE_0 (1<<AXIS_1)  // COREXY COMPATIBLE: First home X
+// #define HOMING_CYCLE_1 (1<<AXIS_2)  // COREXY COMPATIBLE: Then home Y
 
 // Number of homing cycles performed after when the machine initially jogs to limit switches.
 // This help in preventing overshoot and should improve repeatability. This value should be one or
@@ -234,7 +244,7 @@
 
 // Enable CoreXY kinematics. Use ONLY with CoreXY machines.
 // IMPORTANT: If homing is enabled, you must reconfigure the homing cycle #defines above to
-// #define HOMING_CYCLE_0 (1<<X_AXIS) and #define HOMING_CYCLE_1 (1<<Y_AXIS)
+// #define HOMING_CYCLE_0 (1<<AXIS_1) and #define HOMING_CYCLE_1 (1<<AXIS_2)
 // NOTE: This configuration option alters the motion of the X and Y axes to principle of operation
 // defined at (http://corexy.com/theory.html). Motors are assumed to positioned and wired exactly as
 // described, if not, motions may move in strange directions. Grbl requires the CoreXY A and B motors
@@ -257,9 +267,9 @@
 // #define INVERT_LIMIT_PIN_MASK ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)) // Default disabled. Uncomment to enable.
 #ifdef DEFAULTS_RAMPS_BOARD
   // Only enable the following line if you have - (min) limit switches attached
-  //#define INVERT_MIN_LIMIT_PIN_MASK ((1<<X_AXIS) | (1<<Y_AXIS) | (1<<Z_AXIS))
+  //#define INVERT_MIN_LIMIT_PIN_MASK ((1<<AXIS_1) | (1<<AXIS_2) | (1<<AXIS_3))
   // Only enable the following line if you have + (max) limit switches attached
-  //#define INVERT_MAX_LIMIT_PIN_MASK ((1<<X_AXIS) | (1<<Y_AXIS) | (1<<Z_AXIS))
+  //#define INVERT_MAX_LIMIT_PIN_MASK ((1<<AXIS_1) | (1<<AXIS_2) | (1<<AXIS_3))
 #endif
 
 // Inverts the spindle enable pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
@@ -386,7 +396,7 @@
 // Sets which axis the tool length offset is applied. Assumes the spindle is always parallel with
 // the selected axis with the tool oriented toward the negative direction. In other words, a positive
 // tool length offset value is subtracted from the current location.
-#define TOOL_LENGTH_OFFSET_AXIS Z_AXIS // Default z-axis. Valid values are X_AXIS, Y_AXIS, or Z_AXIS.
+#define TOOL_LENGTH_OFFSET_AXIS AXIS_3 // Default z-axis. Valid values are AXIS_1, AXIS_2, or AXIS_3.
 
 // Used by variable spindle output only. This forces the PWM output to a minimum duty cycle when enabled.
 // The PWM pin will still read 0V when the spindle is disabled. Most users will not need this option, but
@@ -616,7 +626,7 @@
 // #define PARKING_ENABLE  // Default disabled. Uncomment to enable
 
 // Configure options for the parking motion, if enabled.
-#define PARKING_AXIS Z_AXIS // Define which axis that performs the parking motion
+#define PARKING_AXIS AXIS_3 // Define which axis that performs the parking motion
 #define PARKING_TARGET -5.0 // Parking axis target. In mm, as machine coordinate [-max_travel,0].
 #define PARKING_RATE 500.0 // Parking fast rate after pull-out in mm/min.
 #define PARKING_PULLOUT_RATE 100.0 // Pull-out/plunge slow feed rate in mm/min.

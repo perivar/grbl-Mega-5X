@@ -292,9 +292,9 @@ float system_convert_axis_steps_to_mpos(int32_t *steps, uint8_t idx)
 {
   float pos;
   #ifdef COREXY
-    if (idx==X_AXIS) {
+    if (idx==AXIS_1) {
       pos = (float)system_convert_corexy_to_x_axis_steps(steps) / settings.steps_per_mm[idx];
-    } else if (idx==Y_AXIS) {
+    } else if (idx==AXIS_2) {
       pos = (float)system_convert_corexy_to_y_axis_steps(steps) / settings.steps_per_mm[idx];
     } else {
       pos = steps[idx]/settings.steps_per_mm[idx];

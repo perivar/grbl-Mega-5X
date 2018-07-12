@@ -289,24 +289,12 @@ uint8_t gc_execute_line(char *line)
            legal g-code words and stores their value. Error-checking is performed later since some
            words (I,J,K,L,P,R) have multiple connotations and/or depend on the issued commands. */
         switch(letter){
-          // case 'A', 'B' or 'C' depending of AXIS_4_NAME, AXIS_5_NAME and AXIS_6_NAME supported in 4, 5 or 6 axes mode
-          #if N_AXIS > 3
-            #ifdef AXIS_4
-              case AXIS_4_NAME: word_bit = WORD_A; gc_block.values.xyz[AXIS_4] = value; axis_words |= (1<<AXIS_4); break;
-            #endif
-            #ifdef AXIS_5
-              case AXIS_5_NAME: word_bit = WORD_B; gc_block.values.xyz[AXIS_5] = value; axis_words |= (1<<AXIS_5); break;
-            #endif
-            #ifdef AXIS_6
-              case AXIS_6_NAME: word_bit = WORD_C; gc_block.values.xyz[AXIS_6] = value; axis_words |= (1<<AXIS_6); break;
-            #endif
-          #endif
           // case 'D': // Not supported
           case 'F': word_bit = WORD_F; gc_block.values.f = value; break;
           // case 'H': // Not supported
-          case 'I': word_bit = WORD_I; gc_block.values.ijk[X_AXIS] = value; ijk_words |= (1<<X_AXIS); break;
-          case 'J': word_bit = WORD_J; gc_block.values.ijk[Y_AXIS] = value; ijk_words |= (1<<Y_AXIS); break;
-          case 'K': word_bit = WORD_K; gc_block.values.ijk[Z_AXIS] = value; ijk_words |= (1<<Z_AXIS); break;
+          case 'I': word_bit = WORD_I; gc_block.values.ijk[AXIS_1] = value; ijk_words |= (1<<AXIS_1); break;
+          case 'J': word_bit = WORD_J; gc_block.values.ijk[AXIS_2] = value; ijk_words |= (1<<AXIS_2); break;
+          case 'K': word_bit = WORD_K; gc_block.values.ijk[AXIS_3] = value; ijk_words |= (1<<AXIS_3); break;
           case 'L': word_bit = WORD_L; gc_block.values.l = int_value; break;
           case 'N': word_bit = WORD_N; gc_block.values.n = trunc(value); break;
           case 'P': word_bit = WORD_P; gc_block.values.p = value; break;
@@ -318,10 +306,48 @@ uint8_t gc_execute_line(char *line)
             if (value > MAX_TOOL_NUMBER) { FAIL(STATUS_GCODE_MAX_VALUE_EXCEEDED); }
             gc_block.values.t = int_value;
             break;
-          case 'X': word_bit = WORD_X; gc_block.values.xyz[X_AXIS] = value; axis_words |= (1<<X_AXIS); break;
-          case 'Y': word_bit = WORD_Y; gc_block.values.xyz[Y_AXIS] = value; axis_words |= (1<<Y_AXIS); break;
-          case 'Z': word_bit = WORD_Z; gc_block.values.xyz[Z_AXIS] = value; axis_words |= (1<<Z_AXIS); break;
-          default: FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND);
+          // case 'X', 'Y', 'Z', 'A', 'B' or 'C' depending of AXIS_*_NAME.
+          // case imposible because same name can be used for axis cloning
+          // case AXIS_1_NAME: case AXIS_2_NAME: case AXIS_3_NAME: case AXIS_4_NAME: case AXIS_5_NAME: case AXIS_6_NAME:
+          default:
+            if (letter == AXIS_1_NAME) {
+              word_bit = WORD_X; gc_block.values.xyz[AXIS_1] = value; axis_words |= (1<<AXIS_1);
+            }
+            if (letter == AXIS_2_NAME) {
+              word_bit = WORD_Y; gc_block.values.xyz[AXIS_2] = value; axis_words |= (1<<AXIS_2);
+            }
+            if (letter == AXIS_3_NAME) {
+              word_bit = WORD_Z; gc_block.values.xyz[AXIS_3] = value; axis_words |= (1<<AXIS_3);
+            }
+            #ifdef AXIS_4
+              if (letter == AXIS_4_NAME) {
+                word_bit = WORD_A; gc_block.values.xyz[AXIS_4] = value; axis_words |= (1<<AXIS_4);
+              }
+            #endif
+            #ifdef AXIS_5
+              if (letter == AXIS_5_NAME) {
+                word_bit = WORD_B; gc_block.values.xyz[AXIS_5] = value; axis_words |= (1<<AXIS_5);
+              }
+            #endif
+            #ifdef AXIS_6
+              if (letter == AXIS_6_NAME) {
+                word_bit = WORD_C; gc_block.values.xyz[AXIS_6] = value; axis_words |= (1<<AXIS_6);
+              }
+            #endif
+            // Error if letter is not an axis name
+            if ((letter != AXIS_1_NAME) && (letter != AXIS_2_NAME) && (letter != AXIS_3_NAME)
+            #ifdef AXIS_4
+              && (letter != AXIS_4_NAME)
+            #endif
+            #ifdef AXIS_5
+              && (letter != AXIS_5_NAME)
+            #endif
+            #ifdef AXIS_6
+              && (letter != AXIS_6_NAME)
+            #endif
+            ) {
+              FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND);
+            }
         }
 
         // NOTE: Variable 'word_bit' is always assigned, if the non-command letter is valid.
@@ -456,19 +482,19 @@ uint8_t gc_execute_line(char *line)
   // [11. Set active plane ]: N/A
   switch (gc_block.modal.plane_select) {
     case PLANE_SELECT_XY:
-      axis_0 = X_AXIS;
-      axis_1 = Y_AXIS;
-      axis_linear = Z_AXIS;
+      axis_0 = AXIS_1;
+      axis_1 = AXIS_2;
+      axis_linear = AXIS_3;
       break;
     case PLANE_SELECT_ZX:
-      axis_0 = Z_AXIS;
-      axis_1 = X_AXIS;
-      axis_linear = Y_AXIS;
+      axis_0 = AXIS_3;
+      axis_1 = AXIS_1;
+      axis_linear = AXIS_2;
       break;
     default: // case PLANE_SELECT_YZ:
-      axis_0 = Y_AXIS;
-      axis_1 = Z_AXIS;
-      axis_linear = X_AXIS;
+      axis_0 = AXIS_2;
+      axis_1 = AXIS_3;
+      axis_linear = AXIS_1;
   }
 
   // [12. Set length units ]: N/A
