@@ -86,7 +86,9 @@ void mc_line(float *target, plan_line_data_t *pl_data)
 // of each segment is configured in settings.arc_tolerance, which is defined to be the maximum normal
 // distance from segment to the circle when the end points both lie on the circle.
 void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *offset, float radius,
-  uint8_t axis_0, uint8_t axis_1, uint8_t axis_linear, uint8_t is_clockwise_arc)
+  uint8_t axis_0, uint8_t axis_1, uint8_t axis_linear, uint8_t axis_0_mask, uint8_t axis_1_mask, uint8_t axis_linear_mask,
+  uint8_t axis_a, uint8_t axis_b, uint8_t axis_c, uint8_t axis_a_mask, uint8_t axis_b_mask, uint8_t axis_c_mask,
+  uint8_t is_clockwise_arc)
 {
   float center_axis0 = position[axis_0] + offset[axis_0];
   float center_axis1 = position[axis_1] + offset[axis_1];
@@ -94,6 +96,7 @@ void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *of
   float r_axis1 = -offset[axis_1];
   float rt_axis0 = target[axis_0] - center_axis0;
   float rt_axis1 = target[axis_1] - center_axis1;
+  float a_per_segment, b_per_segment, c_per_segment;
 
   // CCW angle between position and target from circle center. Only one atan2() trig computation required.
   float angular_travel = atan2(r_axis0*rt_axis1-r_axis1*rt_axis0, r_axis0*rt_axis0+r_axis1*rt_axis1);
@@ -121,15 +124,9 @@ void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *of
 
     float theta_per_segment = angular_travel/segments;
     float linear_per_segment = (target[axis_linear] - position[axis_linear])/segments;
-    #if N_AXIS >3
-      float axis_a_per_segment = (target[AXIS_4] - position[AXIS_4])/segments;
-    #endif
-    #if N_AXIS >4
-      float axis_b_per_segment = (target[AXIS_5] - position[AXIS_5])/segments;
-    #endif
-    #if N_AXIS >5
-      float axis_c_per_segment = (target[AXIS_6] - position[AXIS_6])/segments;
-    #endif
+    if ( axis_a_mask ) a_per_segment = (target[axis_a] - position[axis_a])/segments; else a_per_segment = 0;
+    if ( axis_b_mask ) b_per_segment = (target[axis_b] - position[axis_b])/segments; else b_per_segment = 0;
+    if ( axis_c_mask ) c_per_segment = (target[axis_c] - position[axis_c])/segments; else c_per_segment = 0;
 
     /* Vector rotation by transformation matrix: r is the original vector, r_T is the rotated vector,
        and phi is the angle of rotation. Solution approach by Jens Geisler.
@@ -186,19 +183,95 @@ void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *of
       }
 
       // Update arc_target location
+      /*
       position[axis_0] = center_axis0 + r_axis0;
       position[axis_1] = center_axis1 + r_axis1;
       position[axis_linear] += linear_per_segment;
-
+      * */
+      if (bit_istrue((1<<AXIS_1), axis_0_mask)) {position[AXIS_1] = center_axis0 + r_axis0;}
+      if (bit_istrue((1<<AXIS_2), axis_0_mask)) {position[AXIS_2] = center_axis0 + r_axis0;}
+      if (bit_istrue((1<<AXIS_3), axis_0_mask)) {position[AXIS_3] = center_axis0 + r_axis0;}
       #if N_AXIS > 3
-        position[AXIS_4] += axis_a_per_segment;
+        if (bit_istrue((1<<AXIS_4), axis_0_mask)) {position[AXIS_4] = center_axis0 + r_axis0;}
       #endif
       #if N_AXIS > 4
-        position[AXIS_5] += axis_b_per_segment;
+        if (bit_istrue((1<<AXIS_5), axis_0_mask)) {position[AXIS_5] = center_axis0 + r_axis0;}
       #endif
       #if N_AXIS > 5
-        position[AXIS_6] += axis_c_per_segment;
+        if (bit_istrue((1<<AXIS_6), axis_0_mask)) {position[AXIS_6] = center_axis0 + r_axis0;}
       #endif
+
+      if (bit_istrue((1<<AXIS_1), axis_1_mask)) {position[AXIS_1] = center_axis1 + r_axis1;}
+      if (bit_istrue((1<<AXIS_2), axis_1_mask)) {position[AXIS_2] = center_axis1 + r_axis1;}
+      if (bit_istrue((1<<AXIS_3), axis_1_mask)) {position[AXIS_3] = center_axis1 + r_axis1;}
+      #if N_AXIS > 3
+        if (bit_istrue((1<<AXIS_4), axis_1_mask)) {position[AXIS_4] = center_axis1 + r_axis1;}
+      #endif
+      #if N_AXIS > 4
+        if (bit_istrue((1<<AXIS_5), axis_1_mask)) {position[AXIS_5] = center_axis1 + r_axis1;}
+      #endif
+      #if N_AXIS > 5
+        if (bit_istrue((1<<AXIS_6), axis_1_mask)) {position[AXIS_6] = center_axis1 + r_axis1;}
+      #endif
+
+      if (bit_istrue((1<<AXIS_1), axis_linear_mask)) {position[AXIS_1] += linear_per_segment;}
+      if (bit_istrue((1<<AXIS_2), axis_linear_mask)) {position[AXIS_2] += linear_per_segment;}
+      if (bit_istrue((1<<AXIS_3), axis_linear_mask)) {position[AXIS_3] += linear_per_segment;}
+      #if N_AXIS > 3
+        if (bit_istrue((1<<AXIS_4), axis_linear_mask)) {position[AXIS_4] += linear_per_segment;}
+      #endif
+      #if N_AXIS > 4
+        if (bit_istrue((1<<AXIS_5), axis_linear_mask)) {position[AXIS_5] += linear_per_segment;}
+      #endif
+      #if N_AXIS > 5
+        if (bit_istrue((1<<AXIS_6), axis_linear_mask)) {position[AXIS_6] += linear_per_segment;}
+      #endif
+
+      if ( axis_a_mask ) {
+        if (bit_istrue((1<<AXIS_1), axis_a_mask)) {position[AXIS_1] += a_per_segment;}
+        if (bit_istrue((1<<AXIS_2), axis_a_mask)) {position[AXIS_2] += a_per_segment;}
+        if (bit_istrue((1<<AXIS_3), axis_a_mask)) {position[AXIS_3] += a_per_segment;}
+        #if N_AXIS > 3
+          if (bit_istrue((1<<AXIS_4), axis_a_mask)) {position[AXIS_4] += a_per_segment;}
+        #endif
+        #if N_AXIS > 4
+          if (bit_istrue((1<<AXIS_5), axis_a_mask)) {position[AXIS_5] += a_per_segment;}
+        #endif
+        #if N_AXIS > 5
+          if (bit_istrue((1<<AXIS_6), axis_a_mask)) {position[AXIS_6] += a_per_segment;}
+        #endif
+      }
+
+      if ( axis_b_mask ) {
+        if (bit_istrue((1<<AXIS_1), axis_b_mask)) {position[AXIS_1] += b_per_segment;}
+        if (bit_istrue((1<<AXIS_2), axis_b_mask)) {position[AXIS_2] += b_per_segment;}
+        if (bit_istrue((1<<AXIS_3), axis_b_mask)) {position[AXIS_3] += b_per_segment;}
+        #if N_AXIS > 3
+          if (bit_istrue((1<<AXIS_4), axis_b_mask)) {position[AXIS_4] += b_per_segment;}
+        #endif
+        #if N_AXIS > 4
+          if (bit_istrue((1<<AXIS_5), axis_b_mask)) {position[AXIS_5] += b_per_segment;}
+        #endif
+        #if N_AXIS > 5
+          if (bit_istrue((1<<AXIS_6), axis_b_mask)) {position[AXIS_6] += b_per_segment;}
+        #endif
+      }
+
+      if ( axis_c_mask ) {
+        if (bit_istrue((1<<AXIS_1), axis_c_mask)) {position[AXIS_1] += c_per_segment;}
+        if (bit_istrue((1<<AXIS_2), axis_c_mask)) {position[AXIS_2] += c_per_segment;}
+        if (bit_istrue((1<<AXIS_3), axis_c_mask)) {position[AXIS_3] += c_per_segment;}
+        #if N_AXIS > 3
+          if (bit_istrue((1<<AXIS_4), axis_c_mask)) {position[AXIS_4] += c_per_segment;}
+        #endif
+        #if N_AXIS > 4
+          if (bit_istrue((1<<AXIS_5), axis_c_mask)) {position[AXIS_5] += c_per_segment;}
+        #endif
+        #if N_AXIS > 5
+          if (bit_istrue((1<<AXIS_6), axis_c_mask)) {position[AXIS_6] += c_per_segment;}
+        #endif
+      }
+
       mc_line(position, pl_data);
 
       // Bail mid-circle on system abort. Runtime command check already performed by mc_line.

@@ -78,6 +78,13 @@ uint8_t gc_execute_line(char *line)
 
   uint8_t axis_command = AXIS_COMMAND_NONE;
   uint8_t axis_0, axis_1, axis_linear;
+  uint8_t axis_a, axis_b, axis_c;
+  uint8_t axis_0_mask = 0;
+  uint8_t axis_1_mask = 0;
+  uint8_t axis_linear_mask = 0;
+  uint8_t axis_a_mask = 0;
+  uint8_t axis_b_mask = 0;
+  uint8_t axis_c_mask = 0;
   uint8_t coord_select = 0; // Tracks G10 P coordinate selection for execution
 
   // Initialize bitflag tracking variables for axis indices compatible operations.
@@ -292,9 +299,51 @@ uint8_t gc_execute_line(char *line)
           // case 'D': // Not supported
           case 'F': word_bit = WORD_F; gc_block.values.f = value; break;
           // case 'H': // Not supported
-          case 'I': word_bit = WORD_I; gc_block.values.ijk[AXIS_1] = value; ijk_words |= (1<<AXIS_1); break;
-          case 'J': word_bit = WORD_J; gc_block.values.ijk[AXIS_2] = value; ijk_words |= (1<<AXIS_2); break;
-          case 'K': word_bit = WORD_K; gc_block.values.ijk[AXIS_3] = value; ijk_words |= (1<<AXIS_3); break;
+          case 'I':
+            word_bit = WORD_I; /* gc_block.values.ijk[AXIS_1] = value; ijk_words |= (1<<AXIS_1); break; */
+            if (AXIS_1_NAME == 'X') { gc_block.values.ijk[AXIS_1] = value; ijk_words |= (1<<AXIS_1); }
+            if (AXIS_2_NAME == 'X') { gc_block.values.ijk[AXIS_2] = value; ijk_words |= (1<<AXIS_2); }
+            if (AXIS_3_NAME == 'X') { gc_block.values.ijk[AXIS_3] = value; ijk_words |= (1<<AXIS_3); }
+            #ifdef AXIS_4
+              if (AXIS_4_NAME == 'X') { gc_block.values.ijk[AXIS_4] = value; ijk_words |= (1<<AXIS_4); }
+            #endif
+            #ifdef AXIS_5
+              if (AXIS_5_NAME == 'X') { gc_block.values.ijk[AXIS_5] = value; ijk_words |= (1<<AXIS_5); }
+            #endif
+            #ifdef AXIS_6
+              if (AXIS_6_NAME == 'X') { gc_block.values.ijk[AXIS_6] = value; ijk_words |= (1<<AXIS_6); }
+            #endif
+            break;
+          case 'J':
+            word_bit = WORD_J; /* gc_block.values.ijk[AXIS_2] = value; ijk_words |= (1<<AXIS_2); break; */
+            if (AXIS_1_NAME == 'Y') { gc_block.values.ijk[AXIS_1] = value; ijk_words |= (1<<AXIS_1); }
+            if (AXIS_2_NAME == 'Y') { gc_block.values.ijk[AXIS_2] = value; ijk_words |= (1<<AXIS_2); }
+            if (AXIS_3_NAME == 'Y') { gc_block.values.ijk[AXIS_3] = value; ijk_words |= (1<<AXIS_3); }
+            #ifdef AXIS_4
+              if (AXIS_4_NAME == 'Y') { gc_block.values.ijk[AXIS_4] = value; ijk_words |= (1<<AXIS_4); }
+            #endif
+            #ifdef AXIS_5
+              if (AXIS_5_NAME == 'Y') { gc_block.values.ijk[AXIS_5] = value; ijk_words |= (1<<AXIS_5); }
+            #endif
+            #ifdef AXIS_6
+              if (AXIS_6_NAME == 'Y') { gc_block.values.ijk[AXIS_6] = value; ijk_words |= (1<<AXIS_6); }
+            #endif
+            break;
+          case 'K':
+            word_bit = WORD_K; /* gc_block.values.ijk[AXIS_3] = value; ijk_words |= (1<<AXIS_3); break; */
+            if (AXIS_1_NAME == 'Z') { gc_block.values.ijk[AXIS_1] = value; ijk_words |= (1<<AXIS_1); }
+            if (AXIS_2_NAME == 'Z') { gc_block.values.ijk[AXIS_2] = value; ijk_words |= (1<<AXIS_2); }
+            if (AXIS_3_NAME == 'Z') { gc_block.values.ijk[AXIS_3] = value; ijk_words |= (1<<AXIS_3); }
+            #ifdef AXIS_4
+              if (AXIS_4_NAME == 'Z') { gc_block.values.ijk[AXIS_4] = value; ijk_words |= (1<<AXIS_4); }
+            #endif
+            #ifdef AXIS_5
+              if (AXIS_5_NAME == 'Z') { gc_block.values.ijk[AXIS_5] = value; ijk_words |= (1<<AXIS_5); }
+            #endif
+            #ifdef AXIS_6
+              if (AXIS_6_NAME == 'Z') { gc_block.values.ijk[AXIS_6] = value; ijk_words |= (1<<AXIS_6); }
+            #endif
+            break;
           case 'L': word_bit = WORD_L; gc_block.values.l = int_value; break;
           case 'N': word_bit = WORD_N; gc_block.values.n = trunc(value); break;
           case 'P': word_bit = WORD_P; gc_block.values.p = value; break;
@@ -482,20 +531,186 @@ uint8_t gc_execute_line(char *line)
   // [11. Set active plane ]: N/A
   switch (gc_block.modal.plane_select) {
     case PLANE_SELECT_XY:
-      axis_0 = AXIS_1;
+      /*axis_0 = AXIS_1;
       axis_1 = AXIS_2;
-      axis_linear = AXIS_3;
+      axis_linear = AXIS_3;*/
+      if (AXIS_1_NAME == 'X') { axis_0_mask |= (1<<AXIS_1); axis_0 = AXIS_1; }
+      if (AXIS_2_NAME == 'X') { axis_0_mask |= (1<<AXIS_2); axis_0 = AXIS_2; }
+      if (AXIS_3_NAME == 'X') { axis_0_mask |= (1<<AXIS_3); axis_0 = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'X') { axis_0_mask |= (1<<AXIS_4); axis_0 = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'X') { axis_0_mask |= (1<<AXIS_5); axis_0 = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'X') { axis_0_mask |= (1<<AXIS_6); axis_0 = AXIS_6; }
+      #endif
+
+      if (AXIS_1_NAME == 'Y') { axis_1_mask |= (1<<AXIS_1); axis_1 = AXIS_1; }
+      if (AXIS_2_NAME == 'Y') { axis_1_mask |= (1<<AXIS_2); axis_1 = AXIS_2; }
+      if (AXIS_3_NAME == 'Y') { axis_1_mask |= (1<<AXIS_3); axis_1 = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'Y') { axis_1_mask |= (1<<AXIS_4); axis_1 = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'Y') { axis_1_mask |= (1<<AXIS_5); axis_1 = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'Y') { axis_1_mask |= (1<<AXIS_6); axis_1 = AXIS_6; }
+      #endif
+
+      if (AXIS_1_NAME == 'Z') { axis_linear_mask |= (1<<AXIS_1); axis_linear = AXIS_1; }
+      if (AXIS_2_NAME == 'Z') { axis_linear_mask |= (1<<AXIS_2); axis_linear = AXIS_2; }
+      if (AXIS_3_NAME == 'Z') { axis_linear_mask |= (1<<AXIS_3); axis_linear = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'Z') { axis_linear_mask |= (1<<AXIS_4); axis_linear = AXIS_4; }
+        else if (AXIS_4_NAME == 'A') { axis_a_mask |= (1<<AXIS_4); axis_a = AXIS_4; }
+        else if (AXIS_4_NAME == 'B') { axis_b_mask |= (1<<AXIS_4); axis_b = AXIS_4; }
+        else if (AXIS_4_NAME == 'C') { axis_c_mask |= (1<<AXIS_4); axis_c = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'Z') { axis_linear_mask |= (1<<AXIS_5); axis_linear = AXIS_5; }
+        else if (AXIS_5_NAME == 'A') { axis_a_mask |= (1<<AXIS_5); axis_a = AXIS_5; }
+        else if (AXIS_5_NAME == 'B') { axis_b_mask |= (1<<AXIS_5); axis_b = AXIS_5; }
+        else if (AXIS_5_NAME == 'C') { axis_c_mask |= (1<<AXIS_5); axis_c = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'Z') { axis_linear_mask |= (1<<AXIS_6); axis_linear = AXIS_6; }
+        else if (AXIS_6_NAME == 'A') { axis_a_mask |= (1<<AXIS_6); axis_a = AXIS_6; }
+        else if (AXIS_6_NAME == 'B') { axis_b_mask |= (1<<AXIS_6); axis_b = AXIS_6; }
+        else if (AXIS_6_NAME == 'C') { axis_c_mask |= (1<<AXIS_6); axis_c = AXIS_6; }
+      #endif
       break;
+
     case PLANE_SELECT_ZX:
-      axis_0 = AXIS_3;
+      /*axis_0 = AXIS_3;
       axis_1 = AXIS_1;
-      axis_linear = AXIS_2;
+      axis_linear = AXIS_2;*/
+      if (AXIS_1_NAME == 'Z') { axis_0_mask |= (1<<AXIS_1); axis_0 = AXIS_1; }
+      if (AXIS_2_NAME == 'Z') { axis_0_mask |= (1<<AXIS_2); axis_0 = AXIS_2; }
+      if (AXIS_3_NAME == 'Z') { axis_0_mask |= (1<<AXIS_3); axis_0 = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'Z') { axis_0_mask |= (1<<AXIS_4); axis_0 = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'Z') { axis_0_mask |= (1<<AXIS_5); axis_0 = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'Z') { axis_0_mask |= (1<<AXIS_6); axis_0 = AXIS_6; }
+      #endif
+
+      if (AXIS_1_NAME == 'X') { axis_1_mask |= (1<<AXIS_1); axis_1 = AXIS_1; }
+      if (AXIS_2_NAME == 'X') { axis_1_mask |= (1<<AXIS_2); axis_1 = AXIS_2; }
+      if (AXIS_3_NAME == 'X') { axis_1_mask |= (1<<AXIS_3); axis_1 = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'X') { axis_1_mask |= (1<<AXIS_4); axis_1 = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'X') { axis_1_mask |= (1<<AXIS_5); axis_1 = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'X') { axis_1_mask |= (1<<AXIS_6); axis_1 = AXIS_6; }
+      #endif
+
+      if (AXIS_1_NAME == 'Y') { axis_linear_mask |= (1<<AXIS_1); axis_linear = AXIS_1; }
+      if (AXIS_2_NAME == 'Y') { axis_linear_mask |= (1<<AXIS_2); axis_linear = AXIS_2; }
+      if (AXIS_3_NAME == 'Y') { axis_linear_mask |= (1<<AXIS_3); axis_linear = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'Y') { axis_linear_mask |= (1<<AXIS_4); axis_linear = AXIS_4; }
+        else if (AXIS_4_NAME == 'A') { axis_a_mask |= (1<<AXIS_4); axis_a = AXIS_4; }
+        else if (AXIS_4_NAME == 'B') { axis_b_mask |= (1<<AXIS_4); axis_b = AXIS_4; }
+        else if (AXIS_4_NAME == 'C') { axis_c_mask |= (1<<AXIS_4); axis_c = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'Y') { axis_linear_mask |= (1<<AXIS_5); axis_linear = AXIS_5; }
+        else if (AXIS_5_NAME == 'A') { axis_a_mask |= (1<<AXIS_5); axis_a = AXIS_5; }
+        else if (AXIS_5_NAME == 'B') { axis_b_mask |= (1<<AXIS_5); axis_b = AXIS_5; }
+        else if (AXIS_5_NAME == 'C') { axis_c_mask |= (1<<AXIS_5); axis_c = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'Y') { axis_linear_mask |= (1<<AXIS_6); axis_linear = AXIS_6; }
+        else if (AXIS_6_NAME == 'A') { axis_a_mask |= (1<<AXIS_6); axis_a = AXIS_6; }
+        else if (AXIS_6_NAME == 'B') { axis_b_mask |= (1<<AXIS_6); axis_b = AXIS_6; }
+        else if (AXIS_6_NAME == 'C') { axis_c_mask |= (1<<AXIS_6); axis_c = AXIS_6; }
+      #endif
       break;
+
     default: // case PLANE_SELECT_YZ:
-      axis_0 = AXIS_2;
+      /*axis_0 = AXIS_2;
       axis_1 = AXIS_3;
-      axis_linear = AXIS_1;
+      axis_linear = AXIS_1;*/
+      if (AXIS_1_NAME == 'Y') { axis_0_mask |= (1<<AXIS_1); axis_0 = AXIS_1; }
+      if (AXIS_2_NAME == 'Y') { axis_0_mask |= (1<<AXIS_2); axis_0 = AXIS_2; }
+      if (AXIS_3_NAME == 'Y') { axis_0_mask |= (1<<AXIS_3); axis_0 = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'Y') { axis_0_mask |= (1<<AXIS_4); axis_0 = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'Y') { axis_0_mask |= (1<<AXIS_5); axis_0 = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'Y') { axis_0_mask |= (1<<AXIS_6); axis_0 = AXIS_6; }
+      #endif
+
+      if (AXIS_1_NAME == 'Z') { axis_1_mask |= (1<<AXIS_1); axis_1 = AXIS_1; }
+      if (AXIS_2_NAME == 'Z') { axis_1_mask |= (1<<AXIS_2); axis_1 = AXIS_2; }
+      if (AXIS_3_NAME == 'Z') { axis_1_mask |= (1<<AXIS_3); axis_1 = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'Z') { axis_1_mask |= (1<<AXIS_4); axis_1 = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'Z') { axis_1_mask |= (1<<AXIS_5); axis_1 = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'Z') { axis_1_mask |= (1<<AXIS_6); axis_1 = AXIS_6; }
+      #endif
+
+      if (AXIS_1_NAME == 'X') { axis_linear_mask |= (1<<AXIS_1); axis_linear = AXIS_1; }
+      if (AXIS_2_NAME == 'X') { axis_linear_mask |= (1<<AXIS_2); axis_linear = AXIS_2; }
+      if (AXIS_3_NAME == 'X') { axis_linear_mask |= (1<<AXIS_3); axis_linear = AXIS_3; }
+      #ifdef AXIS_4
+        if (AXIS_4_NAME == 'X') { axis_linear_mask |= (1<<AXIS_4); axis_linear = AXIS_4; }
+        else if (AXIS_4_NAME == 'A') { axis_a_mask |= (1<<AXIS_4); axis_a = AXIS_4; }
+        else if (AXIS_4_NAME == 'B') { axis_b_mask |= (1<<AXIS_4); axis_b = AXIS_4; }
+        else if (AXIS_4_NAME == 'C') { axis_c_mask |= (1<<AXIS_4); axis_c = AXIS_4; }
+      #endif
+      #ifdef AXIS_5
+        if (AXIS_5_NAME == 'X') { axis_linear_mask |= (1<<AXIS_5); axis_linear = AXIS_5; }
+        else if (AXIS_5_NAME == 'A') { axis_a_mask |= (1<<AXIS_5); axis_a = AXIS_5; }
+        else if (AXIS_5_NAME == 'B') { axis_b_mask |= (1<<AXIS_5); axis_b = AXIS_5; }
+        else if (AXIS_5_NAME == 'C') { axis_c_mask |= (1<<AXIS_5); axis_c = AXIS_5; }
+      #endif
+      #ifdef AXIS_6
+        if (AXIS_6_NAME == 'X') { axis_linear_mask |= (1<<AXIS_6); axis_linear = AXIS_6; }
+        else if (AXIS_6_NAME == 'A') { axis_a_mask |= (1<<AXIS_6); axis_a = AXIS_6; }
+        else if (AXIS_6_NAME == 'B') { axis_b_mask |= (1<<AXIS_6); axis_b = AXIS_6; }
+        else if (AXIS_6_NAME == 'C') { axis_c_mask |= (1<<AXIS_6); axis_c = AXIS_6; }
+      #endif
+
   }
+
+  // Pour debug
+  #ifdef DEBUG
+    printPgmString(PSTR("axis_0_mask      = "));
+    print_uint8_base2_ndigit(axis_0_mask, 8);
+    printPgmString(PSTR("\r\n"));
+    printPgmString(PSTR("axis_1_mask      = "));
+    print_uint8_base2_ndigit(axis_1_mask, 8);
+    printPgmString(PSTR("\r\n"));
+    printPgmString(PSTR("axis_linear_mask = "));
+    print_uint8_base2_ndigit(axis_linear_mask, 8);
+    printPgmString(PSTR("\r\n"));
+    printPgmString(PSTR("axis_a_mask      = "));
+    print_uint8_base2_ndigit(axis_a_mask, 8);
+    printPgmString(PSTR("\r\n"));
+    printPgmString(PSTR("axis_b_mask      = "));
+    print_uint8_base2_ndigit(axis_b_mask, 8);
+    printPgmString(PSTR("\r\n"));
+    printPgmString(PSTR("axis_c_mask      = "));
+    print_uint8_base2_ndigit(axis_c_mask, 8);
+    printPgmString(PSTR("\r\n"));
+  #endif
 
   // [12. Set length units ]: N/A
   // Pre-convert XYZ coordinate values to millimeters, if applicable.
@@ -808,8 +1023,90 @@ uint8_t gc_execute_line(char *line)
                 gc_block.values.r = -gc_block.values.r; // Finished with r. Set to positive for mc_arc
             }
             // Complete the operation by calculating the actual center of the arc
-            gc_block.values.ijk[axis_0] = 0.5*(x-(y*h_x2_div_d));
-            gc_block.values.ijk[axis_1] = 0.5*(y+(x*h_x2_div_d));
+            /*gc_block.values.ijk[axis_0] = 0.5*(x-(y*h_x2_div_d));
+            gc_block.values.ijk[axis_1] = 0.5*(y+(x*h_x2_div_d));*/
+            switch (gc_block.modal.plane_select) {
+              case PLANE_SELECT_XY:
+                if (AXIS_1_NAME == 'X') { gc_block.values.ijk[AXIS_1] = 0.5*(x-(y*h_x2_div_d)); }
+                if (AXIS_2_NAME == 'X') { gc_block.values.ijk[AXIS_2] = 0.5*(x-(y*h_x2_div_d)); }
+                if (AXIS_3_NAME == 'X') { gc_block.values.ijk[AXIS_3] = 0.5*(x-(y*h_x2_div_d)); }
+                #ifdef AXIS_4
+                  if (AXIS_4_NAME == 'X') { gc_block.values.ijk[AXIS_4] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_5
+                  if (AXIS_5_NAME == 'X') { gc_block.values.ijk[AXIS_5] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_6
+                  if (AXIS_6_NAME == 'X') { gc_block.values.ijk[AXIS_6] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                if (AXIS_1_NAME == 'Y') { gc_block.values.ijk[AXIS_1] = 0.5*(y+(x*h_x2_div_d)); }
+                if (AXIS_2_NAME == 'Y') { gc_block.values.ijk[AXIS_2] = 0.5*(y+(x*h_x2_div_d)); }
+                if (AXIS_3_NAME == 'Y') { gc_block.values.ijk[AXIS_3] = 0.5*(y+(x*h_x2_div_d)); }
+                #ifdef AXIS_4
+                  if (AXIS_4_NAME == 'Y') { gc_block.values.ijk[AXIS_4] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_5
+                  if (AXIS_5_NAME == 'Y') { gc_block.values.ijk[AXIS_5] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_6
+                  if (AXIS_6_NAME == 'Y') { gc_block.values.ijk[AXIS_6] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                break;
+
+              case PLANE_SELECT_ZX:
+                if (AXIS_1_NAME == 'Z') { gc_block.values.ijk[AXIS_1] = 0.5*(x-(y*h_x2_div_d)); }
+                if (AXIS_2_NAME == 'Z') { gc_block.values.ijk[AXIS_2] = 0.5*(x-(y*h_x2_div_d)); }
+                if (AXIS_3_NAME == 'Z') { gc_block.values.ijk[AXIS_3] = 0.5*(x-(y*h_x2_div_d)); }
+                #ifdef AXIS_4
+                  if (AXIS_4_NAME == 'Z') { gc_block.values.ijk[AXIS_4] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_5
+                  if (AXIS_5_NAME == 'Z') { gc_block.values.ijk[AXIS_5] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_6
+                  if (AXIS_6_NAME == 'Z') { gc_block.values.ijk[AXIS_6] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                if (AXIS_1_NAME == 'X') { gc_block.values.ijk[AXIS_1] = 0.5*(y+(x*h_x2_div_d)); }
+                if (AXIS_2_NAME == 'X') { gc_block.values.ijk[AXIS_2] = 0.5*(y+(x*h_x2_div_d)); }
+                if (AXIS_3_NAME == 'X') { gc_block.values.ijk[AXIS_3] = 0.5*(y+(x*h_x2_div_d)); }
+                #ifdef AXIS_4
+                  if (AXIS_4_NAME == 'X') { gc_block.values.ijk[AXIS_4] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_5
+                  if (AXIS_5_NAME == 'X') { gc_block.values.ijk[AXIS_5] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_6
+                  if (AXIS_6_NAME == 'X') { gc_block.values.ijk[AXIS_6] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                break;
+
+              default: // case PLANE_SELECT_YZ:
+                if (AXIS_1_NAME == 'Y') { gc_block.values.ijk[AXIS_1] = 0.5*(x-(y*h_x2_div_d)); }
+                if (AXIS_2_NAME == 'Y') { gc_block.values.ijk[AXIS_2] = 0.5*(x-(y*h_x2_div_d)); }
+                if (AXIS_3_NAME == 'Y') { gc_block.values.ijk[AXIS_3] = 0.5*(x-(y*h_x2_div_d)); }
+                #ifdef AXIS_4
+                  if (AXIS_4_NAME == 'Y') { gc_block.values.ijk[AXIS_4] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_5
+                  if (AXIS_5_NAME == 'Y') { gc_block.values.ijk[AXIS_5] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_6
+                  if (AXIS_6_NAME == 'Y') { gc_block.values.ijk[AXIS_6] = 0.5*(x-(y*h_x2_div_d)); }
+                #endif
+                if (AXIS_1_NAME == 'Z') { gc_block.values.ijk[AXIS_1] = 0.5*(y+(x*h_x2_div_d)); }
+                if (AXIS_2_NAME == 'Z') { gc_block.values.ijk[AXIS_2] = 0.5*(y+(x*h_x2_div_d)); }
+                if (AXIS_3_NAME == 'Z') { gc_block.values.ijk[AXIS_3] = 0.5*(y+(x*h_x2_div_d)); }
+                #ifdef AXIS_4
+                  if (AXIS_4_NAME == 'Z') { gc_block.values.ijk[AXIS_4] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_5
+                  if (AXIS_5_NAME == 'Z') { gc_block.values.ijk[AXIS_5] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+                #ifdef AXIS_6
+                  if (AXIS_6_NAME == 'Z') { gc_block.values.ijk[AXIS_6] = 0.5*(y+(x*h_x2_div_d)); }
+                #endif
+
+            }
 
           } else { // Arc Center Format Offset Mode
             if (!(ijk_words & (bit(axis_0)|bit(axis_1)))) { FAIL(STATUS_GCODE_NO_OFFSETS_IN_PLANE); } // [No offsets in plane]
@@ -1090,8 +1387,11 @@ uint8_t gc_execute_line(char *line)
         pl_data->condition |= PL_COND_FLAG_RAPID_MOTION; // Set rapid motion condition flag.
         mc_line(gc_block.values.xyz, pl_data);
       } else if ((gc_state.modal.motion == MOTION_MODE_CW_ARC) || (gc_state.modal.motion == MOTION_MODE_CCW_ARC)) {
+        // GBGB TODO : Revoir mc_arc() pour le clonage et le renomage des axes...
         mc_arc(gc_block.values.xyz, pl_data, gc_state.position, gc_block.values.ijk, gc_block.values.r,
-            axis_0, axis_1, axis_linear, bit_istrue(gc_parser_flags,GC_PARSER_ARC_IS_CLOCKWISE));
+            axis_0, axis_1, axis_linear, axis_0_mask, axis_1_mask, axis_linear_mask,
+            axis_a, axis_b, axis_c, axis_a_mask, axis_b_mask, axis_c_mask,
+            bit_istrue(gc_parser_flags,GC_PARSER_ARC_IS_CLOCKWISE));
       } else {
         // NOTE: gc_block.values.xyz is returned from mc_probe_cycle with the updated position value. So
         // upon a successful probing cycle, the machine position and the returned value should be the same.
