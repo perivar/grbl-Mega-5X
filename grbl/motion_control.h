@@ -29,18 +29,6 @@
 #define PARKING_MOTION_LINE_NUMBER 0
 
 #define HOMING_CYCLE_ALL  0  // Must be zero.
-#define HOMING_CYCLE_X    bit(AXIS_1)
-#define HOMING_CYCLE_Y    bit(AXIS_2)
-#define HOMING_CYCLE_Z    bit(AXIS_3)
-#if N_AXIS > 3
-  #define HOMING_CYCLE_A    bit(AXIS_4)
-#endif
-#if N_AXIS > 4
-  #define HOMING_CYCLE_B   bit(AXIS_5)
-#endif
-#if N_AXIS > 5
-  #define HOMING_CYCLE_C    bit(AXIS_6)
-#endif
 
 // Execute linear motion in absolute millimeter coordinates. Feed rate given in millimeters/second
 // unless invert_feed_rate is true. Then the feed_rate means that the motion should be completed in

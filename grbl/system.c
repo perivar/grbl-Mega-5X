@@ -174,18 +174,30 @@ uint8_t system_execute_line(char *line)
           #ifdef HOMING_SINGLE_AXIS_COMMANDS
             } else if (line[3] == 0) {
               switch (line[2]) {
-                case 'X': mc_homing_cycle(HOMING_CYCLE_X); break;
-                case 'Y': mc_homing_cycle(HOMING_CYCLE_Y); break;
-                case 'Z': mc_homing_cycle(HOMING_CYCLE_Z); break;
-              #if N_AXIS > 3
-                case AXIS_4_NAME: mc_homing_cycle(HOMING_CYCLE_4); break;
-              #endif
-              #if N_AXIS > 4
-                case AXIS_5_NAME: mc_homing_cycle(HOMING_CYCLE_5); break;
-              #endif
-              #if N_AXIS > 5
-                case AXIS_6_NAME: mc_homing_cycle(HOMING_CYCLE_6); break;
-              #endif
+                case 'X': mc_homing_cycle(axis_X_mask); break;
+                case 'Y': mc_homing_cycle(axis_Y_mask); break;
+                case 'Z': mc_homing_cycle(axis_Z_mask); break;
+                case 'A':
+                  if (axis_A_mask != 0) {
+                    mc_homing_cycle(axis_A_mask);
+                  } else {
+                    return(STATUS_INVALID_STATEMENT);
+                  }
+                  break;
+                case 'B':
+                  if (axis_B_mask != 0) {
+                    mc_homing_cycle(axis_B_mask);
+                  } else {
+                    return(STATUS_INVALID_STATEMENT);
+                  }
+                  break;
+                case 'C':
+                  if (axis_C_mask != 0) {
+                    mc_homing_cycle(axis_C_mask);
+                  } else {
+                    return(STATUS_INVALID_STATEMENT);
+                  }
+                  break;
                 default: return(STATUS_INVALID_STATEMENT);
               }
           #endif
