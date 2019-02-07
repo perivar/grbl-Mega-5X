@@ -198,6 +198,27 @@ uint8_t system_execute_line(char *line)
                     return(STATUS_INVALID_STATEMENT);
                   }
                   break;
+                case 'U':
+                  if (axis_U_mask != 0) {
+                    mc_homing_cycle(axis_U_mask);
+                  } else {
+                    return(STATUS_INVALID_STATEMENT);
+                  }
+                  break;
+                case 'V':
+                  if (axis_V_mask != 0) {
+                    mc_homing_cycle(axis_V_mask);
+                  } else {
+                    return(STATUS_INVALID_STATEMENT);
+                  }
+                  break;
+                case 'W':
+                  if (axis_W_mask != 0) {
+                    mc_homing_cycle(axis_W_mask);
+                  } else {
+                    return(STATUS_INVALID_STATEMENT);
+                  }
+                  break;
                 default: return(STATUS_INVALID_STATEMENT);
               }
           #endif

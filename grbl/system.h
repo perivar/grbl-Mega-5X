@@ -156,6 +156,9 @@ extern uint8_t axis_Z_mask; // Global mask for axis Z bits
 extern uint8_t axis_A_mask; // Global mask for axis A bits
 extern uint8_t axis_B_mask; // Global mask for axis B bits
 extern uint8_t axis_C_mask; // Global mask for axis C bits
+extern uint8_t axis_U_mask; // Global mask for axis A bits
+extern uint8_t axis_V_mask; // Global mask for axis B bits
+extern uint8_t axis_W_mask; // Global mask for axis C bits
 #ifdef DEBUG
   #define EXEC_DEBUG_REPORT  bit(0)
   extern volatile uint8_t sys_rt_exec_debug;

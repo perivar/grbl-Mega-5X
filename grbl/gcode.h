@@ -137,24 +137,27 @@
 // N/A: Stores coordinate system value (54-59) to change to.
 
 // Define parameter word mapping.
-#define WORD_F  0
-#define WORD_I  1
-#define WORD_J  2
-#define WORD_K  3
-#define WORD_L  4
-#define WORD_N  5
-#define WORD_P  6
-#define WORD_R  7
-#define WORD_S  8
-#define WORD_T  9
-#define WORD_X  10
-#define WORD_Y  11
-#define WORD_Z  12
-#if N_AXIS > 3
-  #define WORD_A 13
-  #define WORD_B 14
-  #define WORD_C 15
-#endif
+// Updated to 32 bits tou support more than 16 values... Needed for new axis U, V & W
+#define DWORD_F  0
+#define DWORD_I  1
+#define DWORD_J  2
+#define DWORD_K  3
+#define DWORD_L  4
+#define DWORD_N  5
+#define DWORD_P  6
+#define DWORD_R  7
+#define DWORD_S  8
+#define DWORD_T  9
+#define DWORD_X 10
+#define DWORD_Y 11
+#define DWORD_Z 12
+#define DWORD_A 13
+#define DWORD_B 14
+#define DWORD_C 15
+#define DWORD_U 16
+#define DWORD_V 17
+#define DWORD_W 18
+
 // Define g-code parser position updating flags
 #define GC_UPDATE_POS_TARGET   0 // Must be zero
 #define GC_UPDATE_POS_SYSTEM   1

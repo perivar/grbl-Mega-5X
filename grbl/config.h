@@ -57,7 +57,7 @@
 #endif
 
 #define AXIS_1 0        // Axis indexing value. Must start with 0 and be continuous.
-#define AXIS_1_NAME 'X'
+#define AXIS_1_NAME 'X' // Axis names must be in X, Y, Z, A, B, C, U, V & W.
 #define AXIS_2 1
 #define AXIS_2_NAME 'Y'
 #define AXIS_3 2

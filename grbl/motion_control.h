@@ -42,6 +42,7 @@ void mc_line(float *target, plan_line_data_t *pl_data);
 void mc_arc(float *target, plan_line_data_t *pl_data, float *position, float *offset, float radius,
   uint8_t axis_0, uint8_t axis_1, uint8_t axis_linear, uint8_t axis_0_mask, uint8_t axis_1_mask, uint8_t axis_linear_mask,
   uint8_t axis_a, uint8_t axis_b, uint8_t axis_c, uint8_t axis_a_mask, uint8_t axis_b_mask, uint8_t axis_c_mask,
+  uint8_t axis_u, uint8_t axis_v, uint8_t axis_w, uint8_t axis_u_mask, uint8_t axis_v_mask, uint8_t axis_w_mask,
   uint8_t is_clockwise_arc);
 
 // Dwell for a specific number of seconds

@@ -37,6 +37,9 @@ uint8_t axis_Z_mask = 0; // Global mask for axis Z bits
 uint8_t axis_A_mask = 0; // Global mask for axis A bits
 uint8_t axis_B_mask = 0; // Global mask for axis B bits
 uint8_t axis_C_mask = 0; // Global mask for axis C bits
+uint8_t axis_U_mask = 0; // Global mask for axis C bits
+uint8_t axis_V_mask = 0; // Global mask for axis C bits
+uint8_t axis_W_mask = 0; // Global mask for axis C bits
 #ifdef DEBUG
   volatile uint8_t sys_rt_exec_debug;
 #endif
@@ -50,7 +53,7 @@ int main(void)
   stepper_init();  // Configure stepper pins and interrupt timers
   system_init();   // Configure pinout pins and pin-change interrupt
 
-  // Initialize axis mask bits (ability to axis renaming ans cloning)
+  // Initialize axis mask bits (ability to axis renaming and cloning)
   if (AXIS_1_NAME == 'X') axis_X_mask |= (1<<AXIS_1);
   if (AXIS_2_NAME == 'X') axis_X_mask |= (1<<AXIS_2);
   if (AXIS_3_NAME == 'X') axis_X_mask |= (1<<AXIS_3);
@@ -63,6 +66,7 @@ int main(void)
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'X') axis_X_mask |= (1<<AXIS_6);
   #endif
+
   if (AXIS_1_NAME == 'Y') axis_Y_mask |= (1<<AXIS_1);
   if (AXIS_2_NAME == 'Y') axis_Y_mask |= (1<<AXIS_2);
   if (AXIS_3_NAME == 'Y') axis_Y_mask |= (1<<AXIS_3);
@@ -75,6 +79,7 @@ int main(void)
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'Y') axis_Y_mask |= (1<<AXIS_6);
   #endif
+
   if (AXIS_1_NAME == 'Z') axis_Z_mask |= (1<<AXIS_1);
   if (AXIS_2_NAME == 'Z') axis_Z_mask |= (1<<AXIS_2);
   if (AXIS_3_NAME == 'Z') axis_Z_mask |= (1<<AXIS_3);
@@ -87,6 +92,7 @@ int main(void)
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'Z') axis_Z_mask |= (1<<AXIS_6);
   #endif
+
   if (AXIS_1_NAME == 'A') axis_A_mask |= (1<<AXIS_1);
   if (AXIS_2_NAME == 'A') axis_A_mask |= (1<<AXIS_2);
   if (AXIS_3_NAME == 'A') axis_A_mask |= (1<<AXIS_3);
@@ -99,6 +105,7 @@ int main(void)
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'A') axis_A_mask |= (1<<AXIS_6);
   #endif
+
   if (AXIS_1_NAME == 'B') axis_B_mask |= (1<<AXIS_1);
   if (AXIS_2_NAME == 'B') axis_B_mask |= (1<<AXIS_2);
   if (AXIS_3_NAME == 'B') axis_B_mask |= (1<<AXIS_3);
@@ -111,6 +118,7 @@ int main(void)
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'B') axis_B_mask |= (1<<AXIS_6);
   #endif
+
   if (AXIS_1_NAME == 'C') axis_C_mask |= (1<<AXIS_1);
   if (AXIS_2_NAME == 'C') axis_C_mask |= (1<<AXIS_2);
   if (AXIS_3_NAME == 'C') axis_C_mask |= (1<<AXIS_3);
@@ -122,6 +130,45 @@ int main(void)
   #endif
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'C') axis_C_mask |= (1<<AXIS_6);
+  #endif
+
+  if (AXIS_1_NAME == 'U') axis_U_mask |= (1<<AXIS_1);
+  if (AXIS_2_NAME == 'U') axis_U_mask |= (1<<AXIS_2);
+  if (AXIS_3_NAME == 'U') axis_U_mask |= (1<<AXIS_3);
+  #ifdef AXIS_4
+    if (AXIS_4_NAME == 'U') axis_U_mask |= (1<<AXIS_4);
+  #endif
+  #ifdef AXIS_5
+    if (AXIS_5_NAME == 'U') axis_U_mask |= (1<<AXIS_5);
+  #endif
+  #ifdef AXIS_6
+    if (AXIS_6_NAME == 'U') axis_U_mask |= (1<<AXIS_6);
+  #endif
+
+  if (AXIS_1_NAME == 'V') axis_V_mask |= (1<<AXIS_1);
+  if (AXIS_2_NAME == 'V') axis_V_mask |= (1<<AXIS_2);
+  if (AXIS_3_NAME == 'V') axis_V_mask |= (1<<AXIS_3);
+  #ifdef AXIS_4
+    if (AXIS_4_NAME == 'V') axis_V_mask |= (1<<AXIS_4);
+  #endif
+  #ifdef AXIS_5
+    if (AXIS_5_NAME == 'V') axis_V_mask |= (1<<AXIS_5);
+  #endif
+  #ifdef AXIS_6
+    if (AXIS_6_NAME == 'V') axis_V_mask |= (1<<AXIS_6);
+  #endif
+
+  if (AXIS_1_NAME == 'W') axis_W_mask |= (1<<AXIS_1);
+  if (AXIS_2_NAME == 'W') axis_W_mask |= (1<<AXIS_2);
+  if (AXIS_3_NAME == 'W') axis_W_mask |= (1<<AXIS_3);
+  #ifdef AXIS_4
+    if (AXIS_4_NAME == 'W') axis_W_mask |= (1<<AXIS_4);
+  #endif
+  #ifdef AXIS_5
+    if (AXIS_5_NAME == 'W') axis_W_mask |= (1<<AXIS_5);
+  #endif
+  #ifdef AXIS_6
+    if (AXIS_6_NAME == 'W') axis_W_mask |= (1<<AXIS_6);
   #endif
 
   memset(sys_position,0,sizeof(sys_position)); // Clear machine position.

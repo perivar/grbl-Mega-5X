@@ -53,6 +53,7 @@
 
 // Bit field and masking macros
 #define bit(n) (1 << n)
+#define dwbit(n) ((uint32_t)1 << n)
 #define bit_true(x,mask) (x) |= (mask)
 #define bit_false(x,mask) (x) &= ~(mask)
 #define bit_istrue(x,mask) ((x & mask) != 0)
