@@ -439,6 +439,8 @@ void report_build_info(char *line)
   print_uint8_base10(BLOCK_BUFFER_SIZE-1);
   serial_write(',');
   print_uint8_base10(RX_BUFFER_SIZE);
+  serial_write(',');
+  print_uint8_base10(settings.flags);
 
   report_util_feedback_line_feed();
 }

@@ -22,7 +22,6 @@
 
 #include "grbl.h"
 
-
 // Homing axis search distance multiplier. Computed by this value times the cycle travel.
 #ifndef HOMING_AXIS_SEARCH_SCALAR
   #define HOMING_AXIS_SEARCH_SCALAR  1.5 // Must be > 1 to ensure limit switch will be engaged.
@@ -111,7 +110,7 @@ void limits_init()
         MAX_LIMIT_PORT(5) |= (1<<MAX_LIMIT_BIT(5));  // Enable internal pull-up resistors. Normal high operation.
       #endif
     #endif
-    #ifndef DISABLE_HW_LIMITS
+    #ifndef DISABLE_HW_LIMITS_INTERUPT
       if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
         LIMIT_PCMSK |= LIMIT_MASK; // Enable specific pins of the Pin Change Interrupt
         PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
@@ -123,7 +122,7 @@ void limits_init()
         WDTCSR |= (1<<WDCE) | (1<<WDE);
         WDTCSR = (1<<WDP0); // Set time-out at ~32msec.
       #endif
-    #endif // DISABLE_HW_LIMITS
+    #endif // DISABLE_HW_LIMITS_INTERUPT
   #else
     LIMIT_DDR &= ~(LIMIT_MASK); // Set as input pins
 
@@ -153,7 +152,7 @@ void limits_init()
 void limits_disable()
 {
   #ifdef DEFAULTS_RAMPS_BOARD
-    #ifndef DISABLE_HW_LIMITS
+    #ifndef DISABLE_HW_LIMITS_INTERUPT
      LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
      PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
     #endif
@@ -201,21 +200,24 @@ uint8_t limits_get_state()
     for (idx=0; idx<N_AXIS; idx++) {
       pin = *max_limit_pins[idx] & (1<<max_limit_bits[idx]);
       pin = !!pin;
-      if (bit_isfalse(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { pin = !pin; }
+      pin = !pin;
       #ifdef INVERT_MAX_LIMIT_PIN_MASK
         if (bit_istrue(INVERT_MAX_LIMIT_PIN_MASK, bit(idx))) { pin = !pin; }
       #endif
-      if (pin)
+      if (pin) {
         limit_state |= (1 << idx);
+      }
       pin = *min_limit_pins[idx] & (1<<min_limit_bits[idx]);
       pin = !!pin;
-      if (bit_isfalse(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { pin = !pin; }
+      pin = !pin;
       #ifdef INVERT_MIN_LIMIT_PIN_MASK
         if (bit_istrue(INVERT_MIN_LIMIT_PIN_MASK, bit(idx))) { pin = !pin; }
       #endif
-      if (pin)
+      if (pin) {
         limit_state |= (1 << idx);
+      }
     }
+    if (bit_istrue(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { limit_state = ~limit_state; }
     return(limit_state);
   #else
     uint8_t pin = (LIMIT_PIN & LIMIT_MASK);
@@ -234,7 +236,7 @@ uint8_t limits_get_state()
 }
 
 #ifdef DEFAULTS_RAMPS_BOARD
-  #ifndef DISABLE_HW_LIMITS
+  #ifndef DISABLE_HW_LIMITS_INTERUPT
     #error "HW limits are not implemented"
   #endif
 #else
