@@ -37,12 +37,84 @@ static void report_util_feedback_line_feed() { serial_write(']'); report_util_li
 static void report_util_gcode_modes_G() { printPgmString(PSTR(" G")); }
 static void report_util_gcode_modes_M() { printPgmString(PSTR(" M")); }
 // static void report_util_comment_line_feed() { serial_write(')'); report_util_line_feed(); }
+
 static void report_util_axis_values(float *axis_value) {
-  uint8_t idx;
-  for (idx=0; idx<N_AXIS; idx++) {
-    printFloat_CoordValue(axis_value[idx]);
-    if (idx < (N_AXIS-1)) { serial_write(','); }
-  }
+
+  #ifdef SORT_REPORT_BY_AXIS_NAME
+    extern uint8_t n_axis_report; // Global nombre de nom d'axes différents
+  #endif
+
+  #ifdef SORT_REPORT_BY_AXIS_NAME
+    char axis_name_order[] = AXIS_NAME_SORT_ORDER;
+    int8_t n_report = 0;
+  #endif
+
+  // If this option is enabled, the sorting order will be X, Y, Z, U, V, W, A, B and C.
+  // defined by AXIS_NAME_SORT_ORDER
+  #ifdef SORT_REPORT_BY_AXIS_NAME
+    // Output axis_names in order of AXIS_NAME_SORT_ORDER et traiter REPORT_VALUE_FOR_AXIS_NAME_ONCE
+    for (int i=0; i<9; i++) {
+      if (AXIS_1_NAME == axis_name_order[i]) {
+        printFloat_CoordValue(axis_value[0]);
+        n_report++;
+        if (n_report < (n_axis_report)) { serial_write(','); }
+        #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+          axis_name_order[i] = '\0';
+        #endif
+      }
+      if (AXIS_2_NAME == axis_name_order[i]) {
+        printFloat_CoordValue(axis_value[1]);
+        n_report++;
+        if (n_report < (n_axis_report)) { serial_write(','); }
+        #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+          axis_name_order[i] = '\0';
+        #endif
+      }
+      if (AXIS_3_NAME == axis_name_order[i]) {
+        printFloat_CoordValue(axis_value[2]);
+        n_report++;
+        if (n_report < (n_axis_report)) { serial_write(','); }
+        #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+          axis_name_order[i] = '\0';
+        #endif
+      }
+      #if N_AXIS >3
+        if (AXIS_4_NAME == axis_name_order[i]) {
+          printFloat_CoordValue(axis_value[3]);
+          n_report++;
+          if (n_report < (n_axis_report)) { serial_write(','); }
+          #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+            axis_name_order[i] = '\0';
+          #endif
+        }
+      #endif
+      #if N_AXIS >4
+        if (AXIS_5_NAME == axis_name_order[i]) {
+          printFloat_CoordValue(axis_value[4]);
+          n_report++;
+          if (n_report < (n_axis_report)) { serial_write(','); }
+          #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+            axis_name_order[i] = '\0';
+          #endif
+        }
+      #endif
+      #if N_AXIS >5
+        if (AXIS_6_NAME == axis_name_order[i]) {
+          printFloat_CoordValue(axis_value[5]);
+          n_report++;
+          if (n_report < (n_axis_report)) { serial_write(','); }
+          #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+            axis_name_order[i] = '\0';
+          #endif
+        }
+      #endif
+    }
+  #else // #ifdef SORT_REPORT_BY_AXIS_NAME
+    for (uint8_t idx=0; idx<N_AXIS; idx++) {
+      printFloat_CoordValue(axis_value[idx]);
+      if (idx < (N_AXIS-1)) { serial_write(','); }
+    }
+  #endif
 }
 
 /*
@@ -359,23 +431,79 @@ void report_execute_startup_message(char *line, uint8_t status_code)
 // Prints build info line
 void report_build_info(char *line)
 {
+  #ifdef SORT_REPORT_BY_AXIS_NAME
+    char axis_name_order[] = AXIS_NAME_SORT_ORDER;
+  #endif
+
   printPgmString(PSTR("[VER:" GRBL_VERSION "." GRBL_VERSION_BUILD ":"));
   printString(line);
   report_util_feedback_line_feed();
   printPgmString(PSTR("[AXS:"));
   print_uint8_base10(N_AXIS);
   printPgmString(PSTR(":"));
-  serial_write(AXIS_1_NAME);
-  serial_write(AXIS_2_NAME);
-  serial_write(AXIS_3_NAME);
-  #if N_AXIS > 3
-    serial_write(AXIS_4_NAME);
-  #endif
-  #if N_AXIS > 4
-    serial_write(AXIS_5_NAME);
-  #endif
-  #if N_AXIS > 5
-    serial_write(AXIS_6_NAME);
+
+  // If this option is enabled, the sorting order will be X, Y, Z, U, V, W, A, B and C.
+  // defined by AXIS_NAME_SORT_ORDER
+  #ifdef SORT_REPORT_BY_AXIS_NAME
+    // Output axis_names in order of AXIS_NAME_SORT_ORDER et traiter REPORT_VALUE_FOR_AXIS_NAME_ONCE
+    for (int i=0; i<9; i++) {
+      if (AXIS_1_NAME == axis_name_order[i]) {
+        serial_write(AXIS_1_NAME);
+        #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+          axis_name_order[i] = '\0';
+        #endif
+      }
+      if (AXIS_2_NAME == axis_name_order[i]) {
+        serial_write(AXIS_2_NAME);
+        #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+          axis_name_order[i] = '\0';
+        #endif
+      }
+      if (AXIS_3_NAME == axis_name_order[i]) {
+        serial_write(AXIS_3_NAME);
+        #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+          axis_name_order[i] = '\0';
+        #endif
+      }
+      #if N_AXIS > 3
+        if (AXIS_4_NAME == axis_name_order[i]) {
+          serial_write(AXIS_4_NAME);
+          #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+            axis_name_order[i] = '\0';
+          #endif
+        }
+      #endif
+      #if N_AXIS > 4
+        if (AXIS_5_NAME == axis_name_order[i]) {
+          serial_write(AXIS_5_NAME);
+          #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+            axis_name_order[i] = '\0';
+          #endif
+        }
+      #endif
+      #if N_AXIS > 5
+        if (AXIS_6_NAME == axis_name_order[i]) {
+          serial_write(AXIS_6_NAME);
+          #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+            axis_name_order[i] = '\0';
+          #endif
+        }
+      #endif
+    }
+  #else
+    // Output axis_names in order of axis number
+    serial_write(AXIS_1_NAME);
+    serial_write(AXIS_2_NAME);
+    serial_write(AXIS_3_NAME);
+    #if N_AXIS > 3
+      serial_write(AXIS_4_NAME);
+    #endif
+    #if N_AXIS > 4
+      serial_write(AXIS_5_NAME);
+    #endif
+    #if N_AXIS > 5
+      serial_write(AXIS_6_NAME);
+    #endif
   #endif
   report_util_feedback_line_feed();
   printPgmString(PSTR("[OPT:")); // Generate compile-time build option list

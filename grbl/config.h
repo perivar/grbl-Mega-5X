@@ -82,6 +82,31 @@
   #error "N_AXIS must be <= 6. N_AXIS > 6 is not implemented."
 #endif
 
+// Renaming axis doesn't change their number. By default, the status report give axis values in
+// the order of their number. Some graphical interface are not able to affect axis values reported
+// by Grbl to the corect axis name.
+// Uncomment to enable sorting of axis values by axis_names rather than by axis number. Default disabled.
+// If this option is enabled, the sorting order will be X, Y, Z, U, V, W, A, B and C as defined below.
+//#define SORT_REPORT_BY_AXIS_NAME
+//#define AXIS_NAME_SORT_ORDER {'X', 'Y', 'Z', 'U', 'V', 'W', 'A', 'B', 'C'}
+
+#ifdef SORT_REPORT_BY_AXIS_NAME
+  #ifndef AXIS_NAME_SORT_ORDER
+    #error You must define AXIS_NAME_SORT_ORDER to use SORT_REPORT_BY_AXIS_NAME
+  #endif
+#endif
+
+// By default, Grbl report all values of each axis. When cloning axis with more than one axis with
+// the same name, Grbl reports the values several times for the same axis_name if it is cloned.
+// Uncomment to enable report of axis values only one time by axis_names in case of clones axis.
+//#define REPORT_VALUE_FOR_AXIS_NAME_ONCE
+
+#ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+  #ifndef SORT_REPORT_BY_AXIS_NAME
+    #error You must define SORT_REPORT_BY_AXIS_NAME to use REPORT_VALUE_FOR_AXIS_NAME_ONCE
+  #endif
+#endif
+
 // Define realtime command special characters. These characters are 'picked-off' directly from the
 // serial read data stream and are not passed to the grbl line execution parser. Select characters
 // that do not and must not exist in the streamed g-code program. ASCII control characters may be

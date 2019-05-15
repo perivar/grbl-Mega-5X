@@ -43,7 +43,9 @@ uint8_t axis_W_mask = 0; // Global mask for axis C bits
 #ifdef DEBUG
   volatile uint8_t sys_rt_exec_debug;
 #endif
-
+#ifdef SORT_REPORT_BY_AXIS_NAME
+  uint8_t n_axis_report;
+#endif
 
 int main(void)
 {
@@ -169,6 +171,36 @@ int main(void)
   #endif
   #ifdef AXIS_6
     if (AXIS_6_NAME == 'W') axis_W_mask |= (1<<AXIS_6);
+  #endif
+
+  #ifdef SORT_REPORT_BY_AXIS_NAME
+    #ifdef REPORT_VALUE_FOR_AXIS_NAME_ONCE
+      // Calcule le nombre de nom d'axes différents à utiliser dans report.c
+      n_axis_report = 1; // Au moins le nom du premier axe
+      if (AXIS_2_NAME != AXIS_1_NAME) {
+        n_axis_report++;
+      }
+      if ((AXIS_3_NAME != AXIS_2_NAME) && (AXIS_3_NAME != AXIS_1_NAME)) {
+        n_axis_report++;
+      }
+      #if N_AXIS > 3
+        if ((AXIS_4_NAME != AXIS_3_NAME) && (AXIS_4_NAME != AXIS_2_NAME) && (AXIS_4_NAME != AXIS_1_NAME)) {
+          n_axis_report++;
+        }
+      #endif
+      #if N_AXIS > 4
+        if ((AXIS_5_NAME != AXIS_4_NAME) && (AXIS_5_NAME != AXIS_3_NAME) && (AXIS_5_NAME != AXIS_2_NAME) && (AXIS_5_NAME != AXIS_1_NAME)) {
+          n_axis_report++;
+        }
+      #endif
+      #if N_AXIS > 5
+        if ((AXIS_6_NAME != AXIS_5_NAME) && (AXIS_6_NAME != AXIS_4_NAME) && (AXIS_6_NAME != AXIS_3_NAME) && (AXIS_6_NAME != AXIS_2_NAME) && (AXIS_6_NAME != AXIS_1_NAME)) {
+          n_axis_report++;
+        }
+      #endif
+    #else
+      n_axis_report = N_AXIS;
+    #endif
   #endif
 
   memset(sys_position,0,sizeof(sys_position)); // Clear machine position.
