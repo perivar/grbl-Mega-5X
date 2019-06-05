@@ -759,8 +759,12 @@ void report_realtime_status()
 
 
 #ifdef DEBUG
-  void report_realtime_debug()
+  void report_realtime_debug(float val)
   {
+    printPgmString(PSTR("{report_realtime_debug("));
+    print_uint8_base10(val);
+    printPgmString(PSTR(")}"));
+    report_util_line_feed();
 
   }
 #endif

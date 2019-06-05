@@ -712,37 +712,6 @@ uint8_t gc_execute_line(char *line)
 
   }
 
-  // Pour debug
-  #ifdef DEBUG
-    printPgmString(PSTR("axis_0_mask      = "));
-    print_uint8_base2_ndigit(axis_0_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_1_mask      = "));
-    print_uint8_base2_ndigit(axis_1_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_linear_mask = "));
-    print_uint8_base2_ndigit(axis_linear_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_a_mask      = "));
-    print_uint8_base2_ndigit(axis_a_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_b_mask      = "));
-    print_uint8_base2_ndigit(axis_b_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_c_mask      = "));
-    print_uint8_base2_ndigit(axis_c_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_u_mask      = "));
-    print_uint8_base2_ndigit(axis_u_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_v_mask      = "));
-    print_uint8_base2_ndigit(axis_v_mask, 8);
-    printPgmString(PSTR("\r\n"));
-    printPgmString(PSTR("axis_w_mask      = "));
-    print_uint8_base2_ndigit(axis_w_mask, 8);
-    printPgmString(PSTR("\r\n"));
-  #endif
-
   // [12. Set length units ]: N/A
   // Pre-convert XYZ coordinate values to millimeters, if applicable.
   uint8_t idx;

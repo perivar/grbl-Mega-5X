@@ -112,18 +112,18 @@ uint8_t read_float(char *line, uint8_t *char_counter, float *float_ptr)
 // Non-blocking delay function used for general operation and suspend features.
 void delay_sec(float seconds, uint8_t mode)
 {
- 	uint16_t i = ceil(1000/DWELL_TIME_STEP*seconds);
-	while (i-- > 0) {
-		if (sys.abort) { return; }
-		if (mode == DELAY_MODE_DWELL) {
-			protocol_execute_realtime();
-		} else { // DELAY_MODE_SYS_SUSPEND
-		  // Execute rt_system() only to avoid nesting suspend loops.
-		  protocol_exec_rt_system();
-		  if (sys.suspend & SUSPEND_RESTART_RETRACT) { return; } // Bail, if safety door reopens.
-		}
-		_delay_ms(DWELL_TIME_STEP); // Delay DWELL_TIME_STEP increment
-	}
+  uint16_t i = ceil(1000/DWELL_TIME_STEP*seconds);
+  while (i-- > 0) {
+    if (sys.abort) { return; }
+    if (mode == DELAY_MODE_DWELL) {
+      protocol_execute_realtime();
+    } else { // DELAY_MODE_SYS_SUSPEND
+      // Execute rt_system() only to avoid nesting suspend loops.
+      protocol_exec_rt_system();
+      if (sys.suspend & SUSPEND_RESTART_RETRACT) { return; } // Bail, if safety door reopens.
+    }
+    _delay_ms(DWELL_TIME_STEP); // Delay DWELL_TIME_STEP increment
+  }
 }
 
 
@@ -164,11 +164,21 @@ float hypot_f(float x, float y) { return(sqrt(x*x + y*y)); }
 
 float convert_delta_vector_to_unit_vector(float *vector)
 {
-  uint8_t idx;
+  uint8_t idx, j;
+  bool isclone;
   float magnitude = 0.0;
   for (idx=0; idx<N_AXIS; idx++) {
+    isclone = false;
+    for (j=0; j<idx; j++) { // search if is a clone axis (same name than precedent axis)
+      if (axis_name[j] == axis_name[idx]) {
+        isclone = true;
+        break;
+      }
+    }
     if (vector[idx] != 0.0) {
-      magnitude += vector[idx]*vector[idx];
+      if (isclone == false) { // Avoid count axis multiple time in case of axis cloning
+        magnitude += vector[idx]*vector[idx];
+      }
     }
   }
   magnitude = sqrt(magnitude);

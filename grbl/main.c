@@ -40,6 +40,7 @@ uint8_t axis_C_mask = 0; // Global mask for axis C bits
 uint8_t axis_U_mask = 0; // Global mask for axis C bits
 uint8_t axis_V_mask = 0; // Global mask for axis C bits
 uint8_t axis_W_mask = 0; // Global mask for axis C bits
+unsigned char axis_name[N_AXIS]; // Global table of axis names
 #ifdef DEBUG
   volatile uint8_t sys_rt_exec_debug;
 #endif
@@ -56,121 +57,284 @@ int main(void)
   system_init();   // Configure pinout pins and pin-change interrupt
 
   // Initialize axis mask bits (ability to axis renaming and cloning)
-  if (AXIS_1_NAME == 'X') axis_X_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'X') axis_X_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'X') axis_X_mask |= (1<<AXIS_3);
+  // and global table of axis names.
+  if (AXIS_1_NAME == 'X') {
+    axis_X_mask |= (1<<AXIS_1);
+    axis_name[0] = 'X';
+  }
+  if (AXIS_2_NAME == 'X') {
+    axis_X_mask |= (1<<AXIS_2);
+    axis_name[1] = 'X';
+  }
+  if (AXIS_3_NAME == 'X') {
+    axis_X_mask |= (1<<AXIS_3);
+    axis_name[2] = 'X';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'X') axis_X_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'X') {
+      axis_X_mask |= (1<<AXIS_4);
+    axis_name[3] = 'X';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'X') axis_X_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'X') {
+      axis_X_mask |= (1<<AXIS_5);
+    axis_name[4] = 'X';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'X') axis_X_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'X') {
+      axis_X_mask |= (1<<AXIS_6);
+    axis_name[5] = 'X';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'Y') axis_Y_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'Y') axis_Y_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'Y') axis_Y_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'Y') {
+    axis_Y_mask |= (1<<AXIS_1);
+    axis_name[0] = 'Y';
+  }
+  if (AXIS_2_NAME == 'Y') {
+    axis_Y_mask |= (1<<AXIS_2);
+    axis_name[1] = 'Y';
+  }
+  if (AXIS_3_NAME == 'Y') {
+    axis_Y_mask |= (1<<AXIS_3);
+    axis_name[2] = 'Y';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'Y') axis_Y_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'Y') {
+      axis_Y_mask |= (1<<AXIS_4);
+      axis_name[3] = 'Y';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'Y') axis_Y_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'Y') {
+      axis_Y_mask |= (1<<AXIS_5);
+      axis_name[4] = 'Y';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'Y') axis_Y_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'Y') {
+      axis_Y_mask |= (1<<AXIS_6);
+      axis_name[5] = 'Y';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'Z') axis_Z_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'Z') axis_Z_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'Z') axis_Z_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'Z') {
+    axis_Z_mask |= (1<<AXIS_1);
+    axis_name[0] = 'Z';
+  }
+  if (AXIS_2_NAME == 'Z') {
+    axis_Z_mask |= (1<<AXIS_2);
+    axis_name[1] = 'Z';
+  }
+  if (AXIS_3_NAME == 'Z') {
+    axis_Z_mask |= (1<<AXIS_3);
+    axis_name[2] = 'Z';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'Z') axis_Z_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'Z') {
+      axis_Z_mask |= (1<<AXIS_4);
+      axis_name[3] = 'Z';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'Z') axis_Z_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'Z') {
+      axis_Z_mask |= (1<<AXIS_5);
+      axis_name[4] = 'Z';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'Z') axis_Z_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'Z') {
+      axis_Z_mask |= (1<<AXIS_6);
+      axis_name[5] = 'Z';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'A') axis_A_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'A') axis_A_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'A') axis_A_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'A') {
+    axis_A_mask |= (1<<AXIS_1);
+    axis_name[0] = 'A';
+  }
+  if (AXIS_2_NAME == 'A') {
+    axis_A_mask |= (1<<AXIS_2);
+    axis_name[1] = 'A';
+  }
+  if (AXIS_3_NAME == 'A') {
+    axis_A_mask |= (1<<AXIS_3);
+    axis_name[2] = 'A';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'A') axis_A_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'A') {
+      axis_A_mask |= (1<<AXIS_4);
+      axis_name[3] = 'A';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'A') axis_A_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'A') {
+      axis_A_mask |= (1<<AXIS_5);
+      axis_name[4] = 'A';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'A') axis_A_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'A') {
+      axis_A_mask |= (1<<AXIS_6);
+      axis_name[5] = 'A';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'B') axis_B_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'B') axis_B_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'B') axis_B_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'B') {
+    axis_B_mask |= (1<<AXIS_1);
+    axis_name[0] = 'B';
+  }
+  if (AXIS_2_NAME == 'B') {
+    axis_B_mask |= (1<<AXIS_2);
+    axis_name[1] = 'B';
+  }
+  if (AXIS_3_NAME == 'B') {
+    axis_B_mask |= (1<<AXIS_3);
+    axis_name[2] = 'B';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'B') axis_B_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'B') {
+      axis_B_mask |= (1<<AXIS_4);
+      axis_name[3] = 'B';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'B') axis_B_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'B') {
+      axis_B_mask |= (1<<AXIS_5);
+      axis_name[4] = 'B';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'B') axis_B_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'B') {
+      axis_B_mask |= (1<<AXIS_6);
+      axis_name[5] = 'B';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'C') axis_C_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'C') axis_C_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'C') axis_C_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'C') {
+    axis_C_mask |= (1<<AXIS_1);
+    axis_name[0] = 'C';
+  }
+  if (AXIS_2_NAME == 'C') {
+    axis_C_mask |= (1<<AXIS_2);
+    axis_name[1] = 'C';
+  }
+  if (AXIS_3_NAME == 'C') {
+    axis_C_mask |= (1<<AXIS_3);
+    axis_name[2] = 'C';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'C') axis_C_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'C') {
+      axis_C_mask |= (1<<AXIS_4);
+      axis_name[3] = 'C';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'C') axis_C_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'C') {
+      axis_C_mask |= (1<<AXIS_5);
+      axis_name[4] = 'C';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'C') axis_C_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'C') {
+      axis_C_mask |= (1<<AXIS_6);
+      axis_name[5] = 'C';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'U') axis_U_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'U') axis_U_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'U') axis_U_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'U') {
+    axis_U_mask |= (1<<AXIS_1);
+    axis_name[0] = 'U';
+  }
+  if (AXIS_2_NAME == 'U') {
+    axis_U_mask |= (1<<AXIS_2);
+    axis_name[1] = 'U';
+  }
+  if (AXIS_3_NAME == 'U') {
+    axis_U_mask |= (1<<AXIS_3);
+    axis_name[2] = 'U';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'U') axis_U_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'U') {
+      axis_U_mask |= (1<<AXIS_4);
+      axis_name[3] = 'U';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'U') axis_U_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'U') {
+      axis_U_mask |= (1<<AXIS_5);
+      axis_name[4] = 'U';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'U') axis_U_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'U') {
+      axis_U_mask |= (1<<AXIS_6);
+      axis_name[5] = 'U';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'V') axis_V_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'V') axis_V_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'V') axis_V_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'V') {
+    axis_V_mask |= (1<<AXIS_1);
+    axis_name[0] = 'V';
+  }
+  if (AXIS_2_NAME == 'V') {
+    axis_V_mask |= (1<<AXIS_2);
+    axis_name[1] = 'V';
+  }
+  if (AXIS_3_NAME == 'V') {
+    axis_V_mask |= (1<<AXIS_3);
+    axis_name[2] = 'V';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'V') axis_V_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'V') {
+      axis_V_mask |= (1<<AXIS_4);
+      axis_name[3] = 'V';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'V') axis_V_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'V') {
+      axis_V_mask |= (1<<AXIS_5);
+      axis_name[4] = 'V';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'V') axis_V_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'V') {
+      axis_V_mask |= (1<<AXIS_6);
+      axis_name[5] = 'V';
+    }
   #endif
 
-  if (AXIS_1_NAME == 'W') axis_W_mask |= (1<<AXIS_1);
-  if (AXIS_2_NAME == 'W') axis_W_mask |= (1<<AXIS_2);
-  if (AXIS_3_NAME == 'W') axis_W_mask |= (1<<AXIS_3);
+  if (AXIS_1_NAME == 'W') {
+    axis_W_mask |= (1<<AXIS_1);
+    axis_name[0] = 'W';
+  }
+  if (AXIS_2_NAME == 'W') {
+    axis_W_mask |= (1<<AXIS_2);
+    axis_name[1] = 'W';
+  }
+  if (AXIS_3_NAME == 'W') {
+    axis_W_mask |= (1<<AXIS_3);
+    axis_name[2] = 'W';
+  }
   #ifdef AXIS_4
-    if (AXIS_4_NAME == 'W') axis_W_mask |= (1<<AXIS_4);
+    if (AXIS_4_NAME == 'W') {
+      axis_W_mask |= (1<<AXIS_4);
+      axis_name[3] = 'W';
+    }
   #endif
   #ifdef AXIS_5
-    if (AXIS_5_NAME == 'W') axis_W_mask |= (1<<AXIS_5);
+    if (AXIS_5_NAME == 'W') {
+      axis_W_mask |= (1<<AXIS_5);
+      axis_name[4] = 'W';
+    }
   #endif
   #ifdef AXIS_6
-    if (AXIS_6_NAME == 'W') axis_W_mask |= (1<<AXIS_6);
+    if (AXIS_6_NAME == 'W') {
+      axis_W_mask |= (1<<AXIS_6);
+      axis_name[5] = 'W';
+    }
   #endif
 
   #ifdef SORT_REPORT_BY_AXIS_NAME

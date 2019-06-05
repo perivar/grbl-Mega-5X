@@ -84,7 +84,7 @@
 
 // Renaming axis doesn't change their number. By default, the status report give axis values in
 // the order of their number. Some graphical interface are not able to affect axis values reported
-// by Grbl to the corect axis name.
+// by Grbl to the correct axis name.
 // Uncomment to enable sorting of axis values by axis_names rather than by axis number. Default disabled.
 // If this option is enabled, the sorting order will be X, Y, Z, U, V, W, A, B and C as defined below.
 //#define SORT_REPORT_BY_AXIS_NAME
