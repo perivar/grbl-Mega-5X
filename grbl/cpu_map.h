@@ -315,7 +315,10 @@
   // Enable Hardware limit support for RAMPS without using interrupt...
   // Warning! bouncing switches can cause a state check like this to misread the pin.
   // When hard limits are triggered, they should be 100% reliable.
-  #define ENABLE_RAMPS_HW_LIMITS
+  // The RAMPS_HW_LIMIT is implemented inside the stepper driver interrupt. Depending of your
+  // hardware, this can affect the max speed possibility of movments
+  // Disabled by default for performance optimization, uncomment to enable.
+  //#define ENABLE_RAMPS_HW_LIMITS
 
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_DDR      DDRG
