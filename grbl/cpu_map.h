@@ -308,7 +308,14 @@
   //  #define LIMIT_INT_vect  PCINT0_vect
   //  #define LIMIT_PCMSK     PCMSK0 // Pin change interrupt register
   //  #define LIMIT_MASK ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)) // All limit bits
-  #define DISABLE_HW_LIMITS_INTERUPT
+  // Hardware limits interrupts are not implemented in the RAMPS version of grbl-Mega
+  // since all the limit switch ports are not compatible with interrupts.
+  #define DISABLE_HW_LIMITS_INTERRUPT
+
+  // Enable Hardware limit support for RAMPS without using interrupt...
+  // Warning! bouncing switches can cause a state check like this to misread the pin.
+  // When hard limits are triggered, they should be 100% reliable.
+  #define ENABLE_RAMPS_HW_LIMITS
 
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_DDR      DDRG
@@ -351,7 +358,7 @@
   // Set Timer up to use TIMER4B which is attached to Digital Pin 8 - Ramps 1.4 12v output with heat sink
   #define SPINDLE_PWM_MAX_VALUE     1024.0 // Translates to about 1.9 kHz PWM frequency at 1/8 prescaler
   #ifndef SPINDLE_PWM_MIN_VALUE
-  #define SPINDLE_PWM_MIN_VALUE   1   // Must be greater than zero.
+    #define SPINDLE_PWM_MIN_VALUE   1   // Must be greater than zero.
   #endif
   #define SPINDLE_PWM_OFF_VALUE     0
   #define SPINDLE_PWM_RANGE         (SPINDLE_PWM_MAX_VALUE-SPINDLE_PWM_MIN_VALUE)

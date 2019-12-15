@@ -60,10 +60,10 @@
 // data for its own use.
 #ifdef DEFAULTS_RAMPS_BOARD
   typedef struct {
-  uint32_t steps[N_AXIS];
-  uint32_t step_event_count;
-  uint8_t direction_bits[N_AXIS];
-  uint8_t is_pwm_rate_adjusted; // Tracks motions that require constant laser power/rate
+    uint32_t steps[N_AXIS];
+    uint32_t step_event_count;
+    uint8_t direction_bits[N_AXIS];
+    uint8_t is_pwm_rate_adjusted; // Tracks motions that require constant laser power/rate
   } st_block_t;
 #else
   typedef struct {
@@ -411,6 +411,16 @@ ISR(TIMER1_COMPA_vect)
   #endif // Ramps Board
 
   if (busy) { return; } // The busy-flag is used to avoid reentering this interrupt
+
+  #ifdef DEFAULTS_RAMPS_BOARD
+    // Adding limit check status to implement hardware limits for RAMPS
+    // outside the changepin interrupt wich cannot be used
+    #ifdef ENABLE_RAMPS_HW_LIMITS
+      if (limits_get_state()) {
+        ramps_hard_limit();
+      }
+    #endif
+  #endif // Ramps Board
 
   // Set the direction pins a couple of nanoseconds before we step the steppers
   #ifdef DEFAULTS_RAMPS_BOARD

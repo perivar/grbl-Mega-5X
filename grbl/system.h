@@ -38,15 +38,15 @@
 #define EXEC_SLEEP          bit(7) // bitmask 10000000
 
 // Alarm executor codes. Valid values (1-255). Zero is reserved.
-#define EXEC_ALARM_HARD_LIMIT           1
-#define EXEC_ALARM_SOFT_LIMIT           2
-#define EXEC_ALARM_ABORT_CYCLE          3
-#define EXEC_ALARM_PROBE_FAIL_INITIAL   4
-#define EXEC_ALARM_PROBE_FAIL_CONTACT   5
-#define EXEC_ALARM_HOMING_FAIL_RESET    6
-#define EXEC_ALARM_HOMING_FAIL_DOOR     7
-#define EXEC_ALARM_HOMING_FAIL_PULLOFF  8
-#define EXEC_ALARM_HOMING_FAIL_APPROACH 9
+#define EXEC_ALARM_HARD_LIMIT            1
+#define EXEC_ALARM_SOFT_LIMIT            2
+#define EXEC_ALARM_ABORT_CYCLE           3
+#define EXEC_ALARM_PROBE_FAIL_INITIAL    4
+#define EXEC_ALARM_PROBE_FAIL_CONTACT    5
+#define EXEC_ALARM_HOMING_FAIL_RESET     6
+#define EXEC_ALARM_HOMING_FAIL_DOOR      7
+#define EXEC_ALARM_HOMING_FAIL_PULLOFF   8
+#define EXEC_ALARM_HOMING_FAIL_APPROACH  9
 
 // Override bit maps. Realtime bitflags to control feed, rapid, spindle, and coolant overrides.
 // Spindle/coolant and feed/rapids are separated into two controlling flag variables.

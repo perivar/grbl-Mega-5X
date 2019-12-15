@@ -110,7 +110,7 @@ void limits_init()
         MAX_LIMIT_PORT(5) |= (1<<MAX_LIMIT_BIT(5));  // Enable internal pull-up resistors. Normal high operation.
       #endif
     #endif
-    #ifndef DISABLE_HW_LIMITS_INTERUPT
+    #ifndef DISABLE_HW_LIMITS_INTERRUPT
       if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
         LIMIT_PCMSK |= LIMIT_MASK; // Enable specific pins of the Pin Change Interrupt
         PCICR |= (1 << LIMIT_INT); // Enable Pin Change Interrupt
@@ -122,8 +122,8 @@ void limits_init()
         WDTCSR |= (1<<WDCE) | (1<<WDE);
         WDTCSR = (1<<WDP0); // Set time-out at ~32msec.
       #endif
-    #endif // DISABLE_HW_LIMITS_INTERUPT
-  #else
+    #endif // DISABLE_HW_LIMITS_INTERRUPT
+  #else // DEFAULTS_RAMPS_BOARD
     LIMIT_DDR &= ~(LIMIT_MASK); // Set as input pins
 
     #ifdef DISABLE_LIMIT_PIN_PULL_UP
@@ -152,9 +152,9 @@ void limits_init()
 void limits_disable()
 {
   #ifdef DEFAULTS_RAMPS_BOARD
-    #ifndef DISABLE_HW_LIMITS_INTERUPT
-     LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
-     PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
+    #ifndef DISABLE_HW_LIMITS_INTERRUPT
+      LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
+      PCICR &= ~(1 << LIMIT_INT);  // Disable Pin Change Interrupt
     #endif
   #else
     LIMIT_PCMSK &= ~LIMIT_MASK;  // Disable specific pins of the Pin Change Interrupt
@@ -236,10 +236,36 @@ uint8_t limits_get_state()
 }
 
 #ifdef DEFAULTS_RAMPS_BOARD
-  #ifndef DISABLE_HW_LIMITS_INTERUPT
-    #error "HW limits are not implemented"
+  #ifndef DISABLE_HW_LIMITS_INTERRUPT
+    #error "HW limits interrupts are not implemented"
   #endif
-#else
+  #ifdef ENABLE_RAMPS_HW_LIMITS
+    void ramps_hard_limit()
+    {
+      if (bit_istrue(settings.flags,BITFLAG_HARD_LIMIT_ENABLE)) {
+        // Ignore limit switches if already in an alarm state or in-process of executing an alarm.
+        // When in the alarm state, Grbl should have been reset or will force a reset, so any pending
+        // moves in the planner and serial buffers are all cleared and newly sent blocks will be
+        // locked out until a homing cycle or a kill lock command. Allows the user to disable the hard
+        // limit setting if their limits are constantly triggering after a reset and move their axes.
+        if ((sys.state != STATE_ALARM) && (sys.state != STATE_HOMING)) {
+          if (!(sys_rt_exec_alarm)) {
+            #ifdef HARD_LIMIT_FORCE_STATE_CHECK
+              // Check limit pin state.
+              if (limits_get_state()) {
+                mc_reset(); // Initiate system kill.
+                system_set_exec_alarm(EXEC_ALARM_HARD_LIMIT); // Indicate hard limit critical event
+              }
+            #else
+              mc_reset(); // Initiate system kill.
+              system_set_exec_alarm(EXEC_ALARM_HARD_LIMIT); // Indicate hard limit critical event
+            #endif
+          }
+        }
+      }
+    }
+  #endif
+#else // DEFAULTS_RAMPS_BOARD
 // This is the Limit Pin Change Interrupt, which handles the hard limit feature. A bouncing
 // limit switch can cause a lot of problems, like false readings and multiple interrupt calls.
 // If a switch is triggered at all, something bad has happened and treat it as such, regardless
