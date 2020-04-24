@@ -190,12 +190,13 @@ void limits_disable()
 // number in bit position, i.e. AXIS_3 is (1<<2) or bit 2, and AXIS_2 is (1<<1) or bit 1.
 uint8_t limits_get_state()
 {
-  uint8_t limit_state = 0;
   #ifdef DEFAULTS_RAMPS_BOARD
+    uint8_t limit_state_max = 0;
+    uint8_t limit_state_min = 0;
     uint8_t pin;
     uint8_t idx;
     #ifdef INVERT_LIMIT_PIN_MASK
-      #error "INVERT_LIMIT_PIN_MASK is not implemented"
+      #error "INVERT_LIMIT_PIN_MASK is not implemented, use INVERT_<MAX|MIN>_LIMIT_PIN_MASK"
     #endif
     for (idx=0; idx<N_AXIS; idx++) {
       pin = *max_limit_pins[idx] & (1<<max_limit_bits[idx]);
@@ -205,7 +206,7 @@ uint8_t limits_get_state()
         if (bit_istrue(INVERT_MAX_LIMIT_PIN_MASK, bit(idx))) { pin = !pin; }
       #endif
       if (pin) {
-        limit_state |= (1 << idx);
+        limit_state_max |= (1 << idx);
       }
       pin = *min_limit_pins[idx] & (1<<min_limit_bits[idx]);
       pin = !!pin;
@@ -214,12 +215,16 @@ uint8_t limits_get_state()
         if (bit_istrue(INVERT_MIN_LIMIT_PIN_MASK, bit(idx))) { pin = !pin; }
       #endif
       if (pin) {
-        limit_state |= (1 << idx);
+        limit_state_min |= (1 << idx);
       }
     }
-    if (bit_istrue(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) { limit_state = ~limit_state; }
-    return(limit_state);
-  #else
+    if (bit_istrue(settings.flags,BITFLAG_INVERT_LIMIT_PINS)) {
+      return(~(limit_state_max & limit_state_min));
+    } else {
+      return(limit_state_max | limit_state_min);
+    }
+  #else //ifdef DEFAULTS_RAMPS_BOARD
+    uint8_t limit_state = 0;
     uint8_t pin = (LIMIT_PIN & LIMIT_MASK);
     #ifdef INVERT_LIMIT_PIN_MASK
       pin ^= INVERT_LIMIT_PIN_MASK;
@@ -232,7 +237,7 @@ uint8_t limits_get_state()
       }
     }
     return(limit_state);
-  #endif //DEFAULTS_RAMPS_BOARD
+  #endif //ifdef DEFAULTS_RAMPS_BOARD
 }
 
 #ifdef DEFAULTS_RAMPS_BOARD

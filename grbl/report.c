@@ -713,6 +713,10 @@ void report_realtime_status()
       }
     }
   #endif
+  #ifdef DEBUG
+    printPgmString(PSTR("|Dbg:"));
+    // Other debugs here...
+  #endif
 
   #ifdef REPORT_FIELD_WORK_COORD_OFFSET
     if (sys.report_wco_counter > 0) { sys.report_wco_counter--; }
@@ -759,12 +763,11 @@ void report_realtime_status()
 
 
 #ifdef DEBUG
-  void report_realtime_debug(float val)
+  void report_realtime_debug()
   {
     printPgmString(PSTR("{report_realtime_debug("));
-    print_uint8_base10(val);
+    // print realtime debug values here
     printPgmString(PSTR(")}"));
     report_util_line_feed();
-
   }
 #endif

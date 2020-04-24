@@ -125,7 +125,7 @@ void report_execute_startup_message(char *line, uint8_t status_code);
 void report_build_info(char *line);
 
 #ifdef DEBUG
-  void report_realtime_debug(float val);
+  void report_realtime_debug();
 #endif
 
 #endif

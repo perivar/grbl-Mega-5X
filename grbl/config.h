@@ -286,9 +286,11 @@
 // NOTE: PLEASE DO NOT USE THIS, unless you have a situation that needs it.
 // #define INVERT_LIMIT_PIN_MASK ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)) // Default disabled. Uncomment to enable.
 #ifdef DEFAULTS_RAMPS_BOARD
-  // Only enable the following line if you have - (min) limit switches attached
+  // Enable the following line to inverse logical behaviour (Normaly Open / Normaly Closed)
+  // of some min limit switches attached.
   //#define INVERT_MIN_LIMIT_PIN_MASK ((1<<AXIS_1) | (1<<AXIS_2) | (1<<AXIS_3))
-  // Only enable the following line if you have + (max) limit switches attached
+  // Enable the following line to inverse logical behaviour (Normaly Open / Normaly Closed)
+  // of some max limit switches attached.
   //#define INVERT_MAX_LIMIT_PIN_MASK ((1<<AXIS_1) | (1<<AXIS_2) | (1<<AXIS_3))
 #endif
 
