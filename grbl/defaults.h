@@ -453,7 +453,7 @@
   #define DEFAULT_HOMING_PULLOFF 1.0 // mm
 #endif
 
-#ifdef DEFAULTS_RAMPS_BOARD
+#ifdef DEFAULTS_RAMPS_BOARD_ORIGINAL
   #define MICROSTEPS_AXIS1 4     // Microstepping = 1/4 pas
   #define STEP_REVS_AXIS1 200    // Moteurs à 200 pas par tour
   #define UNIT_PER_REV_AXIS1 2.0 // 2mm
@@ -481,19 +481,19 @@
   #define DEFAULT_AXIS2_MAX_TRAVEL 200.0 // mm
   #define DEFAULT_AXIS3_MAX_TRAVEL 200.0 // mm
   #if N_AXIS > 3
-    #define DEFAULT_AXIS4_STEPS_PER_UNIT 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
+    #define DEFAULT_AXIS4_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
     #define DEFAULT_AXIS4_MAX_RATE 1440 // °/mn
     #define DEFAULT_AXIS4_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
     #define DEFAULT_AXIS4_MAX_TRAVEL 360.0 // °
   #endif
   #if N_AXIS > 4
-    #define DEFAULT_AXIS5_STEPS_PER_UNIT 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
+    #define DEFAULT_AXIS5_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
     #define DEFAULT_AXIS5_MAX_RATE 1440 // °/mn
     #define DEFAULT_AXIS5_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
     #define DEFAULT_AXIS5_MAX_TRAVEL 180.0 // °
   #endif
   #if N_AXIS > 5
-    #define DEFAULT_AXIS6_STEPS_PER_UNIT 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
+    #define DEFAULT_AXIS6_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
     #define DEFAULT_AXIS6_MAX_RATE 1440 // °/mn
     #define DEFAULT_AXIS6_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
     #define DEFAULT_AXIS6_MAX_TRAVEL 180.0 // °
@@ -518,6 +518,84 @@
   #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
   #define DEFAULT_HOMING_FEED_RATE 100.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 500.0 // mm/min
+  #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
+  #define DEFAULT_HOMING_PULLOFF 5.0 // mm
+#endif
+
+#ifdef DEFAULTS_RAMPS_BOARD
+  // Grbl settings for the PulpitRockCNC
+  #define MICROSTEPS_AXIS1 16     // Microstepping = 16 --> all three jumpers installed
+  #define STEP_REVS_AXIS1 200     // Motors at 200 steps per revolution
+  #define UNIT_PER_REV_AXIS1 1.25 // 1.25 mm/rev leadscrew
+  #define DEFAULT_AXIS1_STEPS_PER_UNIT (MICROSTEPS_AXIS1*STEP_REVS_AXIS1/UNIT_PER_REV_AXIS1) // 400
+  #define MICROSTEPS_AXIS2 16     // Microstepping = 16 --> all three jumpers installed
+  #define STEP_REVS_AXIS2 200     // Motors at 200 steps per revolution
+  #define UNIT_PER_REV_AXIS2 1.25 // 1.25 mm/rev leadscrew
+  #define DEFAULT_AXIS2_STEPS_PER_UNIT (MICROSTEPS_AXIS2*STEP_REVS_AXIS2/UNIT_PER_REV_AXIS2)
+  #define MICROSTEPS_AXIS3 16     // Microstepping = 16 --> all three jumpers installed
+  #define STEP_REVS_AXIS3 200     // Motors at 200 steps per revolution
+  #define UNIT_PER_REV_AXIS3 1.25 // 1.25 mm/rev leadscrew
+  #define DEFAULT_AXIS3_STEPS_PER_UNIT (MICROSTEPS_AXIS3*STEP_REVS_AXIS3/UNIT_PER_REV_AXIS3)
+
+  #define DEFAULT_AXIS1_MAX_RATE 7*60.0 // mm/min, cyclone:5, 7 is max for Pulpit Rock CNC
+  #define DEFAULT_AXIS2_MAX_RATE 7*60.0 // mm/min, cyclone:5, 7 is max for Pulpit Rock CNC
+  #define DEFAULT_AXIS3_MAX_RATE 7*60.0 // mm/min, cyclone:2.5, 7 is max for Pulpit Rock CNC
+
+  #define DEFAULT_AXIS1_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
+  #define DEFAULT_AXIS2_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
+  #define DEFAULT_AXIS3_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
+
+  // The Pulpit Rock CNC has the following dimensions:
+  // X Min = 0
+  // X Max = 365
+  // Y Min = 0
+  // Y Max = 234
+  // Z Min = 0
+  // Z Max = 123
+  #define DEFAULT_AXIS1_MAX_TRAVEL 360.0 // mm 360.0
+  #define DEFAULT_AXIS2_MAX_TRAVEL 230.0 // mm 230.0
+  #define DEFAULT_AXIS3_MAX_TRAVEL 134.0 // mm (from 0 to -135) 134.0
+
+  #if N_AXIS > 3
+    #define DEFAULT_AXIS4_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
+    #define DEFAULT_AXIS4_MAX_RATE 1440 // °/mn
+    #define DEFAULT_AXIS4_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
+    #define DEFAULT_AXIS4_MAX_TRAVEL 360.0 // °
+  #endif
+  #if N_AXIS > 4
+    #define DEFAULT_AXIS5_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
+    #define DEFAULT_AXIS5_MAX_RATE 1440 // °/mn
+    #define DEFAULT_AXIS5_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
+    #define DEFAULT_AXIS5_MAX_TRAVEL 180.0 // °
+  #endif
+  #if N_AXIS > 5
+    #define DEFAULT_AXIS6_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
+    #define DEFAULT_AXIS6_MAX_RATE 1440 // °/mn
+    #define DEFAULT_AXIS6_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
+    #define DEFAULT_AXIS6_MAX_TRAVEL 180.0 // °
+  #endif
+
+  #define DEFAULT_SPINDLE_RPM_MAX 12000 // rpm
+  #define DEFAULT_SPINDLE_RPM_MIN 550.0 // rpm
+
+  #define DEFAULT_STEP_PULSE_MICROSECONDS 10
+  #define DEFAULT_STEPPING_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_STEPPER_IDLE_LOCK_TIME 254 // msec (0-254, 255 keeps steppers enabled)
+  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
+  #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
+  #define DEFAULT_ARC_TOLERANCE 0.002 // mm
+  #define DEFAULT_REPORT_INCHES 0 // false
+  #define DEFAULT_INVERT_ST_ENABLE 0 // false
+  #define DEFAULT_INVERT_LIMIT_PINS 0 // false
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // true
+  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_INVERT_PROBE_PIN 0 // false
+  #define DEFAULT_LASER_MODE 0 // false
+  #define DEFAULT_HOMING_ENABLE 1  // true
+  #define DEFAULT_HOMING_DIR_MASK 3 // X and Y endstop installed to the minimum (zero point). Z max installed
+  #define DEFAULT_HOMING_FEED_RATE 50.0 // mm/min (slower feed rate to "bump" the endstops)
+  #define DEFAULT_HOMING_SEEK_RATE 1000.0 // mm/min (will saturate to MAX_RATE)
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
   #define DEFAULT_HOMING_PULLOFF 5.0 // mm
 #endif
