@@ -50,7 +50,7 @@
 // Axis array index values. Must start with 0 and be continuous.
 #ifdef DEFAULTS_RAMPS_BOARD
   // 4, 5 & 6 axis support only for RAMPS 1.4 (for the moment :-)...)
-  #define N_AXIS 5            // Number of axes
+  #define N_AXIS 3            // Number of axes (default is 5)
   #define N_AXIS_LINEAR 3     // Number of linears axis
 #else
   #define N_AXIS 3 // Number of axes = 3 if not DEFAULTS_RAMPS_BOARD
@@ -189,8 +189,9 @@
     #define HOMING_CYCLE_5 (1<<AXIS_2) // Home Y axis
   #else // Classic 3 axis
     #define HOMING_CYCLE_0 (1<<AXIS_3) // Home Z axis first to clear workspace.
-    #define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis
-    #define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis
+    // #define HOMING_CYCLE_1 (1<<AXIS_1) // Home X axis
+    // #define HOMING_CYCLE_2 (1<<AXIS_2) // Home Y axis
+    #define HOMING_CYCLE_1 ((1<<AXIS_1)|(1<<AXIS_2))  // OPTIONAL: Then move X,Y at the same time.
   #endif
 #else
   #define HOMING_CYCLE_0 (1<<AXIS_3)                // REQUIRED: First move Z to clear workspace.
@@ -218,7 +219,7 @@
 // After homing, Grbl will set by default the entire machine space into negative space, as is typical
 // for professional CNC machines, regardless of where the limit switches are located. Uncomment this
 // define to force Grbl to always set the machine origin at the homed location despite switch orientation.
-// #define HOMING_FORCE_SET_ORIGIN // Uncomment to enable.
+#define HOMING_FORCE_SET_ORIGIN // Uncomment to enable.
 
 // Number of blocks Grbl executes upon startup. These blocks are stored in EEPROM, where the size
 // and addresses are defined in settings.h. With the current settings, up to 2 startup blocks may
