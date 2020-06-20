@@ -580,9 +580,14 @@
 
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
+
+  // Note! grbl-mega-5x doesn't use the same direction masks as grbl
+  // check https://github.com/fra589/grbl-Mega-5X/wiki/Limit-switches-and-homing
   #define DEFAULT_DIRECTION_INVERT_MASK 4 // x and y move per default, z moves downwards
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 254 // msec (0-254, 255 keeps steppers enabled)
-  #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
+  // Note! grbl-mega-5x doesn't use the same report mask as grbl
+  // check https://github.com/fra589/grbl-Mega-5X/wiki/Grbl-Configuration
+  #define DEFAULT_STATUS_REPORT_MASK 1 // Enable MPos: and Disable WPos:
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
   #define DEFAULT_ARC_TOLERANCE 0.002 // mm
   #define DEFAULT_REPORT_INCHES 0 // false
@@ -592,7 +597,7 @@
   #define DEFAULT_HARD_LIMIT_ENABLE 1 // X and Y endstop installed to the minimum (zero point). Z max installed.
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
-  #define DEFAULT_HOMING_ENABLE 1  // true
+  #define DEFAULT_HOMING_ENABLE 1 // true
   #define DEFAULT_HOMING_DIR_MASK 3 // x and y home in minus direction, but z is inverted (see wiki)
   #define DEFAULT_HOMING_FEED_RATE 50.0 // mm/min (slower feed rate to "bump" the endstops)
   #define DEFAULT_HOMING_SEEK_RATE 1000.0 // mm/min (will saturate to MAX_RATE)
