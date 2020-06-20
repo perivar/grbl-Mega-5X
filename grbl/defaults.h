@@ -541,9 +541,9 @@
   #define DEFAULT_AXIS2_MAX_RATE 7*60.0 // mm/min, 7 is max for Pulpit Rock CNC
   #define DEFAULT_AXIS3_MAX_RATE 7*60.0 // mm/min, 7 is max for Pulpit Rock CNC
 
-  #define DEFAULT_AXIS1_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
-  #define DEFAULT_AXIS2_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
-  #define DEFAULT_AXIS3_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
+  #define DEFAULT_AXIS1_ACCELERATION (16.0*60*60) // 16*60*60 mm/min^2 = 16 mm/sec^2
+  #define DEFAULT_AXIS2_ACCELERATION (16.0*60*60) // 16*60*60 mm/min^2 = 16 mm/sec^2
+  #define DEFAULT_AXIS3_ACCELERATION (16.0*60*60) // 16*60*60 mm/min^2 = 16 mm/sec^2
 
   // The Pulpit Rock CNC has the following dimensions:
   // X Min = 0
