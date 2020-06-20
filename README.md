@@ -75,3 +75,15 @@ Grbl-Mega-5X is an open-source project and fueled by the free-time of our intrep
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://paypal.me/pools/c/842hNSm2It)
 
+## Updated to use platformio
+
+build using the following commands
+
+```
+$pio run
+```
+Upload to your board using
+
+```
+$pio run --target upload
+```
