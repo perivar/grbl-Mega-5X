@@ -527,7 +527,7 @@
   #define MICROSTEPS_AXIS1 16     // Microstepping = 16 --> all three jumpers installed
   #define STEP_REVS_AXIS1 200     // Motors at 200 steps per revolution
   #define UNIT_PER_REV_AXIS1 1.25 // 1.25 mm/rev leadscrew
-  #define DEFAULT_AXIS1_STEPS_PER_UNIT (MICROSTEPS_AXIS1*STEP_REVS_AXIS1/UNIT_PER_REV_AXIS1) // 400
+  #define DEFAULT_AXIS1_STEPS_PER_UNIT (MICROSTEPS_AXIS1*STEP_REVS_AXIS1/UNIT_PER_REV_AXIS1)
   #define MICROSTEPS_AXIS2 16     // Microstepping = 16 --> all three jumpers installed
   #define STEP_REVS_AXIS2 200     // Motors at 200 steps per revolution
   #define UNIT_PER_REV_AXIS2 1.25 // 1.25 mm/rev leadscrew
@@ -537,9 +537,9 @@
   #define UNIT_PER_REV_AXIS3 1.25 // 1.25 mm/rev leadscrew
   #define DEFAULT_AXIS3_STEPS_PER_UNIT (MICROSTEPS_AXIS3*STEP_REVS_AXIS3/UNIT_PER_REV_AXIS3)
 
-  #define DEFAULT_AXIS1_MAX_RATE 7*60.0 // mm/min, cyclone:5, 7 is max for Pulpit Rock CNC
-  #define DEFAULT_AXIS2_MAX_RATE 7*60.0 // mm/min, cyclone:5, 7 is max for Pulpit Rock CNC
-  #define DEFAULT_AXIS3_MAX_RATE 7*60.0 // mm/min, cyclone:2.5, 7 is max for Pulpit Rock CNC
+  #define DEFAULT_AXIS1_MAX_RATE 7*60.0 // mm/min, 7 is max for Pulpit Rock CNC
+  #define DEFAULT_AXIS2_MAX_RATE 7*60.0 // mm/min, 7 is max for Pulpit Rock CNC
+  #define DEFAULT_AXIS3_MAX_RATE 7*60.0 // mm/min, 7 is max for Pulpit Rock CNC
 
   #define DEFAULT_AXIS1_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
   #define DEFAULT_AXIS2_ACCELERATION (16.0*60*60) // 50*60*60 mm/min^2 = 50 mm/sec^2
@@ -547,33 +547,14 @@
 
   // The Pulpit Rock CNC has the following dimensions:
   // X Min = 0
-  // X Max = 365
+  // X Max = 320
   // Y Min = 0
-  // Y Max = 234
+  // Y Max = 230
   // Z Min = 0
-  // Z Max = 123
-  #define DEFAULT_AXIS1_MAX_TRAVEL 360.0 // mm 360.0
-  #define DEFAULT_AXIS2_MAX_TRAVEL 230.0 // mm 230.0
-  #define DEFAULT_AXIS3_MAX_TRAVEL 134.0 // mm (from 0 to -135) 134.0
-
-  #if N_AXIS > 3
-    #define DEFAULT_AXIS4_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
-    #define DEFAULT_AXIS4_MAX_RATE 1440 // °/mn
-    #define DEFAULT_AXIS4_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-    #define DEFAULT_AXIS4_MAX_TRAVEL 360.0 // °
-  #endif
-  #if N_AXIS > 4
-    #define DEFAULT_AXIS5_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
-    #define DEFAULT_AXIS5_MAX_RATE 1440 // °/mn
-    #define DEFAULT_AXIS5_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-    #define DEFAULT_AXIS5_MAX_TRAVEL 180.0 // °
-  #endif
-  #if N_AXIS > 5
-    #define DEFAULT_AXIS6_STEPS_PER_UNIT 8.888889 // Direct drive : (200 steps per revolution * 1/16 microsteps)/360°
-    #define DEFAULT_AXIS6_MAX_RATE 1440 // °/mn
-    #define DEFAULT_AXIS6_ACCELERATION (50.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-    #define DEFAULT_AXIS6_MAX_TRAVEL 180.0 // °
-  #endif
+  // Z Max = -75
+  #define DEFAULT_AXIS1_MAX_TRAVEL 320.0 // mm 
+  #define DEFAULT_AXIS2_MAX_TRAVEL 230.0 // mm 
+  #define DEFAULT_AXIS3_MAX_TRAVEL 75.0 // mm (from 0 to -75) 
 
   #define DEFAULT_SPINDLE_RPM_MAX 12000 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 550.0 // rpm
