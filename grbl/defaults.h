@@ -580,7 +580,7 @@
 
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK 0
+  #define DEFAULT_DIRECTION_INVERT_MASK 4 // x and y move per default, z moves downwards
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 254 // msec (0-254, 255 keeps steppers enabled)
   #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
@@ -593,11 +593,11 @@
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1  // true
-  #define DEFAULT_HOMING_DIR_MASK 3 // X and Y endstop installed to the minimum (zero point). Z max installed
+  #define DEFAULT_HOMING_DIR_MASK 3 // x and y home in minus direction, but z is inverted (see wiki)
   #define DEFAULT_HOMING_FEED_RATE 50.0 // mm/min (slower feed rate to "bump" the endstops)
   #define DEFAULT_HOMING_SEEK_RATE 1000.0 // mm/min (will saturate to MAX_RATE)
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 5.0 // mm
+  #define DEFAULT_HOMING_PULLOFF 2.0 // mm
 #endif
 
 #endif
