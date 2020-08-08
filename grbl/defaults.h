@@ -524,15 +524,15 @@
 
 #ifdef DEFAULTS_RAMPS_BOARD
   // Grbl settings for the PulpitRockCNC
-  #define MICROSTEPS_AXIS1 16     // Microstepping = 16 --> all three jumpers installed
+  #define MICROSTEPS_AXIS1 8      // Microstepping = 8 --> two of the jumpers installed
   #define STEP_REVS_AXIS1 200     // Motors at 200 steps per revolution
   #define UNIT_PER_REV_AXIS1 1.25 // 1.25 mm/rev leadscrew
   #define DEFAULT_AXIS1_STEPS_PER_UNIT (MICROSTEPS_AXIS1*STEP_REVS_AXIS1/UNIT_PER_REV_AXIS1)
-  #define MICROSTEPS_AXIS2 16     // Microstepping = 16 --> all three jumpers installed
+  #define MICROSTEPS_AXIS2 8      // Microstepping = 8 --> two of the jumpers installed
   #define STEP_REVS_AXIS2 200     // Motors at 200 steps per revolution
   #define UNIT_PER_REV_AXIS2 1.25 // 1.25 mm/rev leadscrew
   #define DEFAULT_AXIS2_STEPS_PER_UNIT (MICROSTEPS_AXIS2*STEP_REVS_AXIS2/UNIT_PER_REV_AXIS2)
-  #define MICROSTEPS_AXIS3 16     // Microstepping = 16 --> all three jumpers installed
+  #define MICROSTEPS_AXIS3 8      // Microstepping = 8 --> two of jumpers installed
   #define STEP_REVS_AXIS3 200     // Motors at 200 steps per revolution
   #define UNIT_PER_REV_AXIS3 1.25 // 1.25 mm/rev leadscrew
   #define DEFAULT_AXIS3_STEPS_PER_UNIT (MICROSTEPS_AXIS3*STEP_REVS_AXIS3/UNIT_PER_REV_AXIS3)
