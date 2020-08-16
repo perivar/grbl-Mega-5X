@@ -358,8 +358,8 @@
   #define PROBE_MASK      (1<<PROBE_BIT)
 
   // Advanced Configuration Below You should not need to touch these variables
-  // Set Timer up to use TIMER4B which is attached to Digital Pin 8 - Ramps 1.4 12v output with heat sink
-  #define SPINDLE_PWM_MAX_VALUE     1024.0 // Translates to about 1.9 kHz PWM frequency at 1/8 prescaler
+  // Changed Spindle Speed PWM signal from Ramps 1.4 Digital Pin 8 (12v) to Digital Pin 6 (5v) which is Ramps 1.4 Servo 2 
+  #define SPINDLE_PWM_MAX_VALUE     1024.0 // Translates to about 1.9 kHz PWM frequency at 1/8 prescaler, 15.6 kHz with a prescaler of 1
   #ifndef SPINDLE_PWM_MIN_VALUE
     #define SPINDLE_PWM_MIN_VALUE   1   // Must be greater than zero.
   #endif
@@ -369,19 +369,19 @@
   //Control Digital Pin 6 which is Servo 2 signal pin on Ramps 1.4 board
   #define SPINDLE_TCCRA_REGISTER    TCCR4A
   #define SPINDLE_TCCRB_REGISTER    TCCR4B
-  #define SPINDLE_OCR_REGISTER      OCR4C
-  #define SPINDLE_COMB_BIT          COM4C1
+  #define SPINDLE_OCR_REGISTER      OCR4A // was OCR4C, the value of this register sets the duty cycle
+  #define SPINDLE_COMB_BIT          COM4A1 // was COM4C1
 
   // 1/8 Prescaler, 16-bit Fast PWM mode
-  #define SPINDLE_TCCRA_INIT_MASK ((1<<WGM40) | (1<<WGM41))
-  #define SPINDLE_TCCRB_INIT_MASK ((1<<WGM42) | (1<<WGM43) | (1<<CS41))
-  #define SPINDLE_OCRA_REGISTER   OCR4A // 16-bit Fast PWM mode requires top reset value stored here.
+  #define SPINDLE_TCCRA_INIT_MASK (1<<WGM41) // removed (1<<WGM40), now using ICR4 to hold the TOP value
+  #define SPINDLE_TCCRB_INIT_MASK ((1<<WGM42) | (1<<WGM43) | (1<<CS41)) // replacing (1<<CS41 = 1/8) with (1<<CS40 = 1/1) will change prescaler to 1
+  #define SPINDLE_OCRA_REGISTER   ICR4 // 16-bit Fast PWM mode requires top reset value stored here.
   #define SPINDLE_OCRA_TOP_VALUE  0x0400 // PWM counter reset value. Should be the same as PWM_MAX_VALUE in hex.
 
   // Define spindle output pins.
   #define SPINDLE_PWM_DDR   DDRH
   #define SPINDLE_PWM_PORT  PORTH
-  #define SPINDLE_PWM_BIT   5 // MEGA2560 Digital Pin 8
+  #define SPINDLE_PWM_BIT   3 // MEGA2560 Digital Pin 6 (Ramps1.4 Servo 2) (was 5 = MEGA2560 Digital Pin 8)
 
 #endif
 /*
