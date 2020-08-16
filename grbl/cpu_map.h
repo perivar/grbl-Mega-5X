@@ -375,7 +375,7 @@
   // 1/8 Prescaler, 16-bit Fast PWM mode
   #define SPINDLE_TCCRA_INIT_MASK (1<<WGM41) // removed (1<<WGM40), now using ICR4 to hold the TOP value
   #define SPINDLE_TCCRB_INIT_MASK ((1<<WGM42) | (1<<WGM43) | (1<<CS41)) // replacing (1<<CS41 = 1/8) with (1<<CS40 = 1/1) will change prescaler to 1
-  #define SPINDLE_OCRA_REGISTER   ICR4 // 16-bit Fast PWM mode requires top reset value stored here.
+  #define SPINDLE_OCRA_REGISTER   ICR4 // 16-bit Fast PWM mode requires top reset value stored here. (was OCR4A)
   #define SPINDLE_OCRA_TOP_VALUE  0x0400 // PWM counter reset value. Should be the same as PWM_MAX_VALUE in hex.
 
   // Define spindle output pins.
