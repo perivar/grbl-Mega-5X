@@ -574,8 +574,8 @@
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
-  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // true
-  #define DEFAULT_HARD_LIMIT_ENABLE 1 // X and Y endstop installed to the minimum (zero point). Z max installed.
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // when jogging a larger number than the max pos, soft limits fails (grblgru)
+  #define DEFAULT_HARD_LIMIT_ENABLE 1 // ENABLE_RAMPS_HW_LIMITS true. X and Y endstop installed to the minimum (zero point). Z max installed.
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1 // true

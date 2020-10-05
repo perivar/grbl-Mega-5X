@@ -318,7 +318,7 @@
   // The RAMPS_HW_LIMIT is implemented inside the stepper driver interrupt. Depending of your
   // hardware, this can affect the max speed possibility of movments
   // Disabled by default for performance optimization, uncomment to enable.
-  //#define ENABLE_RAMPS_HW_LIMITS
+  #define ENABLE_RAMPS_HW_LIMITS
 
   // Define spindle enable and spindle direction output pins.
   #define SPINDLE_ENABLE_DDR      DDRG
