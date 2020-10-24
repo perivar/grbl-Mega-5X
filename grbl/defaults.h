@@ -562,7 +562,7 @@
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK (1<<AXIS_4) // axis 4 is the dual y axis
+  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<AXIS_1)|(1<<AXIS_4)) // axis 1 (x) is inverted, axis 2 and axis 4 are dual y axis
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
   #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
