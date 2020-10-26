@@ -537,32 +537,20 @@
   #define DEFAULT_AXIS1_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
   #define DEFAULT_AXIS2_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
   #define DEFAULT_AXIS3_ACCELERATION (200.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-  #define DEFAULT_AXIS1_MAX_TRAVEL 200.0 // mm
-  #define DEFAULT_AXIS2_MAX_TRAVEL 500.0 // mm
+  #define DEFAULT_AXIS1_MAX_TRAVEL 255.0 // mm
+  #define DEFAULT_AXIS2_MAX_TRAVEL 815.0 // mm
   #define DEFAULT_AXIS3_MAX_TRAVEL 110.0 // mm
   #if N_AXIS > 3
     #define DEFAULT_AXIS4_STEPS_PER_UNIT 40 // originally 200
     #define DEFAULT_AXIS4_MAX_RATE 7200 // 6000 mm/min = 6000/60 = 100 mm/sec
     #define DEFAULT_AXIS4_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
-    #define DEFAULT_AXIS4_MAX_TRAVEL 640.0 // mm
-  #endif
-  #if N_AXIS > 4
-    #define DEFAULT_AXIS5_STEPS_PER_UNIT 200
-    #define DEFAULT_AXIS5_MAX_RATE 6000 // 6000 mm/min = 6000/60 = 100 mm/sec
-    #define DEFAULT_AXIS5_ACCELERATION (30.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
-    #define DEFAULT_AXIS5_MAX_TRAVEL 640.0 // mm
-  #endif
-  #if N_AXIS > 5
-    #define DEFAULT_AXIS6_STEPS_PER_UNIT 8.888889 // Direct drive : (200 pas par tours * 1/16 microsteps)/360°
-    #define DEFAULT_AXIS6_MAX_RATE 1440 // °/mn
-    #define DEFAULT_AXIS6_ACCELERATION (100.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-    #define DEFAULT_AXIS6_MAX_TRAVEL 180.0 // °
+    #define DEFAULT_AXIS4_MAX_TRAVEL 815.0 // mm
   #endif
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
   #define DEFAULT_STEP_PULSE_MICROSECONDS 10
   #define DEFAULT_STEPPING_INVERT_MASK 0
-  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<AXIS_1)|(1<<AXIS_4)) // axis 1 (x) is inverted, axis 2 and axis 4 are dual y axis
+  #define DEFAULT_DIRECTION_INVERT_MASK ((1<<AXIS_1)|(1<<AXIS_2)) // axis 1 (x) is inverted, axis 2 and axis 4 are dual y axis
   #define DEFAULT_STEPPER_IDLE_LOCK_TIME 255 // msec (0-254, 255 keeps steppers enabled)
   #define DEFAULT_STATUS_REPORT_MASK 1 // MPos enabled
   #define DEFAULT_JUNCTION_DEVIATION 0.02 // mm
@@ -570,12 +558,12 @@
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
-  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // true
+  #define DEFAULT_SOFT_LIMIT_ENABLE 0 // default true
   #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1  // true
-  #define DEFAULT_HOMING_DIR_MASK 0 // move positive dir
+  #define DEFAULT_HOMING_DIR_MASK (1<<AXIS_1) // move positive dir, except x
   #define DEFAULT_HOMING_FEED_RATE 500.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 2000.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
