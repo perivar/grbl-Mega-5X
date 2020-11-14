@@ -563,7 +563,7 @@
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1  // true
-  #define DEFAULT_HOMING_DIR_MASK (1<<AXIS_1) // move positive dir, except x
+  #define DEFAULT_HOMING_DIR_MASK (1<<AXIS_1)|(1<<AXIS_2)|(1<<AXIS_4) // move positive dir, except x (axis 1) and y (axis 2 and 4)
   #define DEFAULT_HOMING_FEED_RATE 500.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 2000.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)

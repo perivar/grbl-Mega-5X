@@ -248,7 +248,7 @@
   #define MIN_LIMIT_PORT_1 J
   #define MIN_LIMIT_PORT_2 D
   #if N_AXIS > 3
-    #define MIN_LIMIT_PORT_3 L
+    #define MIN_LIMIT_PORT_3 J // axis 4 - only one limit switch for the cloned y axis, used to be L
   #endif
   #if N_AXIS > 4
     #define MIN_LIMIT_PORT_4 L
@@ -260,7 +260,7 @@
   #define MIN_LIMIT_BIT_1 1 // Y Limit Min - Pin D14
   #define MIN_LIMIT_BIT_2 3 // Z Limit Min - Pin D18
   #if N_AXIS > 3
-    #define MIN_LIMIT_BIT_3 7 // Axis number 4 : RAMPS AUX2 pin D42
+    #define MIN_LIMIT_BIT_3 1  // axis 4 - only one limit switch for the cloned y axis, used to be 7 = RAMPS AUX2 pin D42
   #endif
   #if N_AXIS > 4
     #define MIN_LIMIT_BIT_4 5 // Axis number 5 : RAMPS AUX2 pin D44
