@@ -537,14 +537,14 @@
   #define DEFAULT_AXIS1_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
   #define DEFAULT_AXIS2_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
   #define DEFAULT_AXIS3_ACCELERATION (200.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-  #define DEFAULT_AXIS1_MAX_TRAVEL 255.0 // mm
-  #define DEFAULT_AXIS2_MAX_TRAVEL 815.0 // mm
-  #define DEFAULT_AXIS3_MAX_TRAVEL 110.0 // mm
+  #define DEFAULT_AXIS1_MAX_TRAVEL 232.0 // mm
+  #define DEFAULT_AXIS2_MAX_TRAVEL 798.0 // mm
+  #define DEFAULT_AXIS3_MAX_TRAVEL 112.0 // mm
   #if N_AXIS > 3
     #define DEFAULT_AXIS4_STEPS_PER_UNIT 40 // originally 200
     #define DEFAULT_AXIS4_MAX_RATE 7200 // 6000 mm/min = 6000/60 = 100 mm/sec
     #define DEFAULT_AXIS4_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
-    #define DEFAULT_AXIS4_MAX_TRAVEL 815.0 // mm
+    #define DEFAULT_AXIS4_MAX_TRAVEL 798.0 // mm
   #endif
   #define DEFAULT_SPINDLE_RPM_MAX 1000.0 // rpm
   #define DEFAULT_SPINDLE_RPM_MIN 0.0 // rpm
@@ -558,8 +558,8 @@
   #define DEFAULT_REPORT_INCHES 0 // false
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
-  #define DEFAULT_SOFT_LIMIT_ENABLE 0 // default true
-  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
+  #define DEFAULT_SOFT_LIMIT_ENABLE 1 // default true
+  #define DEFAULT_HARD_LIMIT_ENABLE 1  // false
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1  // true
@@ -567,7 +567,7 @@
   #define DEFAULT_HOMING_FEED_RATE 500.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 2000.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
-  #define DEFAULT_HOMING_PULLOFF 1.0 // mm
+  #define DEFAULT_HOMING_PULLOFF 2.0 // mm
 #endif
 
 #endif
