@@ -539,7 +539,7 @@
   #define DEFAULT_AXIS3_ACCELERATION (200.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
   #define DEFAULT_AXIS1_MAX_TRAVEL 232.0 // mm
   #define DEFAULT_AXIS2_MAX_TRAVEL 798.0 // mm
-  #define DEFAULT_AXIS3_MAX_TRAVEL 112.0 // mm
+  #define DEFAULT_AXIS3_MAX_TRAVEL 110.0 // mm
   #if N_AXIS > 3
     #define DEFAULT_AXIS4_STEPS_PER_UNIT 40 // originally 200
     #define DEFAULT_AXIS4_MAX_RATE 7200 // 6000 mm/min = 6000/60 = 100 mm/sec
@@ -559,7 +559,7 @@
   #define DEFAULT_INVERT_ST_ENABLE 0 // false
   #define DEFAULT_INVERT_LIMIT_PINS 0 // false
   #define DEFAULT_SOFT_LIMIT_ENABLE 1 // default true
-  #define DEFAULT_HARD_LIMIT_ENABLE 1  // false
+  #define DEFAULT_HARD_LIMIT_ENABLE 0  // false
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1  // true
