@@ -576,7 +576,16 @@
   #define DEFAULT_INVERT_PROBE_PIN 0 // false
   #define DEFAULT_LASER_MODE 0 // false
   #define DEFAULT_HOMING_ENABLE 1  // true
-  #define DEFAULT_HOMING_DIR_MASK (1<<AXIS_1)|(1<<AXIS_2)|(1<<AXIS_4) // move positive dir, except x (axis 1) and y (axis 2 and 4)
+  // HOMING DIR MASK
+  // For CNC machines HOME was typically back right
+  // https://docs.carbide3d.com/tutorials/tutorial-homing/
+  // Back right would mean a value of zero (every axis move in positive directions until limits are hit)
+  // DEFAULT_HOMING_DIR_MASK 0 // ($23=0)
+  // HOME BACK RIGHT ($23=0)
+  // Homing front left would mean that every axis move positive dir, except x (axis 1) and y (axis 2 and 4) 
+  // DEFAULT_HOMING_DIR_MASK (1<<AXIS_1)|(1<<AXIS_2)|(1<<AXIS_4) // ($23=11)
+  // HOME FRONT LEFT ($23=11)
+  #define DEFAULT_HOMING_DIR_MASK 0 // ($23=0)
   #define DEFAULT_HOMING_FEED_RATE 500.0 // mm/min
   #define DEFAULT_HOMING_SEEK_RATE 2000.0 // mm/min
   #define DEFAULT_HOMING_DEBOUNCE_DELAY 250 // msec (0-65k)
