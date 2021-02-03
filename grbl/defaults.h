@@ -550,7 +550,7 @@
   #define DEFAULT_AXIS1_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
   #define DEFAULT_AXIS2_ACCELERATION (400.0*60*60) // 30*60*60 mm/min^2 = 30 mm/sec^2
   #define DEFAULT_AXIS3_ACCELERATION (200.0*60*60) // 100*60*60 mm/min^2 = 100 mm/sec^2
-  #define DEFAULT_AXIS1_MAX_TRAVEL 232.0 // mm
+  #define DEFAULT_AXIS1_MAX_TRAVEL 243.0 // mm
   #define DEFAULT_AXIS2_MAX_TRAVEL 798.0 // mm
   #define DEFAULT_AXIS3_MAX_TRAVEL 110.0 // mm
   #if N_AXIS > 3  // Cloned Y Axix (axis 2)
